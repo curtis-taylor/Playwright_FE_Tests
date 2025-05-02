@@ -37,7 +37,7 @@ test.describe('Account Confirmed test', () => {
     }
   });
 
-  test('PAGE elements', async ({ page }) => {
+  test('Lets Continue Button', async ({ page }) => {
     await page.goto('http://localhost:3000/pages/check-steps/');
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
@@ -46,16 +46,45 @@ test.describe('Account Confirmed test', () => {
 
     await page.waitForTimeout(3000);
 
-    await page.getByRole('link', {name: "Let's continue"}).isVisible();
-    await page.getByRole('link', {name: "Let's continue"}).click();
+    let rbgColors = convertHexToRGB("#ED3731");
+
+    await page.getByRole('link', {name: "Let\'s continue"}).isVisible();
+
+    await expect(page.getByRole('link', {name: "Let\'s continue"})).toHaveCSS("background-color",
+      'rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })');
+
+    await page.getByRole('link', {name: "Let\'s continue"}).click();
 
     // Expect a title "to contain" a substring.
     // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
     
-    let rbgColors = convertHexToRGB("#ED3731");
+    
 
-    await expect(page.getByText("Check the conduct code")).toHaveCSS("background-color",
-      'rbg(${rbgColors.red}, ${rbgColors.green}, ${rbgColors.blue})');
+   // await expect(page.getByText("Check the conduct code")).toHaveCSS('background-color',
+   //   `rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+
+   const btn = await page.locator(".dropbtn");
+
+   let all_spans = page.locator('span').all()
+
+   for (const row of await page.locator('.step-text').all()) {
+    console.log(await row.textContent());
+    
+    if(await row.textContent() == "Check the conduct code") {
+      /* await expect(row).toHaveCSS('background-color',
+        "rbg(237,55,49)");
+        console.log(":::"); */
+
+      await expect(row).toHaveCSS('background-color',
+        "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })");
+    }
+    
+    // expect(await row.textContent() == 'Volunteer Profile');
+  }
+
+  /*
+   await expect(page.locator('span')).toHaveCSS('background-color',
+      `rbga(237,55,49,0)`); */
    
   });
 
