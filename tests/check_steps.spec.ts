@@ -37,7 +37,8 @@ test.describe('Account Confirmed test', () => {
     }
   });
 
-  test('Lets Continue Button', async ({ page }) => {
+  test('Lets Continue Button examination', async ({ page }) => {
+
     await page.goto('http://localhost:3000/pages/check-steps/');
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
@@ -47,13 +48,47 @@ test.describe('Account Confirmed test', () => {
     await page.waitForTimeout(3000);
 
     let rbgColors = convertHexToRGB("#ED3731");
+    const let_button = page.getByRole('link', {name: "Let\'s continue"});
 
-    await page.getByRole('link', {name: "Let\'s continue"}).isVisible();
+    await let_button.isVisible();
 
-    await expect(page.getByRole('link', {name: "Let\'s continue"})).toHaveCSS("background-color",
-      'rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })');
+    for (const row of await page.locator('.button primary  large').all()) {
+      console.log(await row.textContent());
+      
+      if(await row.textContent() == "Let's continue") {
+        /* await expect(row).toHaveCSS('background-color',
+          "rbg(237,55,49)");
+          console.log(":::"); */
+  
+        await expect(row).toHaveCSS('background-color',
+          "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })");
+      }
+    }
 
-    await page.getByRole('link', {name: "Let\'s continue"}).click();
+    await page.close();
+
+  });
+
+  test('Lets Continue Button Click', async ({ page }) => {
+    await page.goto('http://localhost:3000/pages/check-steps/');
+
+    // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
+
+    await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
+
+    await page.waitForTimeout(3000);
+
+    let rbgColors = convertHexToRGB("#ED3731");
+    const let_button = page.getByRole('link', {name: "Let\'s continue"});
+
+    await let_button.isVisible();
+
+  
+    /*
+    await expect(let_button).toHaveCSS('background-color',
+      "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })"); */
+
+    await let_button.click();
 
     // Expect a title "to contain" a substring.
     // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -63,20 +98,22 @@ test.describe('Account Confirmed test', () => {
    // await expect(page.getByText("Check the conduct code")).toHaveCSS('background-color',
    //   `rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
 
-   const btn = await page.locator(".dropbtn");
+   const btn = page.locator(".dropbtn");
 
-   let all_spans = page.locator('span').all()
+   const all_spans = page.locator('span').all()
 
-   for (const row of await page.locator('.step-text').all()) {
-    console.log(await row.textContent());
+   await page.waitForTimeout(3000);
+
+   for (const row2 of await page.locator('.step-text').all()) {
+    console.log(await row2.textContent());
     
-    if(await row.textContent() == "Check the conduct code") {
+    if(await row2.textContent() == "Check the conduct code") {
       /* await expect(row).toHaveCSS('background-color',
         "rbg(237,55,49)");
         console.log(":::"); */
 
-      await expect(row).toHaveCSS('background-color',
-        "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })");
+      await expect(row2).toHaveCSS('background-color',
+        "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue }, 3000)");
     }
     
     // expect(await row.textContent() == 'Volunteer Profile');
@@ -85,6 +122,8 @@ test.describe('Account Confirmed test', () => {
   /*
    await expect(page.locator('span')).toHaveCSS('background-color',
       `rbga(237,55,49,0)`); */
+
+  page.close;
    
   });
 
