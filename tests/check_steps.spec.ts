@@ -118,4 +118,26 @@ test.describe('Account Confirmed test', () => {
    
   });
 
+  test('Nav bar check', async ({ page }) => {
+
+    await page.goto('http://localhost:3000/pages/check-steps/');
+
+    // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
+
+    await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
+
+    await page.waitForTimeout(3000);
+
+    let rbgColors = convertHexToRGB("#ED3731");
+    const let_button = page.getByRole('link', {name: "Let\'s continue"});
+
+    await let_button.isVisible();
+
+    await expect(let_button).toHaveCSS('background-color',
+      `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+      
+    await page.close();
+
+  });
+
 });
