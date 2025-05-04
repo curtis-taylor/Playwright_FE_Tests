@@ -63,6 +63,7 @@ test.describe('Account Confirmed test', () => {
         await expect(row).toHaveCSS('background-color',
           "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })");
       }
+      
     }
 
     await page.close();
@@ -80,6 +81,7 @@ test.describe('Account Confirmed test', () => {
 
     let rbgColors = convertHexToRGB("#ED3731");
     const let_button = page.getByRole('link', {name: "Let\'s continue"});
+    
 
     await let_button.isVisible();
 
@@ -112,16 +114,26 @@ test.describe('Account Confirmed test', () => {
         "rbg(237,55,49)");
         console.log(":::"); */
 
-      await expect(row2).toHaveCSS('background-color',
-        "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue }, 3000)");
+      //await expect(row2).toHaveCSS('background-color',
+       // "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue }, 3000)");
+    
+    
+
+       // ! is Typescript non-null assertion
+        // const bgcolorDiv_element = page.getByTestId("#continue-button");
+        await page.waitForTimeout(7000);
+        await expect(row2).toHaveCSS("--custom-color-property", 'rgb(237, 55, 49)');
+ 
     }
     
-    // expect(await row.textContent() == 'Volunteer Profile');
   }
 
-  /*
-   await expect(page.locator('span')).toHaveCSS('background-color',
-      `rbga(237,55,49,0)`); */
+  await page.waitForTimeout(7000);
+  
+  //############## CODE WORK
+  // ! is Typescript non-null assertion
+  // const bgcolorDiv_element = page.locator("#pg-settings")!;
+  // await expect(bgcolorDiv_element).toHaveCSS('background-color', "rgb(28, 28, 28)");
 
   page.close;
    
