@@ -52,20 +52,9 @@ test.describe('Account Confirmed test', () => {
 
     await let_button.isVisible();
 
-    for (const row of await page.locator('.button primary  large').all()) {
-      console.log(await row.textContent());
+    await expect(let_button).toHaveCSS('background-color',
+      `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
       
-      if(await row.textContent() == "Let's continue") {
-        /* await expect(row).toHaveCSS('background-color',
-          "rbg(237,55,49)");
-          console.log(":::"); */
-  
-        await expect(row).toHaveCSS('background-color',
-          "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })");
-      }
-      
-    }
-
     await page.close();
 
   });
@@ -79,16 +68,20 @@ test.describe('Account Confirmed test', () => {
 
     await page.waitForTimeout(3000);
 
-    let rbgColors = convertHexToRGB("#ED3731");
     const let_button = page.getByRole('link', {name: "Let\'s continue"});
-    
 
     await let_button.isVisible();
 
-  
-    /*
-    await expect(let_button).toHaveCSS('background-color',
-      "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })"); */
+    let rbgColors = convertHexToRGB("#ED3731");
+
+    const color = await let_button.evaluate((ele) => {
+      return window.getComputedStyle(ele).getPropertyValue("background-color");
+    });
+
+    console.log(color);
+
+    expect(color).toBe(`rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+    
 
     await let_button.click();
 
@@ -97,8 +90,8 @@ test.describe('Account Confirmed test', () => {
     
     
 
-   // await expect(page.getByText("Check the conduct code")).toHaveCSS('background-color',
-   //   `rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+    // await expect(page.getByText("Check the conduct code")).toHaveCSS('background-color',
+    //  `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
 
    const btn = page.locator(".dropbtn");
 
@@ -110,30 +103,16 @@ test.describe('Account Confirmed test', () => {
     console.log(await row2.textContent());
     
     if(await row2.textContent() == "Check the conduct code") {
-      /* await expect(row).toHaveCSS('background-color',
-        "rbg(237,55,49)");
-        console.log(":::"); */
+        console.log(":::"); 
 
-      //await expect(row2).toHaveCSS('background-color',
-       // "rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue }, 3000)");
-    
-    
-
-       // ! is Typescript non-null assertion
-        // const bgcolorDiv_element = page.getByTestId("#continue-button");
-        await page.waitForTimeout(7000);
-        await expect(row2).toHaveCSS("--custom-color-property", 'rgb(237, 55, 49)');
- 
+      await expect(row2).toHaveCSS('background-color',
+        `rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
     }
     
   }
 
-  await page.waitForTimeout(7000);
-  
-  //############## CODE WORK
-  // ! is Typescript non-null assertion
-  // const bgcolorDiv_element = page.locator("#pg-settings")!;
-  // await expect(bgcolorDiv_element).toHaveCSS('background-color', "rgb(28, 28, 28)");
+  await page.waitForTimeout(100);
+
 
   page.close;
    
