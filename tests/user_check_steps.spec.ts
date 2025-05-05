@@ -142,7 +142,6 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     await page.getByRole('heading', { name: 'Review our conduct code' }).isVisible();
 
     await page.getByText('We are a community driven by').isVisible();
-    
 
     await page.waitForTimeout(3000);
       
@@ -193,5 +192,39 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
+  test('2 Check the conduct code - COMPLETE PROFILE button', async ({ page }) => {
 
+    await page.goto('http://localhost:3000/pages/review-conduct-code/');
+
+    // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
+
+    await page.getByText('I agree to TorontoJS\’s').isVisible();
+    expect(page.getByText('I agree to TorontoJS\’s')).toHaveCSS('font-size', '16.8697px');
+    expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
+
+    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).isVisible();
+    await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
+    expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgb(237, 55, 49)');
+    await page.waitForTimeout(150);
+
+    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
+    await page.getByRole('button', { name: 'Let me complete my profile' }).isEnabled();
+    expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
+    await page.waitForTimeout(150);
+
+    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
+    await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
+    await page.waitForTimeout(3000);
+    
+    console.log("click -----");
+
+    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
+    await page.getByRole('button', { name: 'Let me complete my profile' }).click();
+    await page.waitForTimeout(3000);
+
+   
+      
+    await page.close();
+
+  });
 });
