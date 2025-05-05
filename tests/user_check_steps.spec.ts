@@ -18,26 +18,35 @@ export function convertHexToRGB(hex) {
   };
 }
 
-test.describe('Account Confirmed test', () => {
-  test('HEADER text', async ({ page }) => {
+test.describe('ACCOUNT CONFIRMED Test Suite', () => {
+  test('Account Confirmed page - Text check', async ({ page }) => {
     await page.goto('http://localhost:3000/pages/check-steps/');
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
+
+    await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
 
     await page.getByRole('listitem', {name: 'Account confirmed'}).isVisible();
     await page.getByRole('listitem', {name: 'Check the conduct code'}).isVisible();
     await page.getByRole('listitem', {name: 'Complete your profile'}).isVisible();
 
+    await page.getByText('Check the TorontoJS\'s conduct').isVisible();
+    await page.getByRole('listitem').filter({ hasText: 'Check the TorontoJS\'s conduct' }).isVisible();
+
+    await page.getByRole('listitem').filter({ hasText: /^Complete your profile$/ }).isVisible();
+    await page.locator('#check-steps').getByText('Complete your profile').isVisible();
+
+    /*
     // Expect a title "to contain" a substring.
     // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
     for (const row of await page.locator('h3').all()) {
       console.log(await row.textContent());
       expect(await row.textContent() == 'Volunteer Profile');
-    }
+    } */
   });
 
-  test('Lets Continue Button examination', async ({ page }) => {
+  test('Account Confirmed - Lets Continue Button examination', async ({ page }) => {
 
     await page.goto('http://localhost:3000/pages/check-steps/');
 
@@ -59,7 +68,7 @@ test.describe('Account Confirmed test', () => {
 
   });
 
-  test('Lets Continue Button Click', async ({ page }) => {
+  test('Account Confirmed - Lets Continue Button Click', async ({ page }) => {
     await page.goto('http://localhost:3000/pages/check-steps/');
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
@@ -106,7 +115,7 @@ test.describe('Account Confirmed test', () => {
         console.log(":::"); 
 
       await expect(row2).toHaveCSS('background-color',
-        `rbg(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+        `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
     }
     
   }
@@ -118,26 +127,71 @@ test.describe('Account Confirmed test', () => {
    
   });
 
-  test('Nav bar check', async ({ page }) => {
+  
+});
 
-    await page.goto('http://localhost:3000/pages/check-steps/');
+
+test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
+
+  test('2 Check the conduct code - Top Text Check', async ({ page }) => {
+
+    await page.goto('http://localhost:3000/pages/review-conduct-code/');
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
-    await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
+    await page.getByRole('heading', { name: 'Review our conduct code' }).isVisible();
+
+    await page.getByText('We are a community driven by').isVisible();
+    
+
+    await page.waitForTimeout(3000);
+      
+    await page.close();
+
+  });
+
+  test('2 Check the conduct code - NUTSHELL box', async ({ page }) => {
+
+    await page.goto('http://localhost:3000/pages/review-conduct-code/');
+
+    // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
+
+    await page.getByText('In a nutshell:').isVisible();
+    expect(page.getByText('In a nutshell:')).toHaveCSS('color', 'rgb(255, 255, 255)');
+    expect(page.getByText('In a nutshell:')).toHaveCSS('background-color', 'rgb(237, 55, 49)');
+
+
+    await page.getByText('All our members are committed').isVisible();
+    await page.getByText('Developers, designers and other tech workers').isVisible();
+    await page.getByText('The TorontoJS activities are non-profit').isVisible();
+    
+
+    const conduct_code_list = page.locator('#conduct-code').all();
+
+    // Check NUMBER CIRCLES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    for(let i = 1; i < 4; i++) {
+
+      await page.locator('#conduct-code').getByText(String(i)).isVisible();
+      console.log(await page.locator('#conduct-code').getByText(String(i)).textContent());
+      expect(page.locator('#conduct-code').getByText(String(i))).toHaveCSS('width', '36px');
+      expect(page.locator('#conduct-code').getByText(String(i))).toHaveCSS('color', 'rgb(255, 255, 255)');
+      expect(page.locator('#conduct-code').getByText(String(i))).toHaveCSS('background-color', 'rgb(237, 55, 49)');
+
+    }
 
     await page.waitForTimeout(3000);
 
     let rbgColors = convertHexToRGB("#ED3731");
-    const let_button = page.getByRole('link', {name: "Let\'s continue"});
+    const box_header = page.getByText('In a nutshell:');
 
-    await let_button.isVisible();
+    await box_header.isVisible();
 
-    await expect(let_button).toHaveCSS('background-color',
+    await expect(box_header).toHaveCSS('background-color',
       `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
       
     await page.close();
 
   });
+
 
 });
