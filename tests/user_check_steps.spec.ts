@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { execPath } from 'process';
 
 export function convertHexToRGB(hex) {
@@ -114,8 +114,11 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
     if(await row2.textContent() == "Check the conduct code") {
         console.log(":::"); 
 
-      await expect(row2).toHaveCSS('background-color',
+      await expect(row2).toHaveCSS('color',
         `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+    } else {
+        await expect(row2).toHaveCSS('color',
+          'rgb(153, 153, 153)');
     }
     
   }
@@ -192,6 +195,44 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
+  test('2 Check the conduct code - SUMMARY DROP-DOWN LIST', async ({ page }) => {
+
+    await page.goto('http://localhost:3000/pages/review-conduct-code/');
+
+    // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
+
+    await page.getByRole('heading', { name: 'Review our conduct code' }).isVisible();
+
+    await page.getByText('We are a community driven by').isVisible();
+
+    await expect(page.locator('.dropdown-list')).toHaveCSS('accent-color',
+      'rgb(237, 55, 49)');
+
+    for (let i; i < 6; i++) {  
+          await page.locator('summary').filter({ hasText: 'TorontoJS Code of Conduct' }).click();
+          await page.waitForTimeout(1000);
+          await page.locator('summary').filter({ hasText: 'Volunteering Agreement' }).click();
+
+          await page.locator('summary').filter({ hasText: 'Image Release Form' }).click()
+
+          await page.waitForTimeout(2000);
+
+    }
+
+    await page.waitForTimeout(4000);
+
+    await page.getByText('TorontoJS Code of Conduct').click();
+
+    await page.getByText('Volunteering Agreement').click();
+
+    await page.getByText('Image Release Form').click()
+
+    await page.waitForTimeout(4000);
+      
+    await page.close();
+
+  });
+
   test('2 Check the conduct code - COMPLETE PROFILE button', async ({ page }) => {
 
     await page.goto('http://localhost:3000/pages/review-conduct-code/');
@@ -222,7 +263,29 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     await page.getByRole('button', { name: 'Let me complete my profile' }).click();
     await page.waitForTimeout(3000);
 
-   
+    await expect(page).toHaveURL("http://localhost:3000/pages/complete-profile/?");
+
+    for (const row2 of await page.locator('.step-text').all()) {
+      console.log(await row2.textContent());
+      
+      if(await row2.textContent() == "Complete your profile") {
+          console.log(":::"); 
+
+          const color = await row2.evaluate((ele) => {
+            return window.getComputedStyle(ele).getPropertyValue("color");
+          });
+      
+          console.log(color);
+  
+        await expect(row2).toHaveCSS('color', `rgb(237, 55, 49)`);
+      } else {
+          await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
+          console.log("Checking color of disabled navbar tabs");
+      }
+      
+    }
+
+    
       
     await page.close();
 
