@@ -65,9 +65,6 @@ test.describe('SIGN-IN Test Suite', () => {
     test('Social Media Footer Check', async ({ page }) => {
         await page.goto('http://localhost:3000/pages/sign-in/');
 
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
-
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
         const tt = await page.getByRole('list').all();
@@ -79,7 +76,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
 
         await page.locator('#email-input').fill("test@gmail.com")
-        await page.locator('#password-input').fill("xxxxxxxxx");
+        await page.locator('#password-input').fill("xxx");
 
 
         await page.getByRole('button', { name: 'Complete sign-up form button' }).isVisible();
@@ -92,6 +89,8 @@ test.describe('SIGN-IN Test Suite', () => {
         const twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
         const linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
 
+        await youtube_icon.click();
+        await expect(page).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
         
         page.close;
     });
