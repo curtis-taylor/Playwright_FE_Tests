@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
 
 test.describe('SIGN-IN Test Suite', () => {
@@ -62,7 +62,11 @@ test.describe('SIGN-IN Test Suite', () => {
         page.close;
     });
 
-    test('Social Media Footer Check', async ({ page }) => {
+    test('Social Media Footer Check', async ({ browser }) => {
+
+        const browser_context = await browser.newContext();
+        const page = await browser_context.newPage();
+
         await page.goto('http://localhost:3000/pages/sign-in/');
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
@@ -88,10 +92,19 @@ test.describe('SIGN-IN Test Suite', () => {
         const instagram_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(2);
         const twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
         const linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
-
-        await youtube_icon.click();
-        await expect(page).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
         
+        const [newPage] = await Promise.all([
+            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            youtube_icon.click()
+
+        ])
+
+        
+        await expect(newPage).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
+        console.log(String(newPage.url));
+
+        let pp = await newPage .evaluate(() => window.location.href)
+        console.log(pp);
         page.close;
     });
 
