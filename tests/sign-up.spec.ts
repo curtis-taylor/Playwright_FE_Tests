@@ -1,9 +1,11 @@
 import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
 
+const url_1 = "http://localhost:3000/pages/sign-up/";
+
 test.describe('SIGN-IN Test Suite', () => {
     test('Check page Elements and Text', async ({ page }) => {
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        await page.goto(url_1);
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -21,7 +23,7 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
     test('Enter invalid password', async ({ page }) => {
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        await page.goto(url_1);
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -41,7 +43,7 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
     test('Enter invalid email', async ({ page }) => {
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        await page.goto(url_1);
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -67,7 +69,7 @@ test.describe('SIGN-IN Test Suite', () => {
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
 
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        await page.goto(url_1);
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
