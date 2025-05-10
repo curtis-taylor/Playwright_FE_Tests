@@ -13,20 +13,36 @@ test.describe('SIGN-IN Test Suite', () => {
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
+
+        await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
+
+        const login_form = page.locator('.login-form');
+
+        await expect(login_form).toHaveCSS('justify-content', 'center');
+        await expect(login_form).toHaveCSS('border-radius', '8px');
+
+        await page.locator('#name-input').isVisible();
 
         await page.locator('#email-input').isVisible();
+        await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+
         await page.locator('#password-input').isVisible();
 
 
         await red_button.isVisible();
 
-        
-        page.close;
+        console.log('Checking page Elements and Text');
+        page.close();
     });
 
     test('Enter invalid password', async ({ page }) => {
+
         await page.goto(url_1);
+        let t = (Math.round(Date.now() / 100000000)).toString();
+        const username = "Curtis Tester" + t;
+        console.log(username);
+
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -35,6 +51,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
+        await page.locator('#name-input').fill(username);
         await page.locator('#email-input').fill("test@gmail.com");
         await page.locator('#password-input').fill("xxxxxxxxx");
 
@@ -44,7 +61,36 @@ test.describe('SIGN-IN Test Suite', () => {
         await red_button.click();
 
         
-        page.close;
+        // page.close();
+    });
+
+    test('Enter Weak Password Test', async ({ page }) => {
+        
+        await page.goto(url_1);
+        let t = (Math.round(Date.now() / 100000000)).toString();
+        const username = "Curtis Tester" + t;
+        console.log(username);
+        let weak_passwords = {};
+
+
+        // Expect a title "to contain" a substring.
+        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        await page.locator('#name-input').fill(username);
+        await page.locator('#email-input').fill("test@gmail.com");
+
+        await page.locator('#password-input').fill("xxxxxxxxx");
+
+        await red_button.isVisible();
+
+        await red_button.click();
+
+        
+        // page.close();
     });
 
     test('Enter invalid email', async ({ page }) => {
@@ -56,18 +102,25 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
+        let t = (Math.round(Date.now() / 100000000)).toString();
+        const username = "Curtis Tester" + t;
+        console.log(username);
+
+        await page.locator('#name-input').fill(username);
+
+
         await page.locator('#email-input').fill("xxxxxx");
         await page.locator('#password-input').fill("password");
 
 
         await red_button.isVisible();
 
-        await expect(red_button).toHaveCSS('color', `rgb(237, 55, 49)`);
+        await expect(red_button).toHaveCSS('background-color', `rgb(237, 55, 49)`);
 
         await red_button.click();
 
         
-        page.close;
+        // page.close();
     });
 
     test('Social Media Footer Check', async ({ browser }) => {
