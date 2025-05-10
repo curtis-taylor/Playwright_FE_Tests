@@ -3,9 +3,12 @@ import { execPath } from 'process';
 
 const url_1 = "http://localhost:3000/pages/sign-up/";
 
+
 test.describe('SIGN-IN Test Suite', () => {
     test('Check page Elements and Text', async ({ page }) => {
         await page.goto(url_1);
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -16,7 +19,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await page.locator('#password-input').isVisible();
 
 
-        await page.getByRole('button', { name: 'Log in'}).isVisible();
+        await red_button.isVisible();
 
         
         page.close;
@@ -28,15 +31,17 @@ test.describe('SIGN-IN Test Suite', () => {
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        const red_button = page.getByRole('button', { name: 'Create Account' });
 
-        await page.locator('#email-input').fill("test@gmail.com")
+        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        await page.locator('#email-input').fill("test@gmail.com");
         await page.locator('#password-input').fill("xxxxxxxxx");
 
 
-        await page.getByRole('button', { name: 'Log in'}).isVisible();
+        await red_button.isVisible();
 
-        await page.getByRole('button', { name: 'Log in'}).click();
+        await red_button.click();
 
         
         page.close;
@@ -47,18 +52,19 @@ test.describe('SIGN-IN Test Suite', () => {
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+        const red_button = page.getByRole('button', { name: 'Create Account' });
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
         await page.locator('#email-input').fill("xxxxxx");
         await page.locator('#password-input').fill("password");
 
 
-        await page.getByRole('button', { name: 'Log in'}).isVisible();
+        await red_button.isVisible();
 
-        await expect(page.getByRole('button', { name: 'Log in'})).toHaveCSS('color', `rgb(237, 55, 49)`);
+        await expect(red_button).toHaveCSS('color', `rgb(237, 55, 49)`);
 
-        await page.getByRole('button', { name: 'Log in'}).click();
+        await red_button.click();
 
         
         page.close;
@@ -68,6 +74,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
+        const red_button = page.getByRole('button', { name: 'Create Account' });
 
         await page.goto(url_1);
 
@@ -85,9 +92,9 @@ test.describe('SIGN-IN Test Suite', () => {
         await page.locator('#password-input').fill("xxx");
 
 
-        await page.getByRole('button', { name: 'Complete sign-up form button' }).isVisible();
+        await red_button.isVisible();
 
-        await page.getByRole('button', { name: 'Complete sign-up form button' }).click();
+        await red_button.click();
 
         const home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
         const youtube_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(1);

@@ -26,15 +26,17 @@ test.describe('SIGN-IN Test Suite', () => {
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
+        const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
+
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
         await page.locator('#email-input').fill("test@gmail.com")
         await page.locator('#password-input').fill("xxxxxxxxx");
 
 
-        await page.getByRole('button', { name: 'Log in'}).isVisible();
+        await red_button.isVisible();
 
-        await page.getByRole('button', { name: 'Log in'}).click();
+        await red_button.click();
 
         
         page.close;
@@ -51,12 +53,16 @@ test.describe('SIGN-IN Test Suite', () => {
         await page.locator('#email-input').fill("xxxxxx");
         await page.locator('#password-input').fill("password");
 
+        const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
 
-        await page.getByRole('button', { name: 'Log in'}).isVisible();
 
-        await expect(page.getByRole('button', { name: 'Log in'})).toHaveCSS('color', `rgb(237, 55, 49)`);
+        await red_button.isVisible();
 
-        await page.getByRole('button', { name: 'Log in'}).click();
+        await expect(red_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
+        await expect(red_button).toHaveCSS('accent-color', `rgb(237, 55, 49)`);
+        await expect(red_button).toHaveCSS('color', `rgb(255, 255, 255)`);
+
+        await red_button.click();
 
         
         page.close;
@@ -71,21 +77,23 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
+        /*
         const tt = await page.getByRole('list').all();
 
         for(const t of tt) {
             console.log(t.allInnerTexts);
 
-        }
+        } */
 
+        const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
 
         await page.locator('#email-input').fill("test@gmail.com")
         await page.locator('#password-input').fill("xxx");
 
 
-        await page.getByRole('button', { name: 'Complete sign-up form button' }).isVisible();
+        await red_button.isVisible();
 
-        await page.getByRole('button', { name: 'Complete sign-up form button' }).click();
+        await red_button.click();
 
         const home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
         const youtube_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(1);
