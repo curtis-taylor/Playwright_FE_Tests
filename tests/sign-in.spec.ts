@@ -17,7 +17,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await page.getByRole('button', { name: 'Log in'}).isVisible();
 
         
-        page.close;
+        page.close();
     });
 
     test('Enter invalid password', async ({ page }) => {
@@ -39,7 +39,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await red_button.click();
 
         
-        page.close;
+        page.close();
     });
 
     test('Enter invalid email', async ({ page }) => {
@@ -65,7 +65,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await red_button.click();
 
         
-        page.close;
+        page.close();
     });
 
     test('Social Media Footer Check', async ({ browser }) => {
@@ -155,7 +155,7 @@ test.describe('SIGN-IN Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
-        page.close;
+        page.close();
     });
 
 });

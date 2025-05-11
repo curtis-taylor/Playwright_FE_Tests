@@ -61,7 +61,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.click();
 
         
-        // page.close();
+        page.close();
     });
 
     test('Enter Weak Password Test', async ({ page }) => {
@@ -90,7 +90,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.click();
 
         
-        // page.close();
+        page.close();
     });
 
     test('Enter invalid email', async ({ page }) => {
@@ -120,7 +120,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.click();
 
         
-        // page.close();
+        page.close();
     });
 
     test('Social Media Footer Check', async ({ browser }) => {
@@ -133,22 +133,13 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
-        /*
-        const tt = await page.getByRole('list').all();
-
-        for(const t of tt) {
-            console.log(t.allInnerTexts);
-
-        } */
-
-
         await page.locator('#email-input').fill("test@gmail.com")
         await page.locator('#password-input').fill("xxx");
 
 
         await red_button.isVisible();
 
-        await red_button.click();
+       // await red_button.click();
 
         const home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
         const youtube_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(1);
@@ -213,7 +204,7 @@ test.describe('SIGN-UP Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
-        page.close;
+        page.close();
     });
 
 });
