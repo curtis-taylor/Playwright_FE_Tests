@@ -4,7 +4,7 @@ import { execPath } from 'process';
 const url_1 = "http://localhost:3000/pages/sign-up/";
 
 
-test.describe('SIGN-IN Test Suite', () => {
+test.describe('SIGN-UP Test Suite', () => {
     test('Check page Elements and Text', async ({ page }) => {
         await page.goto(url_1);
 
@@ -115,7 +115,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await red_button.isVisible();
 
-        await expect(red_button).toHaveCSS('background-color', `rgb(237, 55, 49)`);
+        await expect(red_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
 
         await red_button.click();
 
@@ -133,12 +133,13 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
+        /*
         const tt = await page.getByRole('list').all();
 
         for(const t of tt) {
             console.log(t.allInnerTexts);
 
-        }
+        } */
 
 
         await page.locator('#email-input').fill("test@gmail.com")
@@ -154,14 +155,26 @@ test.describe('SIGN-IN Test Suite', () => {
         const instagram_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(2);
         const twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
         const linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
+
+        const [homePage] = await Promise.all([
+            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            home_icon.click()
+        ]);
+
+        console.log(url_1);
         
+        await expect(homePage).toHaveURL("https://torontojs.com/");
+        let pp = await homePage.evaluate(() => window.location.href)
+        console.log(pp);
+        homePage.close(); 
+
         const [newPage_1] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
             youtube_icon.click()
         ]);
         
         await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
-        let pp = await newPage_1.evaluate(() => window.location.href)
+        pp = await newPage_1.evaluate(() => window.location.href)
         console.log(pp);
         newPage_1.close();
 
@@ -179,6 +192,8 @@ test.describe('SIGN-IN Test Suite', () => {
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
             twitter_x_icon.click()
         ]);
+
+        
 
         // await expect(newPage_3).toHaveURL("https://twitter.com/torontojs");
         pp = await newPage_3.evaluate(() => window.location.href)

@@ -101,13 +101,24 @@ test.describe('SIGN-IN Test Suite', () => {
         const twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
         const linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
         
+
+        const [newPage_0] = await Promise.all([
+            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            home_icon.click()
+        ]);
+        
+        await expect(newPage_0).toHaveURL("https://torontojs.com/");
+        let pp = await newPage_0.evaluate(() => window.location.href)
+        console.log(pp);
+        newPage_0.close();
+
         const [newPage_1] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
             youtube_icon.click()
         ]);
         
         await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
-        let pp = await newPage_1.evaluate(() => window.location.href)
+        pp = await newPage_1.evaluate(() => window.location.href)
         console.log(pp);
         newPage_1.close();
 
