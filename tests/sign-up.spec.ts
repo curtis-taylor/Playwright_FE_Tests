@@ -36,12 +36,18 @@ test.describe('SIGN-UP Test Suite', () => {
         page.close();
     });
 
-    test('Enter invalid password', async ({ page }) => {
+    test('TEST Password Strength METER with weak passwords', async ({ page }) => {
+
+        const weak_password = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
 
         await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
+
+        const m1 = page.locator(".password-meter .password-meter-level").first();
+        const m2 = page.locator(".password-meter .password-meter-level").nth(1);
+        const m3 = page.locator(".password-meter .password-meter-level").nth(2);
 
 
         // Expect a title "to contain" a substring.
@@ -53,18 +59,67 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await page.locator('#name-input').fill(username);
         await page.locator('#email-input').fill("test@gmail.com");
-        await page.locator('#password-input').fill("xxxxxxxxx");
 
+        for(let w in weak_password) { 
+            await page.locator('#password-input').fill(w);
+
+            await expect(m1).toHaveCSS('background-color', 'rgb(255, 0, 0)');
+            await expect(m2).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+            await expect(m3).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+
+        }
 
         await red_button.isVisible();
 
-        await red_button.click();
+        // await red_button.click();
 
         
-        page.close();
+        // page.close();
     });
 
-    test('Enter Weak Password Test', async ({ page }) => {
+     test('TEST Password Strength METER with Medium passwords', async ({ page }) => {
+
+        const weak_password = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
+        const fair_password = ["password12", "pass_01"];
+
+        await page.goto(url_1);
+        let t = (Math.round(Date.now() / 100000000)).toString();
+        const username = "Curtis Tester" + t;
+        console.log(username);
+
+        const m1 = page.locator(".password-meter .password-meter-level").first();
+        const m2 = page.locator(".password-meter .password-meter-level").nth(1);
+        const m3 = page.locator(".password-meter .password-meter-level").nth(2);
+
+
+        // Expect a title "to contain" a substring.
+        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        await page.locator('#name-input').fill(username);
+        await page.locator('#email-input').fill("test@gmail.com");
+
+        for(let w in weak_password) { 
+            await page.locator('#password-input').fill(w);
+
+            await expect(m1).toHaveCSS('background-color', 'rgb(255, 0, 0)');
+            await expect(m2).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+            await expect(m3).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+
+        }
+
+        await red_button.isVisible();
+
+        // await red_button.click();
+
+        
+        // page.close();
+    });
+
+    test('Enter Invalid Password Test', async ({ page }) => {
         
         await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
