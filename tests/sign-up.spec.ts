@@ -160,6 +160,7 @@ test.describe('SIGN-UP Test Suite', () => {
     test('TEST Password Strength METER with STRONG passwords', async ({ page }) => {
 
         const strong_passwords = ["super_password123", "super_long", "strong_password", "qatester_123"];
+        const password_strength_label = page.locator("#password-input-strength span");
 
         await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
@@ -187,6 +188,8 @@ test.describe('SIGN-UP Test Suite', () => {
             await expect(m3).toHaveCSS('background-color', 'rgb(0, 153, 0)');
             console.log("STRONG PASSWORD " + (s + 1) + ": " + strong_passwords[s]);
 
+            await expect(password_strength_label).toHaveText("Password strength: Strong");
+
         }
 
         await red_button.isVisible();
@@ -209,6 +212,8 @@ test.describe('SIGN-UP Test Suite', () => {
         const m2 = page.locator(".password-meter .password-meter-level").nth(1);
         const m3 = page.locator(".password-meter .password-meter-level").nth(2);
 
+        const password_strength_label = page.locator("#password-input-strength span");
+
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
@@ -225,6 +230,8 @@ test.describe('SIGN-UP Test Suite', () => {
             await expect(m1).toHaveCSS('background-color', 'rgb(0, 153, 0)');
             await expect(m2).toHaveCSS('background-color', 'rgb(0, 153, 0)');
             await expect(m3).toHaveCSS('background-color', 'rgb(0, 153, 0)');
+
+            await expect(password_strength_label).toHaveText("Password strength: Very Strong");
 
         }
 
@@ -370,6 +377,78 @@ test.describe('SIGN-UP Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
+        page.close();
+    });
+
+    test('Javascript Injection Test', async ({ page }) => {
+        await page.goto(url_1);
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        // Expect a title "to contain" a substring.
+        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+
+        /*
+        await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
+
+        await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
+
+        const login_form = page.locator('.login-form');
+
+        await expect(login_form).toHaveCSS('justify-content', 'center');
+        await expect(login_form).toHaveCSS('border-radius', '8px'); */
+
+        await page.locator('#name-input').isVisible();
+        await page.locator('#name-input').fill("alert('Hello')");
+
+        await page.locator('#email-input').isVisible();
+        await page.locator('#email-input').fill("alert('Hello')");
+        await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+
+        await page.locator('#password-input').isVisible();
+        await page.locator('#password-input').fill("alert('Hello')");
+
+
+        await red_button.isVisible();
+        await red_button.click();
+
+        console.log('Javascript Injection test');
+        page.close();
+    });
+
+    test('SQL Injection Test', async ({ page }) => {
+        await page.goto(url_1);
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        // Expect a title "to contain" a substring.
+        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+
+        /*
+        await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
+
+        await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
+
+        const login_form = page.locator('.login-form');
+
+        await expect(login_form).toHaveCSS('justify-content', 'center');
+        await expect(login_form).toHaveCSS('border-radius', '8px'); */
+
+        await page.locator('#name-input').isVisible();
+        await page.locator('#name-input').fill("SHOW DATABASES;");
+
+        await page.locator('#email-input').isVisible();
+        await page.locator('#email-input').fill("SHOW DATABASES;");
+        await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+
+        await page.locator('#password-input').isVisible();
+        await page.locator('#password-input').fill("SHOW DATABASES;");
+
+
+        await red_button.isVisible();
+        await red_button.click();
+
+        console.log('Javascript Injection test');
         page.close();
     });
 

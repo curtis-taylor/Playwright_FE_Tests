@@ -1,6 +1,8 @@
 import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
 
+const url_1 = "http://localhost:3000/pages/sign-in/";
+
 test.describe('SIGN-IN Test Suite', () => {
     test('Check page Elements and Text', async ({ page }) => {
         await page.goto('http://localhost:3000/pages/sign-in/');
@@ -157,5 +159,64 @@ test.describe('SIGN-IN Test Suite', () => {
 
         page.close();
     });
+
+    test('Javascript Injection Test', async ({ page }) => {
+            await page.goto(url_1);
+    
+            const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
+    
+            // Expect a title "to contain" a substring.
+            // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+    
+            /*
+            await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
+    
+            await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
+    
+            const login_form = page.locator('.login-form');
+    
+            await expect(login_form).toHaveCSS('justify-content', 'center');
+            await expect(login_form).toHaveCSS('border-radius', '8px'); */
+    
+            //await page.locator('#name-input').isVisible();
+           // await page.locator('#name-input').fill("alert('Hello')");
+    
+            await page.locator('#email-input').isVisible();
+            await page.locator('#email-input').fill("alert('Hello')");
+            await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+    
+            await page.locator('#password-input').isVisible();
+            await page.locator('#password-input').fill("alert('Hello')");
+    
+            await page.waitForTimeout(4000);
+    
+            await red_button.isVisible();
+            await red_button.click();
+    
+            console.log('Javascript Injection test');
+            page.close();
+        });
+    
+        test('SQL Injection Test', async ({ page }) => {
+            await page.goto(url_1);
+    
+            const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
+    
+            await page.locator('#email-input').isVisible();
+            await page.locator('#email-input').fill("SHOW DATABASES;");
+            await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+    
+            await page.locator('#password-input').isVisible();
+            await page.locator('#password-input').fill("SHOW DATABASES;");
+    
+    
+            await page.waitForTimeout(4000);
+
+            await red_button.isVisible();
+            await red_button.click();
+    
+            console.log('Javascript Injection test');
+            page.close();
+        });
 
 });
