@@ -38,7 +38,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
     test('TEST Password Strength METER with weak passwords', async ({ page }) => {
 
-        const weak_password = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
+        const weak_passwords = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
 
         await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
@@ -50,9 +50,6 @@ test.describe('SIGN-UP Test Suite', () => {
         const m3 = page.locator(".password-meter .password-meter-level").nth(2);
 
 
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
-
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
@@ -60,27 +57,29 @@ test.describe('SIGN-UP Test Suite', () => {
         await page.locator('#name-input').fill(username);
         await page.locator('#email-input').fill("test@gmail.com");
 
-        for(let w in weak_password) { 
-            await page.locator('#password-input').fill(w);
+        for(let w = 0; w < weak_passwords.length; w++) { 
+            await page.waitForTimeout(500);
+            console.log("WEAK PASSWORD " + (w + 1) + ": " + weak_passwords[w]);
+            await page.locator('#password-input').fill(weak_passwords[w]);
 
             await expect(m1).toHaveCSS('background-color', 'rgb(255, 0, 0)');
             await expect(m2).toHaveCSS('background-color', 'rgb(128, 128, 128)');
             await expect(m3).toHaveCSS('background-color', 'rgb(128, 128, 128)');
-
+            
         }
+
 
         await red_button.isVisible();
 
         // await red_button.click();
 
         
-        // page.close();
+         page.close();
     });
 
-     test('TEST Password Strength METER with Medium passwords', async ({ page }) => {
+    test('TEST Password Strength METER with FAIR passwords', async ({ page }) => {
 
-        const weak_password = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
-        const fair_password = ["password12", "pass_01"];
+        const fair_passwords = ["super_1", "password_1", "extra_2", "toronto@"];
 
         await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
@@ -91,10 +90,6 @@ test.describe('SIGN-UP Test Suite', () => {
         const m2 = page.locator(".password-meter .password-meter-level").nth(1);
         const m3 = page.locator(".password-meter .password-meter-level").nth(2);
 
-
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
-
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
@@ -102,11 +97,13 @@ test.describe('SIGN-UP Test Suite', () => {
         await page.locator('#name-input').fill(username);
         await page.locator('#email-input').fill("test@gmail.com");
 
-        for(let w in weak_password) { 
-            await page.locator('#password-input').fill(w);
+        for(let f = 0; f < fair_passwords.length; f++) { 
+            console.log("FAIR PASSWORD " + (f + 1) + ": " + fair_passwords[f]);
+            await page.locator('#password-input').fill(fair_passwords[f]);
+            await page.waitForTimeout(500);
 
-            await expect(m1).toHaveCSS('background-color', 'rgb(255, 0, 0)');
-            await expect(m2).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+            await expect(m1).toHaveCSS('background-color', 'rgb(255, 255, 0)');
+            await expect(m2).toHaveCSS('background-color', 'rgb(255, 255, 0)');
             await expect(m3).toHaveCSS('background-color', 'rgb(128, 128, 128)');
 
         }
@@ -116,7 +113,126 @@ test.describe('SIGN-UP Test Suite', () => {
         // await red_button.click();
 
         
-        // page.close();
+        page.close();
+    });
+
+    test('TEST Password Strength METER with GOOD passwords', async ({ page }) => {
+
+        await page.waitForTimeout(800);
+        const good_passwords = ["tester_123", "welcome_123", "security_123", "good_password"];
+
+        await page.goto(url_1);
+        let t = (Math.round(Date.now() / 100000000)).toString();
+        const username = "Curtis Tester" + t;
+        console.log(username);
+
+        const m1 = page.locator(".password-meter .password-meter-level").first();
+        const m2 = page.locator(".password-meter .password-meter-level").nth(1);
+        const m3 = page.locator(".password-meter .password-meter-level").nth(2);
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        await page.locator('#name-input').fill(username);
+        await page.locator('#email-input').fill("test@gmail.com");
+
+        
+        for(let g = 0; g < good_passwords.length; g++) { 
+            console.log("GOOD PASSWORD " + (g + 1) + ": " + good_passwords[g]);
+            await page.locator('#password-input').fill(good_passwords[g]);
+            await page.waitForTimeout(800);
+
+            await expect(m1).toHaveCSS('background-color', 'rgb(255, 255, 0)');
+            await expect(m2).toHaveCSS('background-color', 'rgb(255, 255, 0)');
+            await expect(m3).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+
+        }
+
+        await red_button.isVisible();
+
+        // await red_button.click();
+
+        
+        page.close();
+    });
+
+    test('TEST Password Strength METER with STRONG passwords', async ({ page }) => {
+
+        const strong_passwords = ["super_password123", "super_long", "strong_password", "qatester_123"];
+
+        await page.goto(url_1);
+        let t = (Math.round(Date.now() / 100000000)).toString();
+        const username = "Curtis Tester" + t;
+        console.log(username);
+
+        const m1 = page.locator(".password-meter .password-meter-level").first();
+        const m2 = page.locator(".password-meter .password-meter-level").nth(1);
+        const m3 = page.locator(".password-meter .password-meter-level").nth(2);
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        await page.locator('#name-input').fill(username);
+        await page.locator('#email-input').fill("test@gmail.com");
+
+
+        for(let s = 0; s < strong_passwords.length; s++) { 
+            await page.waitForTimeout(800);
+            await page.locator('#password-input').fill(strong_passwords[s]);
+
+            await expect(m1).toHaveCSS('background-color', 'rgb(0, 153, 0)');
+            await expect(m2).toHaveCSS('background-color', 'rgb(0, 153, 0)');
+            await expect(m3).toHaveCSS('background-color', 'rgb(0, 153, 0)');
+            console.log("STRONG PASSWORD " + (s + 1) + ": " + strong_passwords[s]);
+
+        }
+
+        await red_button.isVisible();
+
+         page.close();
+    });
+
+    test('TEST Password Strength METER with VERY STRONG passwords', async ({ page }) => {
+
+        const very_strong_passwords = ["tester_1234!@#$", "tester_2345@#$%", "QAtester_1234", "theTester_1234"];
+
+        await page.waitForTimeout(1800);
+
+        await page.goto(url_1);
+        let t = (Math.round(Date.now() / 100000000)).toString();
+        const username = "Curtis Tester" + t;
+        console.log(username);
+
+        const m1 = page.locator(".password-meter .password-meter-level").first();
+        const m2 = page.locator(".password-meter .password-meter-level").nth(1);
+        const m3 = page.locator(".password-meter .password-meter-level").nth(2);
+
+        const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        await page.locator('#name-input').fill(username);
+        await page.locator('#email-input').fill("test@gmail.com");
+
+        for(let vs = 0; vs < very_strong_passwords.length; vs++) { 
+            await page.waitForTimeout(1500);
+            await page.locator('#password-input').fill(very_strong_passwords[vs]);
+
+            console.log("VERY STRONG PASSWORD " + (vs + 1) + ": " + very_strong_passwords[vs]);
+
+            await expect(m1).toHaveCSS('background-color', 'rgb(0, 153, 0)');
+            await expect(m2).toHaveCSS('background-color', 'rgb(0, 153, 0)');
+            await expect(m3).toHaveCSS('background-color', 'rgb(0, 153, 0)');
+
+        }
+
+        await red_button.isVisible();
+
+        // await red_button.click();
+
+         page.close();
     });
 
     test('Enter Invalid Password Test', async ({ page }) => {
@@ -125,11 +241,6 @@ test.describe('SIGN-UP Test Suite', () => {
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
-        let weak_passwords = {};
-
-
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
