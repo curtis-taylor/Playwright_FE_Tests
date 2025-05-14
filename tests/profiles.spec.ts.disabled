@@ -6,6 +6,7 @@ test('has title', async ({ page }) => {
   // Expect a title "to contain" a substring.
   await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
+  await page.close();
 });
 
 test('Profile Record Field Test', async ({ page }) => {
@@ -37,26 +38,25 @@ test('Profile Record Field Test', async ({ page }) => {
 
 
 
-let i = 0;
-let id_num = 0;
-let s1, s2;
-for (const lo of await locator_list) {
- 
-  console.log(await lo.textContent());
+  let i = 0;
+  let id_num = 0;
+  let s1, s2;
+  for (const lo of await locator_list) {
+  
+    console.log(await lo.textContent());
 
-  if(await lo.textContent() == profileFields[0]) {
-    s1 = lo.textContent();
-    // s2 = s1
+    if(await lo.textContent() == profileFields[0]) {
+      s1 = lo.textContent();
+      // s2 = s1
 
-  }
+    }
 
-  if (await lo.textContent() == profileFields[i]) {
-    console.log("&&&&************************************");
+    if (await lo.textContent() == profileFields[i]) {
+      console.log("&&&&************************************");
 
-  } else {
+    } 
 
-  }
-  i++;
+    i++;
 
   if (i > profileFields.length) { i = 0;}
 }
@@ -70,6 +70,7 @@ for (const lo2 of await page.getByRole('paragraph').all()) {
   // console.log(profileNames_Collection);
   // expect(await profileNames_Collection.allInnerTexts()).toEqual(profileFields);
 
+  await page.close();
 
 });
 
@@ -97,4 +98,6 @@ test('get started link', async ({ page }) => {
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+
+  await page.close();
 });

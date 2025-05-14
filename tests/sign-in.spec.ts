@@ -19,7 +19,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await page.getByRole('button', { name: 'Log in'}).isVisible();
 
         
-        page.close();
+        await page.close();
     });
 
     test('Enter invalid password', async ({ page }) => {
@@ -41,7 +41,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await red_button.click();
 
         
-        page.close();
+        await page.close();
     });
 
     test('Enter invalid email', async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await red_button.click();
 
         
-        page.close();
+        await page.close();
     });
 
     test('Social Media Footer Check', async ({ browser }) => {
@@ -157,7 +157,7 @@ test.describe('SIGN-IN Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
-        page.close();
+        await page.close();
     });
 
     test('Javascript Injection Test', async ({ page }) => {
@@ -194,7 +194,7 @@ test.describe('SIGN-IN Test Suite', () => {
             await red_button.click();
     
             console.log('Javascript Injection test');
-            page.close();
+            await page.close();
         });
     
         test('SQL Injection Test', async ({ page }) => {
@@ -216,7 +216,7 @@ test.describe('SIGN-IN Test Suite', () => {
             await red_button.click();
     
             console.log('Javascript Injection test');
-            page.close();
+            await page.close();
         });
 
 });

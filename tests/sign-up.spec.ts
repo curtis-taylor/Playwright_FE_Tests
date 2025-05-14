@@ -3,10 +3,18 @@ import { execPath } from 'process';
 
 const url_1 = "http://localhost:3000/pages/sign-up/";
 
+/*
+test.beforeEach(async ({page }) => {
+
+    await page.goto('http://localhost:3000/pages/sign-up/'); 
+
+}) */
+
 
 test.describe('SIGN-UP Test Suite', () => {
     test('Check page Elements and Text', async ({ page }) => {
-        await page.goto(url_1);
+
+        await page.goto(url_1); 
 
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
@@ -33,14 +41,15 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.isVisible();
 
         console.log('Checking page Elements and Text');
-        page.close();
+        await page.close();
     });
 
     test('TEST Password Strength METER with weak passwords', async ({ page }) => {
 
+         await page.goto(url_1); 
+
         const weak_passwords = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
 
-        await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
@@ -74,14 +83,15 @@ test.describe('SIGN-UP Test Suite', () => {
         // await red_button.click();
 
         
-         page.close();
+         await page.close();
     });
 
     test('TEST Password Strength METER with FAIR passwords', async ({ page }) => {
 
+         await page.goto(url_1); 
+
         const fair_passwords = ["super_1", "password_1", "extra_2", "toronto@"];
 
-        await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
@@ -113,15 +123,16 @@ test.describe('SIGN-UP Test Suite', () => {
         // await red_button.click();
 
         
-        page.close();
+        await page.close();
     });
 
     test('TEST Password Strength METER with GOOD passwords', async ({ page }) => {
 
+         await page.goto(url_1); 
+
         await page.waitForTimeout(800);
         const good_passwords = ["tester_123", "welcome_123", "security_123", "good_password"];
 
-        await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
@@ -154,15 +165,16 @@ test.describe('SIGN-UP Test Suite', () => {
         // await red_button.click();
 
         
-        page.close();
+        await page.close();
     });
 
     test('TEST Password Strength METER with STRONG passwords', async ({ page }) => {
 
+         await page.goto(url_1); 
+
         const strong_passwords = ["super_password123", "super_long", "strong_password", "qatester_123"];
         const password_strength_label = page.locator("#password-input-strength span");
 
-        await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
@@ -194,16 +206,17 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await red_button.isVisible();
 
-         page.close();
+         await page.close();
     });
 
     test('TEST Password Strength METER with VERY STRONG passwords', async ({ page }) => {
+
+         await page.goto(url_1); 
 
         const very_strong_passwords = ["tester_1234!@#$", "tester_2345@#$%", "QAtester_1234", "theTester_1234"];
 
         await page.waitForTimeout(1800);
 
-        await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
@@ -239,12 +252,13 @@ test.describe('SIGN-UP Test Suite', () => {
 
         // await red_button.click();
 
-         page.close();
+         await page.close();
     });
 
     test('Enter Invalid Password Test', async ({ page }) => {
+
+         await page.goto(url_1); 
         
-        await page.goto(url_1);
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
         console.log(username);
@@ -263,11 +277,12 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.click();
 
         
-        page.close();
+        await page.close();
     });
 
     test('Enter invalid email', async ({ page }) => {
-        await page.goto(url_1);
+
+         await page.goto(url_1); 
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -293,7 +308,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.click();
 
         
-        page.close();
+        await page.close();
     });
 
     test('Social Media Footer Check', async ({ browser }) => {
@@ -302,7 +317,7 @@ test.describe('SIGN-UP Test Suite', () => {
         const page = await browser_context.newPage();
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
-        await page.goto(url_1);
+        await page.goto(url_1); 
 
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
@@ -324,8 +339,6 @@ test.describe('SIGN-UP Test Suite', () => {
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
             home_icon.click()
         ]);
-
-        console.log(url_1);
         
         await expect(homePage).toHaveURL("https://torontojs.com/");
         let pp = await homePage.evaluate(() => window.location.href)
@@ -377,10 +390,11 @@ test.describe('SIGN-UP Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
-        page.close();
+        await page.close();
     });
 
     test('Javascript Injection Test', async ({ page }) => {
+
         await page.goto(url_1);
 
         const red_button = page.getByRole('button', { name: 'Create Account' });
@@ -413,10 +427,11 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.click();
 
         console.log('Javascript Injection test');
-        page.close();
+        await page.close();
     });
 
     test('SQL Injection Test', async ({ page }) => {
+
         await page.goto(url_1);
 
         const red_button = page.getByRole('button', { name: 'Create Account' });
@@ -449,7 +464,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.click();
 
         console.log('Javascript Injection test');
-        page.close();
+        await page.close();
     });
 
 });
