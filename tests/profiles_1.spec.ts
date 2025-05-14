@@ -143,7 +143,6 @@ test('Check Links', async ({ browser }) => {
 
     await page.goto("http://localhost:3000/pages/profiles/"); 
 
-
   // Click the get started link.
   await page.getByRole('link', { name: 'Facebook' }).isVisible;
 
@@ -168,9 +167,9 @@ test('Check Links', async ({ browser }) => {
         
       let pp = await newPage_1.evaluate(() => window.location.href);
       console.log(pp);
-      console.log("----");
+      // console.log("----");
 
-      if(pp != "Twitter") { 
+      if(temp != "Twitter") { 
         expect(pp).toContain(temp?.toLowerCase());
 
       } else {
