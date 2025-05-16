@@ -31,9 +31,9 @@ test('Design Dragon links', async ({ browser }) => {
      console.log(await page.evaluate(() => window.location.href));
 
      
-     
      let [newPage_1] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            row.hover(),
             await row.click()    
         ]);
 
@@ -50,7 +50,7 @@ test('Design Dragon links', async ({ browser }) => {
       await newPage_1.close();
     // expect(await row.textContent() == 'Volunteer Profile');
 
-    row.hover();
+    
 
   } 
 
