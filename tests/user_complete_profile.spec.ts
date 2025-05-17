@@ -20,6 +20,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
 
         const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
+        const button_list2 = [facebook_icon, threads_icon];
 
         instagram_icon.isEnabled();
         facebook_icon.isEnabled();
@@ -30,7 +31,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         dev_icon.isEnabled();
 
         for(const b of button_list) {
-            console.log(await b.textContent());
+            console.log(await b.all());
             await b.click();
             expect(await b.count()).toEqual(0);
         }
@@ -38,15 +39,14 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         let ddd = await page.locator("#details-social-inputs").getByRole("button").all();
 
         console.log(ddd.length);
+        console.log(ddd);
 
-        for(const b2 of ddd) {
-            console.log(b2.evaluate('name'));
-            await b2.click();
+
+        for(let i = (ddd.length - 1); i >= 0; i-- ) {
+            console.log(ddd[i]);
+            await ddd[i].click();
+            expect(await ddd[i].count()).toEqual(0) 
         }
-
-        
-
-
 
 
 
