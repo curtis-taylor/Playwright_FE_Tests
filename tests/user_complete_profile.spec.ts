@@ -1,13 +1,20 @@
 import { test, expect, Page } from '@playwright/test';
 import { execPath } from 'process';
+
+test.beforeEach(async ({page }) => {
+  
+   await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+
+   
+})
  
 test.describe('USER CHECK YOUR EMAIL Suite', () => {
-    test('Social Media Footer Check', async ({ browser }) => {
+    test('Social Media Footer Check', async ({ page }) => {
 
-        const browser_context = await browser.newContext();
-        const page = await browser_context.newPage();
+        // const browser_context = await browser.newContext();
+        // const page = await browser_context.newPage();
 
-        await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/');
+        // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/');
 
         await page.getByRole('heading', {name: 'Complete your profile'}).isVisible();
 
@@ -38,9 +45,6 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         let ddd = await page.locator("#details-social-inputs").getByRole("button").all();
 
-        console.log(ddd.length);
-        console.log(ddd);
-
 
         for(let i = (ddd.length - 1); i >= 0; i-- ) {
             console.log(ddd[i]);
@@ -53,5 +57,37 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         await page.close();
     });
+
+    test('Fields', async ({ page }) => {
+        // await page.goto('http://localhost:3000/pages/check-steps/');
+
+        // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
+
+        const name_field = page.getByRole('textbox', { name: 'Name' });
+        const email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
+        const slack_field = page.getByRole('textbox', { name: 'Your slack handle to TorontoJS' });
+        const pronouns = page.getByRole('combobox', { name: 'Pronouns' });
+
+        await page.getByRole('heading', { name: 'Complete your profile' }).isVisible();
+
+        await name_field.fill("Mr Tester");
+        await email_field.fill("ct@gmail.com");
+        await slack_field.fill("Toronto JS");
+        
+
+        /*
+        await page.getByRole('listitem', {name: 'Account confirmed'}).isVisible();
+        await page.getByRole('listitem', {name: 'Check the conduct code'}).isVisible();
+        await page.getByRole('listitem', {name: 'Complete your profile'}).isVisible();
+
+        await page.getByText('Check the TorontoJS\'s conduct').isVisible();
+        await page.getByRole('listitem').filter({ hasText: 'Check the TorontoJS\'s conduct' }).isVisible();
+
+        await page.getByRole('listitem').filter({ hasText: /^Complete your profile$/ }).isVisible();
+        await page.locator('#check-steps').getByText('Complete your profile').isVisible();
+        */
+
+        await page.close();           
+  });
 
 });
