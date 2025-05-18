@@ -58,21 +58,36 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         await page.close();
     });
 
-    test('Fields', async ({ page }) => {
+    test('FILL Fields with GOOD DATA Test ', async ({ page }) => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
 
         // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
         const name_field = page.getByRole('textbox', { name: 'Name' });
         const email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
-        const slack_field = page.getByRole('textbox', { name: 'Your slack handle to TorontoJS' });
+        const slack_field = page.getByRole('textbox', { name: 'Slack handle Required" / "' });
         const pronouns = page.getByRole('combobox', { name: 'Pronouns' });
+        const dob_Month = page.getByLabel('Month');
+        const dob_Day = page.getByLabel('Day');
+
+        const based_GTA_switch = page.getByText('I\'m based in Toronto or');
 
         await page.getByRole('heading', { name: 'Complete your profile' }).isVisible();
 
         await name_field.fill("Mr Tester");
         await email_field.fill("ct@gmail.com");
         await slack_field.fill("Toronto JS");
+
+        //await pronouns.fill("He");
+
+        console.log(await page.locator("#pronouns-options options").count());
+        
+        await page.locator("#pronouns-options").nth(1).click();
+
+        await dob_Month.selectOption("December");
+        await dob_Day.selectOption("31");
+
+        await based_GTA_switch.click();
         
 
         /*
