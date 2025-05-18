@@ -66,7 +66,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const name_field = page.getByRole('textbox', { name: 'Name' });
         const email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
         const slack_field = page.getByRole('textbox', { name: 'Slack handle Required" / "' });
-        const pronouns = page.getByRole('combobox', { name: 'Pronouns' });
+        const pronouns = page.locator("#pronouns-options");
         const dob_Month = page.getByLabel('Month');
         const dob_Day = page.getByLabel('Day');
 
@@ -80,9 +80,12 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         //await pronouns.fill("He");
 
-        console.log(await page.locator("#pronouns-options options").count());
+
+        // console.log(await pronouns.selectOption("He/him"));
         
-        await page.locator("#pronouns-options").nth(1).click();
+        //await page.locator("#pronouns-options option").selectOption("1");
+
+        await pronouns.fill("He/him");
 
         await dob_Month.selectOption("December");
         await dob_Day.selectOption("31");
