@@ -74,7 +74,24 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const based_GTA_switch = page.getByText('I\'m based in Toronto or');
         const can_join_Local_switch = page.getByText('I can join TorontoJS\'s local');
         const upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
-        const file_picker = page.locator('div').filter({ hasText: 'Upload Your Photo' }).nth(2)
+        const file_picker = page.locator("#image-upload");
+
+        const linkedin_profile_1 = page.getByRole('textbox', { name: 'LinkedIn profile' });
+        const github_field = page.getByRole('textbox', { name: 'GitHub profile' });
+        const site_field = page.getByRole('textbox', { name: 'Site/portfolio' });
+        const skills_field = page.getByRole('textbox', { name: 'Your skills' });
+
+        const facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
+        const threads_icon = page.getByRole('button', { name: 'Add Threads account' });
+        const instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
+        const twitter_x_icon = page.getByRole('button', { name: 'Add X account' });
+        const linkedin_icon = page.getByRole('button', { name: 'Add LinkedIn account' });
+        const bluesky_icon = page.getByRole('button', { name: 'Add BlueSky account' })
+        const dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
+
+        const complete_button = page.getByRole('button', {name: 'Complete My Profile'});
+
+        const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
 
         await page.getByRole('heading', { name: 'Complete your profile' }).isVisible();
 
@@ -99,8 +116,34 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         await upload_Button.click();
 
-        await page.setInputFiles("locator('div').filter({ hasText: 'Upload Your Photo' }).nth(2)", 'E:/VMS_Project/VMS_TESTING_FOLDER_2025/VMS_TEST_1/tests/IH4png - asia.jpg');
+        await file_picker.setInputFiles('C:/Users/curti/VMS_FE_Testing/Playwright_FE_Tests/tests/IH4png - asia.jpg');
         
+        await github_field.fill('https://github.com/torontojs');
+        await linkedin_profile_1.fill("https://www.linkedin.com/company/torontojs/");
+        await site_field.fill("https://torontojs.com/");
+
+        await skills_field.fill("Python, Javascript, Git, Playwright, Flask, Azure");
+
+        
+
+        for(const b of button_list) {
+            console.log(await b.all());
+            await b.click();
+            expect(await b.count()).toEqual(0);
+        }
+
+        console.log(await page.getByRole('textbox', {name: 'LinkedIn'}).count());
+        await page.getByRole('textbox', {name: 'Instagram'}).fill("www.instagram.com");
+        await page.getByRole('textbox', {name: 'LinkedIn'}).nth(1).fill("www.linkedin.com");
+        await page.getByRole('textbox', {name: 'X'}).fill("www.x.com");
+        await page.getByRole('textbox', {name: 'Dev.to'}).fill("www.dev.to.com");
+        await page.getByRole('textbox', {name: 'BlueSky'}).fill("www.bluesky.com");
+        await page.getByRole('textbox', {name: 'Facebook'}).fill("www.facebook.com");
+        await page.getByRole('textbox', {name: 'Threads'}).fill("www.threads.com");
+
+        await complete_button.click();
+
+        await page.waitForTimeout(4000);
 
         /*
         await page.getByRole('listitem', {name: 'Account confirmed'}).isVisible();
