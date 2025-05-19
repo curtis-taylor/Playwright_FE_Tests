@@ -27,7 +27,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
 
         const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
-        const button_list2 = [facebook_icon, threads_icon];
+        const upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
 
         instagram_icon.isEnabled();
         facebook_icon.isEnabled();
@@ -60,17 +60,21 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
     test('FILL Fields with GOOD DATA Test ', async ({ page }) => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
+        // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
         // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
         const name_field = page.getByRole('textbox', { name: 'Name' });
         const email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
         const slack_field = page.getByRole('textbox', { name: 'Slack handle Required" / "' });
-        const pronouns = page.locator("#pronouns-options");
+        const pronouns = page.getByRole('combobox', { name: 'Pronouns' });
         const dob_Month = page.getByLabel('Month');
         const dob_Day = page.getByLabel('Day');
 
         const based_GTA_switch = page.getByText('I\'m based in Toronto or');
+        const can_join_Local_switch = page.getByText('I can join TorontoJS\'s local');
+        const upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
+        const file_picker = page.locator('div').filter({ hasText: 'Upload Your Photo' }).nth(2)
 
         await page.getByRole('heading', { name: 'Complete your profile' }).isVisible();
 
@@ -91,6 +95,11 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         await dob_Day.selectOption("31");
 
         await based_GTA_switch.click();
+        await can_join_Local_switch.click();
+
+        await upload_Button.click();
+
+        await page.setInputFiles("locator('div').filter({ hasText: 'Upload Your Photo' }).nth(2)", 'E:/VMS_Project/VMS_TESTING_FOLDER_2025/VMS_TEST_1/tests/IH4png - asia.jpg');
         
 
         /*
