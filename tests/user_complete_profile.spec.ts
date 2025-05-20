@@ -29,6 +29,10 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
         const upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
 
+        const nutshell_bar = page.locator('summary').filter({ hasText: 'In a nutshell:' });
+        const avatar_bar = page.locator('summary').filter({ hasText: 'Avatar:' });
+        const more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' });
+
         instagram_icon.isEnabled();
         facebook_icon.isEnabled();
         threads_icon.isEnabled();
@@ -51,9 +55,6 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             await ddd[i].click();
             expect(await ddd[i].count()).toEqual(0) 
         }
-
-
-
 
         await page.close();
     });
@@ -81,6 +82,9 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const site_field = page.getByRole('textbox', { name: 'Site/portfolio' });
         const skills_field = page.getByRole('textbox', { name: 'Your skills' });
 
+        const instagram_field = page.getByRole('textbox', {name: 'Instagram'});
+        const linkedin_2nd_field = page.getByRole('textbox', {name: 'LinkedIn'}).nth(1);
+
         const facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
         const threads_icon = page.getByRole('button', { name: 'Add Threads account' });
         const instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
@@ -92,6 +96,10 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const complete_button = page.getByRole('button', {name: 'Complete My Profile'});
 
         const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
+
+        const nutshell_bar = page.locator('summary').filter({ hasText: 'In a nutshell:' });
+        const avatar_bar = page.locator('summary').filter({ hasText: 'Avatar:' });
+        const more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' });
 
         await page.getByRole('heading', { name: 'Complete your profile' }).isVisible();
 
@@ -116,7 +124,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         await upload_Button.click();
 
-        await file_picker.setInputFiles('C:/Users/curti/VMS_FE_Testing/Playwright_FE_Tests/tests/IH4png - asia.jpg');
+        await file_picker.setInputFiles('E:/VMS_Project/VMS_TESTING_FOLDER_2025/VMS_TEST_1/tests/IH4png - asia.jpg');
         
         await github_field.fill('https://github.com/torontojs');
         await linkedin_profile_1.fill("https://www.linkedin.com/company/torontojs/");
@@ -132,7 +140,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             expect(await b.count()).toEqual(0);
         }
 
-        console.log(await page.getByRole('textbox', {name: 'LinkedIn'}).count());
+        // console.log(await page.getByRole('textbox', {name: 'LinkedIn'}).count());
         await page.getByRole('textbox', {name: 'Instagram'}).fill("www.instagram.com");
         await page.getByRole('textbox', {name: 'LinkedIn'}).nth(1).fill("www.linkedin.com");
         await page.getByRole('textbox', {name: 'X'}).fill("www.x.com");
@@ -141,9 +149,32 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         await page.getByRole('textbox', {name: 'Facebook'}).fill("www.facebook.com");
         await page.getByRole('textbox', {name: 'Threads'}).fill("www.threads.com");
 
+        console.log(await page.locator('#Instagram-input').textContent());
+
+        for(let x = 1; x <= 2; x++) {
+            await nutshell_bar.click();
+            await avatar_bar.click();
+            await more_info_bar.click();
+
+            await page.waitForTimeout(1000);
+
+        }
+
+        console.log(await page.locator('#Instagram-input').inputValue());
+        expect(await name_field.inputValue()).toEqual("Mr Tester");
+        expect(await email_field.inputValue()).toEqual("ct@gmail.com");
+
+        expect(await page.locator('#Instagram-input').inputValue()).toEqual("www.instagram.com");
+        expect(await page.locator('#X-input').inputValue()).toEqual("www.x.com");
+       
+        expect(page.getByRole('button', {name: 'Remove Photo'})).toBeVisible;
+        expect(page.getByText('Avatar uploaded successfully')).toBeVisible;
+        expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
+       
         await complete_button.click();
 
         await page.waitForTimeout(4000);
+
 
         /*
         await page.getByRole('listitem', {name: 'Account confirmed'}).isVisible();
