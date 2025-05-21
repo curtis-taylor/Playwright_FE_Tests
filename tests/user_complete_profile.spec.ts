@@ -1,13 +1,12 @@
 import { test, expect, Page } from '@playwright/test';
-import { CompleteProfilePage } from '../page_object_models/pom_complete_profile';
+import { CompleteProfilePage } from '../page_object_models/pom_complete_profile'
 
 test.beforeEach(async ({page }) => {
 
-   const CompleteProfilePage = new CompleteProfilePage(page);
+   const completeProfilePage = new CompleteProfilePage(page);
+   completeProfilePage.navigate();
   
-   await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
-
-   
+   // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
 
    
@@ -20,6 +19,8 @@ test.afterEach(async ({page }) => {
 test.describe('USER CHECK YOUR EMAIL Suite', () => {
     test('Social Media Footer Check', async ({ page }) => {
 
+        const completeProfilePage = new CompleteProfilePage(page);
+
         // const browser_context = await browser.newContext();
         // const page = await browser_context.newPage();
 
@@ -27,28 +28,16 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         await page.getByRole('heading', {name: 'Complete your profile'}).isVisible();
 
-        const facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
-        const threads_icon = page.getByRole('button', { name: 'Add Threads account' });
-        const instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
-        const twitter_x_icon = page.getByRole('button', { name: 'Add X account' });
-        const linkedin_icon = page.getByRole('button', { name: 'Add LinkedIn account' });
-        const bluesky_icon = page.getByRole('button', { name: 'Add BlueSky account' })
-        const dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
+        const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
+            completeProfilePage.linkedin_icon, completeProfilePage.bluesky_icon, completeProfilePage.dev_icon];
 
-        const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
-        const upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
-
-        const nutshell_bar = page.locator('summary').filter({ hasText: 'In a nutshell:' });
-        const avatar_bar = page.locator('summary').filter({ hasText: 'Avatar:' });
-        const more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' });
-
-        instagram_icon.isEnabled();
-        facebook_icon.isEnabled();
-        threads_icon.isEnabled();
-        linkedin_icon.isEnabled();
-        bluesky_icon.isEnabled();
-        twitter_x_icon.isEnabled(); 
-        dev_icon.isEnabled();
+        completeProfilePage.instagram_icon.isEnabled();
+        completeProfilePage.facebook_icon.isEnabled();
+        completeProfilePage.threads_icon.isEnabled();
+        completeProfilePage.linkedin_icon.isEnabled();
+        completeProfilePage.bluesky_icon.isEnabled();
+        completeProfilePage.twitter_x_icon.isEnabled(); 
+        completeProfilePage.dev_icon.isEnabled();
 
         for(const b of button_list) {
             console.log(await b.all());
@@ -74,6 +63,9 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
+        const completeProfilePage = new CompleteProfilePage(page);
+
+        /*
         const name_field = page.getByRole('textbox', { name: 'Name' });
         const email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
         const slack_field = page.getByRole('textbox', { name: 'Slack handle Required" / "' });
@@ -91,9 +83,6 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const site_field = page.getByRole('textbox', { name: 'Site/portfolio' });
         const skills_field = page.getByRole('textbox', { name: 'Your skills' });
 
-        // const instagram_field = page.getByRole('textbox', {name: 'Instagram'});
-        // const linkedin_2nd_field = page.getByRole('textbox', {name: 'LinkedIn'}).nth(1);
-
         const facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
         const threads_icon = page.getByRole('button', { name: 'Add Threads account' });
         const instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
@@ -104,42 +93,40 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         const complete_button = page.getByRole('button', {name: 'Complete My Profile'});
 
-        const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
+        */
 
+        const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
+            completeProfilePage.linkedin_icon, completeProfilePage.bluesky_icon, completeProfilePage.dev_icon];
+
+        /*    
         const nutshell_bar = page.locator('summary').filter({ hasText: 'In a nutshell:' });
         const avatar_bar = page.locator('summary').filter({ hasText: 'Avatar:' });
-        const more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' });
+        const more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' }); */
 
         await page.getByRole('heading', { name: 'Complete your profile' }).isVisible();
 
-        await name_field.fill("Mr Tester");
-        await email_field.fill("ct@gmail.com");
-        await slack_field.fill("Toronto JS");
+        await completeProfilePage.name_field.fill("Mr Tester");
+        await completeProfilePage.email_field.fill("ct@gmail.com");
+        await completeProfilePage.slack_field.fill("Toronto JS");
 
-        //await pronouns.fill("He");
+        await completeProfilePage.pronouns.fill("He/him");
 
+        await completeProfilePage.dob_Month.selectOption("December");
+        await completeProfilePage.dob_Day.selectOption("31");
 
-        // console.log(await pronouns.selectOption("He/him"));
+        await completeProfilePage.based_GTA_switch.click();
+        await completeProfilePage.can_join_Local_switch.click();
+
+        await completeProfilePage.upload_Button.click();
+
+        //### FILE PICKER
+        await completeProfilePage.file_picker.setInputFiles('tests/IH4png - asia.jpg');
         
-        //await page.locator("#pronouns-options option").selectOption("1");
+        await completeProfilePage.github_field.fill('https://github.com/torontojs');
+        await completeProfilePage.linkedin_profile_1.fill("https://www.linkedin.com/company/torontojs/");
+        await completeProfilePage.site_field.fill("https://torontojs.com/");
 
-        await pronouns.fill("He/him");
-
-        await dob_Month.selectOption("December");
-        await dob_Day.selectOption("31");
-
-        await based_GTA_switch.click();
-        await can_join_Local_switch.click();
-
-        await upload_Button.click();
-
-        await file_picker.setInputFiles('E:/VMS_Project/VMS_TESTING_FOLDER_2025/VMS_TEST_1/tests/IH4png - asia.jpg');
-        
-        await github_field.fill('https://github.com/torontojs');
-        await linkedin_profile_1.fill("https://www.linkedin.com/company/torontojs/");
-        await site_field.fill("https://torontojs.com/");
-
-        await skills_field.fill("Python, Javascript, Git, Playwright, Flask, Azure");
+        await completeProfilePage.skills_field.fill("Python, Javascript, Git, Playwright, Flask, Azure");
 
         
 
@@ -149,9 +136,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             expect(await b.count()).toEqual(0);
         }
 
-        // console.log(await page.getByRole('textbox', {name: 'LinkedIn'}).count());
-        await page.getByRole('textbox', {name: 'Instagram'}).fill("www.instagram.com");
-        await page.getByRole('textbox', {name: 'LinkedIn'}).nth(1).fill("www.linkedin.com");
+        await completeProfilePage.instagram_field.fill("www.instagram.com");
+        await completeProfilePage.linkedin_2nd_field.fill("www.linkedin.com");
         await page.getByRole('textbox', {name: 'X'}).fill("www.x.com");
         await page.getByRole('textbox', {name: 'Dev.to'}).fill("www.dev.to.com");
         await page.getByRole('textbox', {name: 'BlueSky'}).fill("www.bluesky.com");
@@ -162,18 +148,17 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         // REPEATABLE SELECTS red ACCORDIAN CONTROLS
         for(let x = 1; x <= 2; x++) {
-            await nutshell_bar.click();
-            await avatar_bar.click();
-            await more_info_bar.click();
+            await completeProfilePage.nutshell_bar.click();
+            await completeProfilePage.avatar_bar.click();
+            await completeProfilePage.more_info_bar.click();
 
             await page.waitForTimeout(1000);
 
         }
 
-        // console.log(await page.locator('#Instagram-input').inputValue());
         // ## CHECK if fields RETAIN VALUE after using red Accordian CONTROLS
-        expect(await name_field.inputValue()).toEqual("Mr Tester");
-        expect(await email_field.inputValue()).toEqual("ct@gmail.com");
+        expect(await completeProfilePage.name_field.inputValue()).toEqual("Mr Tester");
+        expect(await completeProfilePage.email_field.inputValue()).toEqual("ct@gmail.com");
 
         expect(await page.locator('#Instagram-input').inputValue()).toEqual("www.instagram.com");
         expect(await page.locator('#X-input').inputValue()).toEqual("www.x.com");
@@ -183,7 +168,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
         expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
 
-        await complete_button.click();
+        await completeProfilePage.complete_button.click();
 
         await page.waitForTimeout(4000);
 

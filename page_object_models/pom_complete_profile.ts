@@ -1,4 +1,4 @@
-import { test, expect, Page, Locator } from '@playwright/test';
+import { test, expect, type Page, type Locator } from '@playwright/test';
 
 export class CompleteProfilePage {
     readonly page: Page;
@@ -75,6 +75,10 @@ export class CompleteProfilePage {
     async navigate() {
         await this.page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
     }
+
+  
+
+
 
 
 
