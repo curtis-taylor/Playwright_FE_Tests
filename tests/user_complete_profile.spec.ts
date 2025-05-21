@@ -1,12 +1,21 @@
 import { test, expect, Page } from '@playwright/test';
-import { execPath } from 'process';
+import { CompleteProfilePage } from '../page_object_models/pom_complete_profile';
 
 test.beforeEach(async ({page }) => {
+
+   const CompleteProfilePage = new CompleteProfilePage(page);
   
    await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
    
-})
+
+
+   
+});
+
+test.afterEach(async ({page }) => {
+    await page.close();
+});
  
 test.describe('USER CHECK YOUR EMAIL Suite', () => {
     test('Social Media Footer Check', async ({ page }) => {
@@ -56,7 +65,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
             expect(await ddd[i].count()).toEqual(0) 
         }
 
-        await page.close();
+        // await page.close();
     });
 
     test('FILL Fields with GOOD DATA Test ', async ({ page }) => {
@@ -82,8 +91,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const site_field = page.getByRole('textbox', { name: 'Site/portfolio' });
         const skills_field = page.getByRole('textbox', { name: 'Your skills' });
 
-        const instagram_field = page.getByRole('textbox', {name: 'Instagram'});
-        const linkedin_2nd_field = page.getByRole('textbox', {name: 'LinkedIn'}).nth(1);
+        // const instagram_field = page.getByRole('textbox', {name: 'Instagram'});
+        // const linkedin_2nd_field = page.getByRole('textbox', {name: 'LinkedIn'}).nth(1);
 
         const facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
         const threads_icon = page.getByRole('button', { name: 'Add Threads account' });
@@ -151,6 +160,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         console.log(await page.locator('#Instagram-input').textContent());
 
+        // REPEATABLE SELECTS red ACCORDIAN CONTROLS
         for(let x = 1; x <= 2; x++) {
             await nutshell_bar.click();
             await avatar_bar.click();
@@ -160,7 +170,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         }
 
-        console.log(await page.locator('#Instagram-input').inputValue());
+        // console.log(await page.locator('#Instagram-input').inputValue());
+        // ## CHECK if fields RETAIN VALUE after using red Accordian CONTROLS
         expect(await name_field.inputValue()).toEqual("Mr Tester");
         expect(await email_field.inputValue()).toEqual("ct@gmail.com");
 
@@ -170,7 +181,8 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         expect(page.getByRole('button', {name: 'Remove Photo'})).toBeVisible;
         expect(page.getByText('Avatar uploaded successfully')).toBeVisible;
         expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
-       
+        expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+
         await complete_button.click();
 
         await page.waitForTimeout(4000);
@@ -188,7 +200,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         await page.locator('#check-steps').getByText('Complete your profile').isVisible();
         */
 
-        await page.close();           
+        // await page.close();           
   });
 
 });

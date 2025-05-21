@@ -1,6 +1,6 @@
 import { test, expect, Page, Locator } from '@playwright/test';
 
-class CompleteProfilePage {
+export class CompleteProfilePage {
     readonly page: Page;
     readonly url: String = 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
     readonly name_field: Locator;
@@ -60,21 +60,30 @@ class CompleteProfilePage {
 
         this.instagram_field = page.getByRole('textbox', {name: 'Instagram'});
         this.linkedin_2nd_field = page.getByRole('textbox', {name: 'LinkedIn'}).nth(1);
+        this.facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
+        this.instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
+        this.threads_icon = page.getByRole('button', { name: 'Add Threads account' });
+        this.twitter_x_icon = page.getByRole('button', { name: 'Add X account' });
+        this.bluesky_icon = page.getByRole('button', { name: 'Add BlueSky account' });
+        this.linkedin_icon = page.getByRole('button', { name: 'Add LinkedIn account' });
+        this.dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
+
+        this.complete_button = page.getByRole('button', {name: 'Complete My Profile'});
 
     }
     
+    async navigate() {
+        await this.page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+    }
 
-        const facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
-        const threads_icon = page.getByRole('button', { name: 'Add Threads account' });
-        const instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
-        const twitter_x_icon = page.getByRole('button', { name: 'Add X account' });
-        const linkedin_icon = page.getByRole('button', { name: 'Add LinkedIn account' });
-        const bluesky_icon = page.getByRole('button', { name: 'Add BlueSky account' })
-        const dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
 
-        const complete_button = page.getByRole('button', {name: 'Complete My Profile'});
 
-        const button_list = [facebook_icon, threads_icon, instagram_icon, twitter_x_icon, linkedin_icon, bluesky_icon, dev_icon];
+    
 
+        
+       
+
+        
+        
         
 }
