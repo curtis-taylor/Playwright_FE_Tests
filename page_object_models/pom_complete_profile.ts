@@ -2,7 +2,11 @@ import { test, expect, type Page, type Locator } from '@playwright/test';
 
 export class CompleteProfilePage {
     readonly page: Page;
-    readonly url: String = 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
+    readonly url: string = 'http://localhost:3000/pages/complete-profile/'; 
+    // 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
+
+    readonly page_title: Locator;
+
     readonly name_field: Locator;
     readonly email_field: Locator;
     readonly slack_field: Locator;
@@ -14,6 +18,8 @@ export class CompleteProfilePage {
     readonly can_join_Local_switch: Locator;
     readonly upload_Button: Locator;
     readonly file_picker: Locator;
+    readonly remove_image_Button: Locator;
+    readonly upload_success_Label: Locator;
 
     readonly linkedin_profile_1: Locator;
     readonly github_field: Locator;
@@ -38,6 +44,9 @@ export class CompleteProfilePage {
 
     public constructor(page: Page) {
         this.page = page;
+
+        this.page_title = page.getByRole('heading', {name: 'Complete your profile'});
+
         this.name_field = page.getByRole('textbox', { name: 'Name' });
         this.email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
         this.slack_field = page.getByRole('textbox', { name: 'Slack handle Required" / "' });
@@ -47,8 +56,12 @@ export class CompleteProfilePage {
 
         this.based_GTA_switch = page.getByText('I\'m based in Toronto or');
         this.can_join_Local_switch = page.getByText('I can join TorontoJS\'s local');
+
         this.upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
         this.file_picker = page.locator("#image-upload");
+        this.remove_image_Button = page.getByRole('button', {name: 'Remove Photo'});
+        this.upload_success_Label = page.getByText('Avatar uploaded successfully');
+
         this.linkedin_profile_1 = page.getByRole('textbox', { name: 'LinkedIn profile' });
         this.github_field = page.getByRole('textbox', { name: 'GitHub profile' });
         this.site_field = page.getByRole('textbox', { name: 'Site/portfolio' });
@@ -73,8 +86,33 @@ export class CompleteProfilePage {
     }
     
     async navigate() {
-        await this.page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+        await this.page.goto(this.url); 
     }
+
+    async upload_avatar_image(image_path: string) {
+        this.upload_Button.isVisible();
+        await this.upload_Button.click();
+        //### FILE PICKER
+        await this.file_picker.setInputFiles(image_path);
+        await this.page.waitForTimeout(1200);
+        await this.upload_Button.isVisible();
+        await this.remove_image_Button.isVisible();
+        await this.upload_success_Label.isVisible();
+        expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
+        expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+    }
+
+    async remove_avatar_image() {
+        await this.remove_image_Button.click();
+        expect(await this.remove_image_Button.count()).toEqual(0);
+        expect(await this.upload_success_Label.count()).toEqual(0);
+        expect(await this.remove_image_Button.count()).toEqual(0);
+        await this.remove_image_Button.isHidden();
+        await this.upload_success_Label.isHidden();
+        await this.page.waitForTimeout(2000);
+    }
+
+
 
   
 

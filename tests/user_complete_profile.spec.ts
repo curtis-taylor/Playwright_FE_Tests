@@ -16,7 +16,7 @@ test.afterEach(async ({page }) => {
     await page.close();
 });
  
-test.describe('USER CHECK YOUR EMAIL Suite', () => {
+test.describe('USER COMPLETE PROFILE Suite', () => {
     test('Social Media Footer Check', async ({ page }) => {
 
         const completeProfilePage = new CompleteProfilePage(page);
@@ -57,7 +57,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         // await page.close();
     });
 
-    test('FILL Fields with GOOD DATA Test ', async ({ page }) => {
+    test('FIELD DATA PERSISTS after RED ACCORDIAN USE', async ({ page }) => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
         // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
@@ -103,7 +103,7 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         const avatar_bar = page.locator('summary').filter({ hasText: 'Avatar:' });
         const more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' }); */
 
-        await page.getByRole('heading', { name: 'Complete your profile' }).isVisible();
+        await completeProfilePage.page_title.isVisible();
 
         await completeProfilePage.name_field.fill("Mr Tester");
         await completeProfilePage.email_field.fill("ct@gmail.com");
@@ -117,11 +117,9 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         await completeProfilePage.based_GTA_switch.click();
         await completeProfilePage.can_join_Local_switch.click();
 
-        await completeProfilePage.upload_Button.click();
+        // UPLOAD AVATAR
+        await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg');
 
-        //### FILE PICKER
-        await completeProfilePage.file_picker.setInputFiles('tests/IH4png - asia.jpg');
-        
         await completeProfilePage.github_field.fill('https://github.com/torontojs');
         await completeProfilePage.linkedin_profile_1.fill("https://www.linkedin.com/company/torontojs/");
         await completeProfilePage.site_field.fill("https://torontojs.com/");
@@ -163,10 +161,10 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
         expect(await page.locator('#Instagram-input').inputValue()).toEqual("www.instagram.com");
         expect(await page.locator('#X-input').inputValue()).toEqual("www.x.com");
        
-        expect(page.getByRole('button', {name: 'Remove Photo'})).toBeVisible;
-        expect(page.getByText('Avatar uploaded successfully')).toBeVisible;
-        expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
-        expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+       // expect(await completeProfilePage.remove_image_Button).toBeVisible;
+       // expect(await completeProfilePage.upload_success_Label).toBeVisible;
+       // expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
+      //  expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
 
         await completeProfilePage.complete_button.click();
 
@@ -187,5 +185,57 @@ test.describe('USER CHECK YOUR EMAIL Suite', () => {
 
         // await page.close();           
   });
+
+  test('PHOTO UPLOAD and DELETING', async ({ page }) => {
+
+        const completeProfilePage = new CompleteProfilePage(page);
+
+        await completeProfilePage.page_title.isVisible();
+
+        await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg');
+
+
+        await completeProfilePage.avatar_bar.isVisible();
+        await expect(completeProfilePage.avatar_bar).toHaveCSS('accent-color', 'rgb(237, 55, 49)');
+        await completeProfilePage.avatar_bar.click();
+        await completeProfilePage.upload_Button.isHidden();
+        await completeProfilePage.page.waitForTimeout(3000);
+        await completeProfilePage.avatar_bar.click();
+        await completeProfilePage.remove_image_Button.isVisible();
+
+        await completeProfilePage.remove_avatar_image();
+
+        await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg');
+
+        await completeProfilePage.remove_avatar_image();
+
+        const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
+            completeProfilePage.linkedin_icon, completeProfilePage.bluesky_icon, completeProfilePage.dev_icon];
+
+        completeProfilePage.instagram_icon.isEnabled();
+        completeProfilePage.facebook_icon.isEnabled();
+        completeProfilePage.threads_icon.isEnabled();
+        completeProfilePage.linkedin_icon.isEnabled();
+        completeProfilePage.bluesky_icon.isEnabled();
+        completeProfilePage.twitter_x_icon.isEnabled(); 
+        completeProfilePage.dev_icon.isEnabled();
+
+        for(const b of button_list) {
+            console.log(await b.all());
+            await b.click();
+            expect(await b.count()).toEqual(0);
+        }
+
+        let ddd = await page.locator("#details-social-inputs").getByRole("button").all();
+
+
+        for(let i = (ddd.length - 1); i >= 0; i-- ) {
+            console.log(ddd[i]);
+            await ddd[i].click();
+            expect(await ddd[i].count()).toEqual(0) 
+        }
+
+        // await page.close();
+    });
 
 });
