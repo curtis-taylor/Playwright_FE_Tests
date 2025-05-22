@@ -1,5 +1,21 @@
 import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
+import { SignUpPage } from '../page_object_models/pom_sign-up'
+
+test.beforeEach(async ({page }) => {
+
+   const signUpPage = new SignUpPage(page);
+   signUpPage.navigate();
+  
+   // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+
+
+   
+});
+
+test.afterEach(async ({page }) => {
+    await page.close();
+});
 
 const url_1 = "http://localhost:3000/pages/sign-up/";
 
@@ -14,7 +30,9 @@ test.beforeEach(async ({page }) => {
 test.describe('SIGN-UP Test Suite', () => {
     test('Check page Elements and Text', async ({ page }) => {
 
-        await page.goto(url_1); 
+        const signUpPage = new SignUpPage(page);
+
+
 
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
@@ -41,49 +59,35 @@ test.describe('SIGN-UP Test Suite', () => {
         await red_button.isVisible();
 
         console.log('Checking page Elements and Text');
-        await page.close();
     });
 
     test('TEST Password Strength METER with weak passwords', async ({ page }) => {
 
-         await page.goto(url_1); 
+        const signUpPage = new SignUpPage(page);
 
         const weak_passwords = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
 
-        let t = (Math.round(Date.now() / 100000000)).toString();
-        const username = "Curtis Tester" + t;
-        console.log(username);
-
-        const m1 = page.locator(".password-meter .password-meter-level").first();
-        const m2 = page.locator(".password-meter .password-meter-level").nth(1);
-        const m3 = page.locator(".password-meter .password-meter-level").nth(2);
-
+        const username_1 = await signUpPage.unique_username("Curtis Tester");
 
         const red_button = page.getByRole('button', { name: 'Create Account' });
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
-
-        await page.locator('#name-input').fill(username);
-        await page.locator('#email-input').fill("test@gmail.com");
+        signUpPage.page_title_2.isVisible();
 
         for(let w = 0; w < weak_passwords.length; w++) { 
             await page.waitForTimeout(500);
             console.log("WEAK PASSWORD " + (w + 1) + ": " + weak_passwords[w]);
-            await page.locator('#password-input').fill(weak_passwords[w]);
 
-            await expect(m1).toHaveCSS('background-color', 'rgb(255, 0, 0)');
-            await expect(m2).toHaveCSS('background-color', 'rgb(128, 128, 128)');
-            await expect(m3).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+            await signUpPage.fill_fields(username_1, "test@gm.com", weak_passwords[w]);
+
+            await expect(signUpPage.password_level_low).toHaveCSS('background-color', 'rgb(255, 0, 0)');
+            await expect(signUpPage.password_level_middle).toHaveCSS('background-color', 'rgb(128, 128, 128)');
+            await expect(signUpPage.password_level_high).toHaveCSS('background-color', 'rgb(128, 128, 128)');
             
         }
 
 
-        await red_button.isVisible();
+        await signUpPage.red_Account_button.isVisible();
 
-        // await red_button.click();
-
-        
-         await page.close();
     });
 
     test('TEST Password Strength METER with FAIR passwords', async ({ page }) => {

@@ -5,7 +5,8 @@ export class SignUpPage {
     readonly page: Page;
     readonly url: string = 'http://localhost:3000/pages/sign-up/'; 
 
-    readonly page_title: Locator;
+    readonly page_title_1: Locator;
+    readonly page_title_2: Locator
 
     readonly login_form: Locator;
     readonly name_field: Locator;
@@ -31,11 +32,12 @@ export class SignUpPage {
         this.page = page;
         this.url = this.url;
 
-        this.page_title = page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'});
+        this.page_title_2 = page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'});
+        this.page_title_1 = page.getByRole('heading', { name: 'Sign Up to TorontoJS' })
 
         this.name_field = page. getByRole('textbox', { name: 'Name' });
         this.email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
-        this.page_title = page.getByRole('textbox', { name: 'Password: REQUIRED' });
+        this.password_field = page.getByRole('textbox', { name: 'Password: REQUIRED' });
         this.login_form = page.locator('.login-form');
 
         this.password_strength_Label = page.locator("#password-input-strength span");
@@ -56,6 +58,10 @@ export class SignUpPage {
 
     }
 
+    async navigate() {
+         await this.page.goto(this.url); 
+    }
+
     async fill_fields(username: string, email: string, password: string) {
 
         await this.name_field.isVisible();
@@ -73,6 +79,7 @@ export class SignUpPage {
         let t = (Math.round(Date.now() / 100000000)).toString();
         return username + t;
     }
+
 
 
 }
