@@ -1,8 +1,9 @@
-import { test, expect, type Page, type Locator } from '@playwright/test';
+import { test, expect, type Page, type Locator, Browser } from '@playwright/test';
 
 export class SignUpPage {
 
     readonly page: Page;
+    readonly browser: Browser;
     readonly url: string = 'http://localhost:3000/pages/sign-up/'; 
 
     readonly page_title_1: Locator;
@@ -80,6 +81,8 @@ export class SignUpPage {
         return username + t;
     }
 
+    async password_analysis() {
 
+    }
 
 }
