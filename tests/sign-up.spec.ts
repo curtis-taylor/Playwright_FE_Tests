@@ -208,14 +208,10 @@ test.describe('SIGN-UP Test Suite', () => {
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
-        signUpPage.page_title_2.isVisible();
-
-        signUpPage.page_title_1.isVisible();
-
         signUpPage.page_title_1.isVisible();
         signUpPage.page_title_2.isVisible();
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+        // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
         for(let vs = 0; vs < very_strong_passwords.length; vs++) { 
             await page.waitForTimeout(1500);
@@ -239,24 +235,38 @@ test.describe('SIGN-UP Test Suite', () => {
 
     test('Enter Invalid Password Test', async ({ page }) => {
 
-         await page.goto(url_1); 
+
+        await page.waitForTimeout(1800);
+
+        const signUpPage = new SignUpPage(page);
+        await signUpPage.navigate();
+
+        const username_1 = await signUpPage.unique_username("Curtis Tester");
+
+        signUpPage.page_title_1.isVisible();
+        signUpPage.page_title_2.isVisible(); 
+
+        /* await page.goto(url_1); 
         
         let t = (Math.round(Date.now() / 100000000)).toString();
         const username = "Curtis Tester" + t;
-        console.log(username);
+        console.log(username); */
 
-        const red_button = page.getByRole('button', { name: 'Create Account' });
+        // const red_button = page.getByRole('button', { name: 'Create Account' });
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+        // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
+        /*
         await page.locator('#name-input').fill(username);
         await page.locator('#email-input').fill("test@gmail.com");
 
-        await page.locator('#password-input').fill("xxxxxxxxx");
+        await page.locator('#password-input').fill("xxxxxxxxx"); */
 
-        await red_button.isVisible();
+        await signUpPage.fill_fields(username_1, "test@gmail.com", "xxxxxxx");
 
-        await red_button.click();
+        await signUpPage.red_Account_button.isVisible();
+
+        await signUpPage.red_Account_button.click();
 
         
         await page.close();
@@ -293,64 +303,66 @@ test.describe('SIGN-UP Test Suite', () => {
         await page.close();
     });
 
-    test('Social Media Footer Check', async ({browser}) => {
+    test('Social Media Footer Check', async ({ browser }) => {
 
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
         const signUpPage = new SignUpPage(page);
-        await signUpPage.navigate();
+        await page.goto('http://localhost:3000/pages/sign-up/');
 
-        const red_button = page.getByRole('button', { name: 'Create Account' });
+        // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        const username_1 = await signUpPage.unique_username("Curtis Tester");
 
-        await page.locator('#email-input').fill("test@gmail.com")
-        await page.locator('#password-input').fill("xxx");
+        await signUpPage.page_title_1.isVisible();
+        await signUpPage.page_title_2.isVisible();
+
+        await signUpPage.fill_fields(username_1, "test@gm.com", "passWord11");
 
 
-        await red_button.isVisible();
+        await signUpPage.red_Account_button.isVisible();
 
-       // await red_button.click();
-
+       /*
         const home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
         const youtube_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(1);
         const instagram_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(2);
         const twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
         const linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
 
+        */
         const [homePage] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            home_icon.click()
+            signUpPage.home_icon.click()
         ]);
         
         await expect(homePage).toHaveURL("https://torontojs.com/");
         let pp = await homePage.evaluate(() => window.location.href)
         console.log(pp);
-        homePage.close(); 
+        await homePage.close(); 
 
         const [newPage_1] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            youtube_icon.click()
+            signUpPage.youtube_icon.click()
         ]);
         
         await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
         pp = await newPage_1.evaluate(() => window.location.href)
         console.log(pp);
-        newPage_1.close();
+        await newPage_1.close();
 
         const [newPage_2] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            instagram_icon.click(),
+            signUpPage.instagram_icon.click(),
         ]);
 
         await expect(newPage_2).toHaveURL("https://www.instagram.com/toronto.js/");
         pp = await newPage_2.evaluate(() => window.location.href)
         console.log(pp);
-        newPage_2.close();
+        await newPage_2.close();
 
         const [newPage_3] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            twitter_x_icon.click()
+            signUpPage.twitter_x_icon.click()
         ]);
 
         
@@ -361,19 +373,20 @@ test.describe('SIGN-UP Test Suite', () => {
         expect(pp.includes("x.com"));
 
         await newPage_3.getByTestId('app-bar-close').click();
-        newPage_3.close();
+        await newPage_3.close();
 
         const [newPage_4] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            linkedin_icon.click()
+            signUpPage.linkedin_icon.click()
         ]);
 
         await expect(newPage_4).toHaveURL("https://www.linkedin.com/company/torontojs");
         pp = await newPage_4.evaluate(() => window.location.href)
         console.log(pp);
-        newPage_4.close();
+        await newPage_4.close();
 
         await page.close();
+
     });
 
     test('Javascript Injection Test', async ({ page }) => {

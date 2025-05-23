@@ -1,5 +1,6 @@
 import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
+import { SignUpPage } from '../page_object_models/pom_sign-up';
 
 const url_1 = "http://localhost:3000/pages/sign-in/";
 
@@ -74,11 +75,16 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
+        const signUpPage = new SignUpPage(page);
 
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        signUpPage.navigate();
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        signUpPage.page_title_1.isVisible();
+        signUpPage.page_title_2.isVisible();
 
+        const username = signUpPage.unique_username("Tester");
+
+       
         /*
         const tt = await page.getByRole('list').all();
 
@@ -92,21 +98,24 @@ test.describe('SIGN-IN Test Suite', () => {
         await page.locator('#email-input').fill("test@gmail.com")
         await page.locator('#password-input').fill("xxx");
 
+       //await signUpPage.fill_fields(username, "signUpPage.email_field");
 
-        await red_button.isVisible();
 
-        await red_button.click();
+        await signUpPage.red_Account_button.isVisible();
 
+        await signUpPage.red_Account_button.click();
+
+        /*
         const home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
         const youtube_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(1);
         const instagram_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(2);
         const twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
         const linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
-        
+        */
 
         const [newPage_0] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            home_icon.click()
+            signUpPage.home_icon.click()
         ]);
         
         await expect(newPage_0).toHaveURL("https://torontojs.com/");
@@ -116,7 +125,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_1] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            youtube_icon.click()
+            signUpPage.youtube_icon.click()
         ]);
         
         await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
@@ -126,7 +135,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_2] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            instagram_icon.click(),
+            signUpPage.instagram_icon.click(),
         ]);
 
         await expect(newPage_2).toHaveURL("https://www.instagram.com/toronto.js/");
@@ -136,7 +145,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_3] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            twitter_x_icon.click()
+            signUpPage.twitter_x_icon.click()
         ]);
 
         // await expect(newPage_3).toHaveURL("https://twitter.com/torontojs");
@@ -149,7 +158,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_4] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            linkedin_icon.click()
+            signUpPage.linkedin_icon.click()
         ]);
 
         await expect(newPage_4).toHaveURL("https://www.linkedin.com/company/torontojs");
@@ -157,7 +166,7 @@ test.describe('SIGN-IN Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
-        await page.close();
+        // await page.close();
     });
 
     test('Javascript Injection Test', async ({ page }) => {
