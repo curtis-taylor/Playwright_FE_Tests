@@ -19,9 +19,6 @@ export class SignInPage {
     readonly instagram_icon: Locator;
     readonly twitter_x_icon: Locator;
 
-    readonly password_strength_Label: Locator;
-    readonly password_strength_suggestions_Label: Locator;
-
     public constructor(page: Page) { 
         this.page = page;
         this.url = this.url;

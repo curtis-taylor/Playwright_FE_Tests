@@ -32,10 +32,6 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
     test('Enter invalid password', async ({ page }) => {
-        // await page.goto('http://localhost:3000/pages/sign-in/');
-
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
         const signInPage = new SignInPage(page);
 
@@ -46,21 +42,10 @@ test.describe('SIGN-IN Test Suite', () => {
         await signInPage.email_field.isVisible();
         await signInPage.password_field.isVisible();
 
-
-
-        // const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
-
-        // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
-
-        //await page.locator('#email-input').fill("test@gmail.com")
-        // await page.locator('#password-input').fill("xxxxxxxxx");
-
         await signInPage.fill_fields('test@gmail.com', 'xxxxxxxxx');
 
 
         await signInPage.login_button.isVisible();
-
-        // await red_button.click();
 
         await signInPage.login_button.click();
 
@@ -69,10 +54,6 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
     test('Enter invalid email', async ({ page }) => {
-        // await page.goto('http://localhost:3000/pages/sign-in/');
-
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
         const signInPage = new SignInPage(page);
 
@@ -83,25 +64,26 @@ test.describe('SIGN-IN Test Suite', () => {
         await signInPage.email_field.isVisible();
         await signInPage.password_field.isVisible();
 
+
+        // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+
         
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        //await page.locator('#email-input').fill("xxxxxx");
+        //await page.locator('#password-input').fill("password");
 
-        
+        await signInPage.fill_fields('xxxxxx', 'password');
 
-        await page.locator('#email-input').fill("xxxxxx");
-        await page.locator('#password-input').fill("password");
+        // const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
 
-        const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
+        await signInPage.login_button.isVisible();
+        // await red_button.isVisible();
 
+        await expect(signInPage.login_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
+        await expect(signInPage.login_button).toHaveCSS('accent-color', `rgb(237, 55, 49)`);
+        await expect(signInPage.login_button).toHaveCSS('color', `rgb(255, 255, 255)`);
 
-        await red_button.isVisible();
-
-        await expect(red_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
-        await expect(red_button).toHaveCSS('accent-color', `rgb(237, 55, 49)`);
-        await expect(red_button).toHaveCSS('color', `rgb(255, 255, 255)`);
-
-        await red_button.click();
+        await signInPage.login_button.click();
 
         
         await page.close();
@@ -111,14 +93,21 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
-        const signUpPage = new SignUpPage(page);
 
-        signUpPage.navigate();
+        const signInPage = new SignInPage(page);
 
-        signUpPage.page_title_1.isVisible();
-        signUpPage.page_title_2.isVisible();
+        await signInPage.navigate();
 
-        const username = signUpPage.unique_username("Tester");
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+        await signInPage.navigate();
+
+        await signInPage.page_title_1.isVisible();
+
+        // const username = signInPage.unique_username("Tester");
 
        
         /*
@@ -131,15 +120,17 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
 
-        await page.locator('#email-input').fill("test@gmail.com")
-        await page.locator('#password-input').fill("xxx");
+        //await page.locator('#email-input').fill("test@gmail.com")
+        //await page.locator('#password-input').fill("xxx");
+
+        await signInPage.fill_fields('test@gmail.com', 'xxx');
 
        //await signUpPage.fill_fields(username, "signUpPage.email_field");
 
 
-        await signUpPage.red_Account_button.isVisible();
+        await signInPage.login_button.isVisible();
 
-        await signUpPage.red_Account_button.click();
+        await signInPage.login_button.click();
 
         /*
         const home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
@@ -151,7 +142,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_0] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            signUpPage.home_icon.click()
+            signInPage.home_icon.click()
         ]);
         
         await expect(newPage_0).toHaveURL("https://torontojs.com/");
@@ -161,7 +152,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_1] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            signUpPage.youtube_icon.click()
+            signInPage.youtube_icon.click()
         ]);
         
         await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
@@ -171,7 +162,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_2] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            signUpPage.instagram_icon.click(),
+            signInPage.instagram_icon.click(),
         ]);
 
         await expect(newPage_2).toHaveURL("https://www.instagram.com/toronto.js/");
@@ -181,7 +172,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_3] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            signUpPage.twitter_x_icon.click()
+            signInPage.twitter_x_icon.click()
         ]);
 
         // await expect(newPage_3).toHaveURL("https://twitter.com/torontojs");
@@ -194,7 +185,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         const [newPage_4] = await Promise.all([
             browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            signUpPage.linkedin_icon.click()
+            signInPage.linkedin_icon.click()
         ]);
 
         await expect(newPage_4).toHaveURL("https://www.linkedin.com/company/torontojs");
@@ -202,63 +193,86 @@ test.describe('SIGN-IN Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
-        // await page.close();
+        await page.close();
     });
 
     test('Javascript Injection Test', async ({ page }) => {
-            await page.goto(url_1);
+            
+            const signInPage = new SignInPage(page);
+
+            await signInPage.navigate();
+
+            await signInPage.page_title_1.isVisible()
+
+            await signInPage.email_field.isVisible();
+            await signInPage.password_field.isVisible();
+
+            await signInPage.navigate();
+
+            await signInPage.page_title_1.isVisible();
+
     
-            const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
+            // const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
     
-            // Expect a title "to contain" a substring.
-            // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
+
+            await signInPage.fill_fields("alert('Hello')", 'xxx');
+            await signInPage.email_field.isVisible();
+            await signInPage.password_field.isVisible();
     
             /*
-            await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
-    
-            await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
-    
-            const login_form = page.locator('.login-form');
-    
-            await expect(login_form).toHaveCSS('justify-content', 'center');
-            await expect(login_form).toHaveCSS('border-radius', '8px'); */
-    
-            //await page.locator('#name-input').isVisible();
-           // await page.locator('#name-input').fill("alert('Hello')");
-    
             await page.locator('#email-input').isVisible();
             await page.locator('#email-input').fill("alert('Hello')");
             await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+            */
+
+            //await page.locator('#password-input').isVisible();
+            //await page.locator('#password-input').fill("alert('Hello')");
     
-            await page.locator('#password-input').isVisible();
-            await page.locator('#password-input').fill("alert('Hello')");
-    
+            
+
             await page.waitForTimeout(4000);
     
-            await red_button.isVisible();
-            await red_button.click();
+            await signInPage.login_button.isVisible();
+            await signInPage.login_button.click();
     
             console.log('Javascript Injection test');
             await page.close();
         });
     
         test('SQL Injection Test', async ({ page }) => {
-            await page.goto(url_1);
+
+            const signInPage = new SignInPage(page);
+
+            await signInPage.navigate();
+
+            await signInPage.page_title_1.isVisible()
+
+            await signInPage.email_field.isVisible();
+            await signInPage.password_field.isVisible();
+
+            await signInPage.navigate();
+
+            await signInPage.page_title_1.isVisible();
+
+            await signInPage.login_button.isVisible();
     
             const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
     
+            /*
             await page.locator('#email-input').isVisible();
             await page.locator('#email-input').fill("SHOW DATABASES;");
             await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
     
             await page.locator('#password-input').isVisible();
             await page.locator('#password-input').fill("SHOW DATABASES;");
-    
+
+            await signInPage.fill_fields("SHOW DATABASES;", "SHOW DATABASES;");
+            */
     
             await page.waitForTimeout(4000);
 
-            await red_button.isVisible();
-            await red_button.click();
+            await signInPage.login_button.isVisible();
+            await signInPage.login_button.click();
     
             console.log('Javascript Injection test');
             await page.close();
