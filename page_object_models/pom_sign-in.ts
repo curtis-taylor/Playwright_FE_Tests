@@ -11,7 +11,7 @@ export class SignInPage {
     readonly email_field: Locator;
     readonly password_field: Locator;
 
-    readonly red_Account_button: Locator;
+    readonly login_button: Locator;
 
     readonly home_icon: Locator;
     readonly linkedin_icon: Locator;
@@ -38,7 +38,7 @@ export class SignInPage {
         this.twitter_x_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(3);
         this.linkedin_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(4);
 
-        this.red_Account_button = page.getByRole('button', { name: 'Create Account' });
+        this.login_button = page.getByRole('button', { name: 'Complete sign-up form button' }); 
 
 
     }
@@ -47,11 +47,10 @@ export class SignInPage {
          await this.page.goto(this.url); 
     }
 
-    async fill_fields(username: string, email: string, password: string) {
+    async fill_fields(email: string, password: string) {
 
         await this.email_field.isVisible();
         await this.password_field.isVisible();
-        await this.password_field.fill(username);
         await this.email_field.fill(email);
         await this.password_field.fill(password);
 

@@ -67,7 +67,7 @@ export class SignUpPage {
         await this.name_field.isVisible();
         await this.email_field.isVisible();
         await this.password_field.isVisible();
-        await this.password_field.fill(username);
+        await this.name_field.fill(username);
         await this.email_field.fill(email);
         await this.password_field.fill(password);
 

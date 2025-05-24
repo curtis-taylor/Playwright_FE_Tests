@@ -1,57 +1,93 @@
 import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
-import { SignUpPage } from '../page_object_models/pom_sign-up';
+import { SignInPage } from '../page_object_models/pom_sign-in';
 
 const url_1 = "http://localhost:3000/pages/sign-in/";
 
 test.describe('SIGN-IN Test Suite', () => {
     test('Check page Elements and Text', async ({ page }) => {
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        // await page.goto('http://localhost:3000/pages/sign-in/');
+
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        const signInPage = new SignInPage(page);
 
-        await page.locator('#email-input').isVisible();
-        await page.locator('#password-input').isVisible();
+        await signInPage.navigate();
+
+        await signInPage.page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+        //await page.locator('#email-input').isVisible();
+       // await page.locator('#password-input').isVisible();
 
 
-        await page.getByRole('button', { name: 'Log in'}).isVisible();
-
+       //  await page.getByRole('button', { name: 'Log in'}).isVisible();
+        await signInPage.login_button.isVisible();
         
         await page.close();
     });
 
     test('Enter invalid password', async ({ page }) => {
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        // await page.goto('http://localhost:3000/pages/sign-in/');
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
-        const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
+        const signInPage = new SignInPage(page);
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+        await signInPage.navigate();
 
-        await page.locator('#email-input').fill("test@gmail.com")
-        await page.locator('#password-input').fill("xxxxxxxxx");
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
 
 
-        await red_button.isVisible();
 
-        await red_button.click();
+        // const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
+
+        // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+
+        //await page.locator('#email-input').fill("test@gmail.com")
+        // await page.locator('#password-input').fill("xxxxxxxxx");
+
+        await signInPage.fill_fields('test@gmail.com', 'xxxxxxxxx');
+
+
+        await signInPage.login_button.isVisible();
+
+        // await red_button.click();
+
+        await signInPage.login_button.click();
 
         
         await page.close();
     });
 
     test('Enter invalid email', async ({ page }) => {
-        await page.goto('http://localhost:3000/pages/sign-in/');
+        // await page.goto('http://localhost:3000/pages/sign-in/');
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
+        const signInPage = new SignInPage(page);
+
+        await signInPage.navigate();
+
+        await signInPage.page_title_1.isVisible()
+
+        await signInPage.email_field.isVisible();
+        await signInPage.password_field.isVisible();
+
+        
+
         await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
+
+        
 
         await page.locator('#email-input').fill("xxxxxx");
         await page.locator('#password-input').fill("password");
