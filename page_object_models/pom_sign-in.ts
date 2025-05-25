@@ -54,10 +54,4 @@ export class SignInPage {
 
     }
 
-    // CONCATENATES DATE TO SUPPLIED USERNAME TO CREATE UNIQUE PASSWORD
-    async unique_username(username: string) {
-        let t = (Math.round(Date.now() / 100000000)).toString();
-        return username + t;
-    }
-
 }
