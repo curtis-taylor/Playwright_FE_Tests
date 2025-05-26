@@ -1,6 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
+import { CheckStepsPage } from '../page_object_models/pom_check-steps'
 import { execPath } from 'process';
 
+/*
 export function convertHexToRGB(hex) {
   // Remove the '#' if it's included in the input
   hex = hex.replace(/^#/, '');
@@ -16,14 +18,30 @@ export function convertHexToRGB(hex) {
     green: green,
     blue: blue,
   };
-}
+} */
 
 test.describe('ACCOUNT CONFIRMED Test Suite', () => {
   test('Account Confirmed page - Text check', async ({ page }) => {
-    await page.goto('http://localhost:3000/pages/check-steps/');
+    // await page.goto('http://localhost:3000/pages/check-steps/');
 
+    const checkStepsPage = new CheckStepsPage(page);
+    await checkStepsPage.navigate();
+
+    await checkStepsPage.welcome_title.isVisible();
+
+    await checkStepsPage.account_confirm_tab.isVisible();
+    await checkStepsPage.conduct_code_tab.isVisible();
+    await checkStepsPage.complete_profile_tab.isVisible();
+    
+    await checkStepsPage.complete_profile_dialog_title.isVisible();
+    await checkStepsPage.complete_profile_dialog.isVisible();
+
+    await checkStepsPage.conduct_dialog_title.isVisible();
+    await checkStepsPage.conduct_dialog.isVisible();
+  
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
+    /*
     await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
 
     await page.getByRole('listitem', {name: 'Account confirmed'}).isVisible();
@@ -35,7 +53,7 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
 
     await page.getByRole('listitem').filter({ hasText: /^Complete your profile$/ }).isVisible();
     await page.locator('#check-steps').getByText('Complete your profile').isVisible();
-
+    */
     /*
     // Expect a title "to contain" a substring.
     // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -49,29 +67,35 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
   });
 
   test('Account Confirmed - Lets Continue Button examination', async ({ page }) => {
-
-    await page.goto('http://localhost:3000/pages/check-steps/');
-
+    
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
-    await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
+    const checkStepsPage = new CheckStepsPage(page);
+    await checkStepsPage.navigate();
+    await checkStepsPage.welcome_title.isVisible();
+
+
+    // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
 
     await page.waitForTimeout(3000);
 
-    let rbgColors = convertHexToRGB("#ED3731");
-    const let_button = page.getByRole('link', {name: "Let\'s continue"});
+    let rbgColors = checkStepsPage.convertHexToRGB("#333333");
 
-    await let_button.isVisible();
+    await checkStepsPage.continue_button.isVisible();
 
-    await expect(let_button).toHaveCSS('background-color',
-      `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+    await expect(checkStepsPage.continue_button).toHaveCSS('background-color',
+      `rgb(${ (await rbgColors).red }, ${ (await rbgColors).green }, ${ (await rbgColors).blue })`);
       
     await page.close();
 
   });
 
   test('Account Confirmed - Lets Continue Button Click', async ({ page }) => {
-    await page.goto('http://localhost:3000/pages/check-steps/');
+    // await page.goto('http://localhost:3000/pages/check-steps/');
+
+    const checkStepsPage = new CheckStepsPage(page);
+    await checkStepsPage.navigate();
+    await checkStepsPage.welcome_title.isVisible();
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
@@ -79,22 +103,22 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
 
     await page.waitForTimeout(3000);
 
-    const let_button = page.getByRole('link', {name: "Let\'s continue"});
+    // const let_button = page.getByRole('link', {name: "Let\'s continue"});
 
-    await let_button.isVisible();
+    await checkStepsPage.continue_button.isVisible();
 
-    let rbgColors = convertHexToRGB("#ED3731");
+    let rbgColors = checkStepsPage.convertHexToRGB("#333333");
 
-    const color = await let_button.evaluate((ele) => {
+    const color = await checkStepsPage.continue_button.evaluate((ele) => {
       return window.getComputedStyle(ele).getPropertyValue("background-color");
     });
 
     console.log(color);
 
-    expect(color).toBe(`rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+    expect(color).toBe(`rgb(${ (await rbgColors).red }, ${ (await rbgColors).green }, ${ (await rbgColors).blue })`);
     
 
-    await let_button.click();
+    await checkStepsPage.continue_button.click();
 
     // Expect a title "to contain" a substring.
     // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -110,6 +134,8 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
 
    await page.waitForTimeout(3000);
 
+   rbgColors = checkStepsPage.convertHexToRGB("#ED3731");
+
    for (const row2 of await page.locator('.step-text').all()) {
     console.log(await row2.textContent());
     
@@ -117,7 +143,7 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
         console.log(":::"); 
 
       await expect(row2).toHaveCSS('color',
-        `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+        `rgb(${ (await rbgColors).red }, ${ (await rbgColors).green }, ${ (await rbgColors).blue })`);
     } else {
         await expect(row2).toHaveCSS('color',
           'rgb(153, 153, 153)');
