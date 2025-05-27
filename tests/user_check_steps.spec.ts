@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 import { CheckStepsPage } from '../page_object_models/pom_check-steps'
+import { ReviewConductPage } from '../page_object_models/pom_review_conduct';
 import { execPath } from 'process';
 
 /*
@@ -164,15 +165,24 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
 
 test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
-  test('2 Check the conduct code - Top Text Check', async ({ page }) => {
+  test('Pahe 2 - Check the conduct code - Top Text Check', async ({ page }) => {
 
-    await page.goto('http://localhost:3000/pages/review-conduct-code/');
+    const reviewConductPage = new ReviewConductPage(page);
+
+    await reviewConductPage.navigate();
+
+    await reviewConductPage.review_title.isVisible();
+    await reviewConductPage.subtitle.isVisible();
+
+    await expect(reviewConductPage.review_title).toHaveCSS('text-align', 'center');
+    await expect(reviewConductPage.subtitle).toHaveCSS('text-align', 'center');
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
-    await page.getByRole('heading', { name: 'Review our conduct code' }).isVisible();
+    //await page.getByRole('heading', { name: 'Review our conduct code' }).isVisible();
 
-    await page.getByText('We are a community driven by').isVisible();
+    // await page.getByText('We are a community driven by').isVisible();
+
 
     await page.waitForTimeout(3000);
       
@@ -180,12 +190,31 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
-  test('2 Check the conduct code - NUTSHELL box', async ({ page }) => {
+  test('Page 2 - Check the conduct code - NUTSHELL box', async ({ page }) => {
 
-    await page.goto('http://localhost:3000/pages/review-conduct-code/');
+    // await page.goto('http://localhost:3000/pages/review-conduct-code/');
+
+    const reviewConductPage = new ReviewConductPage(page);
+
+    await reviewConductPage.navigate();
+
+    await reviewConductPage.nutshell_dialog_heading.isVisible();
+    await reviewConductPage.nutshell_text_1.isVisible();
+    await reviewConductPage.nutshell_text_2.isVisible();
+    await reviewConductPage.nutshell_text_3.isVisible();
+
+    expect(reviewConductPage.nutshell_dialog_heading).toHaveCSS('color', 'rgb(255, 255, 255)');
+    expect(reviewConductPage.nutshell_dialog_heading).toHaveCSS('background-color', 'rgb(237, 55, 49)');
+
+
+    await reviewConductPage.dropdown_Volunteering.isVisible();
+    await reviewConductPage.dropdown_TorontoJS_conduct.isVisible();
+    await reviewConductPage.dropdown_Release_form.isVisible();
+
+
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
-
+    /*
     await page.getByText('In a nutshell:').isVisible();
     expect(page.getByText('In a nutshell:')).toHaveCSS('color', 'rgb(255, 255, 255)');
     expect(page.getByText('In a nutshell:')).toHaveCSS('background-color', 'rgb(237, 55, 49)');
@@ -193,31 +222,30 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     await page.getByText('All our members are committed').isVisible();
     await page.getByText('Developers, designers and other tech workers').isVisible();
-    await page.getByText('The TorontoJS activities are non-profit').isVisible();
-    
+    await page.getByText('The TorontoJS activities are non-profit').isVisible(); */
 
-    const conduct_code_list = page.locator('#conduct-code').all();
 
-    // Check NUMBER CIRCLES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    // Check NUMBERED CIRCLES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     for(let i = 1; i < 4; i++) {
 
-      await page.locator('#conduct-code').getByText(String(i)).isVisible();
-      console.log(await page.locator('#conduct-code').getByText(String(i)).textContent());
-      expect(page.locator('#conduct-code').getByText(String(i))).toHaveCSS('width', '36px');
-      expect(page.locator('#conduct-code').getByText(String(i))).toHaveCSS('color', 'rgb(255, 255, 255)');
-      expect(page.locator('#conduct-code').getByText(String(i))).toHaveCSS('background-color', 'rgb(237, 55, 49)');
+      await page.locator('#conduct-code').getByText(String(i), { exact: true }).isVisible();
+      console.log(await page.locator('#conduct-code').getByText(String(i), { exact: true }).textContent());
+      expect(page.locator('#conduct-code').getByText(String(i), { exact: true })).toHaveCSS('width', '36px');
+      expect(page.locator('#conduct-code').getByText(String(i), { exact: true })).toHaveCSS('color', 'rgb(255, 255, 255)');
+      expect(page.locator('#conduct-code').getByText(String(i), { exact: true })).toHaveCSS('background-color', 'rgb(237, 55, 49)');
 
     }
 
     await page.waitForTimeout(3000);
 
-    let rbgColors = convertHexToRGB("#ED3731");
-    const box_header = page.getByText('In a nutshell:');
+    let rbgColors = reviewConductPage.convertHexToRGB("#ED3731");
+    //const box_header = page.getByText('In a nutshell:');
 
-    await box_header.isVisible();
+    //await box_header.isVisible();
 
-    await expect(box_header).toHaveCSS('background-color',
-      `rgb(${ rbgColors.red }, ${ rbgColors.green }, ${ rbgColors.blue })`);
+    await expect(reviewConductPage.nutshell_dialog_heading).toHaveCSS('background-color',
+      `rgb(${ (await rbgColors).red }, ${ (await rbgColors).green }, ${ (await rbgColors).blue })`);
       
     await page.close();
 
@@ -226,6 +254,15 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
   test('2 Check the conduct code - SUMMARY DROP-DOWN LIST', async ({ page }) => {
 
     await page.goto('http://localhost:3000/pages/review-conduct-code/');
+
+    const reviewConductPage = new ReviewConductPage(page);
+
+    await reviewConductPage.navigate();
+
+    await reviewConductPage.review_title.isVisible();
+    await reviewConductPage.subtitle.isVisible();
+
+
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
@@ -249,11 +286,11 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     await page.waitForTimeout(4000);
 
-    await page.getByText('TorontoJS Code of Conduct').click();
+    await reviewConductPage.dropdown_TorontoJS_conduct.click();
 
-    await page.getByText('Volunteering Agreement').click();
+    await reviewConductPage.dropdown_Volunteering.click();
 
-    await page.getByText('Image Release Form').click()
+    await reviewConductPage.dropdown_Release_form.click()
 
     await page.waitForTimeout(4000);
       
