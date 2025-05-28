@@ -100,7 +100,7 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
-    await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
+    //await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub!'}).isVisible();
 
     await page.waitForTimeout(3000);
 
@@ -165,7 +165,7 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
 
 test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
-  test('Pahe 2 - Check the conduct code - Top Text Check', async ({ page }) => {
+  test('Page 2 - CONDUCT CODE - CHECK TEXT for HEADERS', async ({ page }) => {
 
     const reviewConductPage = new ReviewConductPage(page);
 
@@ -190,7 +190,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
-  test('Page 2 - Check the conduct code - NUTSHELL box', async ({ page }) => {
+  test('Page 2 - CONDUCT CODE - CHECK NUTSHELL box PROPERTIES', async ({ page }) => {
 
     // await page.goto('http://localhost:3000/pages/review-conduct-code/');
 
@@ -251,9 +251,9 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
-  test('2 Check the conduct code - SUMMARY DROP-DOWN LIST', async ({ page }) => {
+  test('PAGE 2 - CONDUCT CODE - SUMMARY DROP-DOWN LIST', async ({ page }) => {
 
-    await page.goto('http://localhost:3000/pages/review-conduct-code/');
+    // await page.goto('http://localhost:3000/pages/review-conduct-code/');
 
     const reviewConductPage = new ReviewConductPage(page);
 
@@ -266,21 +266,28 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
-    await page.getByRole('heading', { name: 'Review our conduct code' }).isVisible();
+    //await page.getByRole('heading', { name: 'Review our conduct code' }).isVisible();
 
-    await page.getByText('We are a community driven by').isVisible();
+    // await page.getByText('We are a community driven by').isVisible();
 
     await expect(page.locator('.dropdown-list')).toHaveCSS('accent-color',
       'rgb(237, 55, 49)');
 
-    for (let i; i < 6; i++) {  
-          await page.locator('summary').filter({ hasText: 'TorontoJS Code of Conduct' }).click();
-          await page.waitForTimeout(1000);
-          await page.locator('summary').filter({ hasText: 'Volunteering Agreement' }).click();
-
-          await page.locator('summary').filter({ hasText: 'Image Release Form' }).click()
-
+    for (let i = 1; i < 6; i++) {  
+          await reviewConductPage.dropdown_TorontoJS_conduct.click();
           await page.waitForTimeout(2000);
+          await reviewConductPage.dropdown_Volunteering.click();
+          await page.waitForTimeout(2000);
+          await reviewConductPage.dropdown_Release_form.click();
+          await page.waitForTimeout(2000);
+          console.log(i);
+          //await page.locator('summary').filter({ hasText: 'TorontoJS Code of Conduct' }).click();
+          
+          //await page.locator('summary').filter({ hasText: 'Volunteering Agreement' }).click();
+
+          //await page.locator('summary').filter({ hasText: 'Image Release Form' }).click()
+
+          
 
     }
 
@@ -298,34 +305,58 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
-  test('2 Check the conduct code - COMPLETE PROFILE button', async ({ page }) => {
+  test('PAGE 2 - CONDUCT CODE PAGE - CHECK COMPLETE PROFILE button and Checkbox Functionality', async ({ page }) => {
 
-    await page.goto('http://localhost:3000/pages/review-conduct-code/');
+    //await page.goto('http://localhost:3000/pages/review-conduct-code/');
+
+    const reviewConductPage = new ReviewConductPage(page);
+
+    await reviewConductPage.navigate();
+    
 
     // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
 
-    await page.getByText('I agree to TorontoJS\’s').isVisible();
-    expect(page.getByText('I agree to TorontoJS\’s')).toHaveCSS('font-size', '16.8697px');
-    expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
+    await reviewConductPage.checkbox_text.isVisible();
+    await expect(reviewConductPage.checkbox_text).toHaveCSS('font-size', '16.8697px');
+    await expect(reviewConductPage.continue_button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
 
-    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).isVisible();
-    await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
-    expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgb(237, 55, 49)');
+    //await page.getByText('I agree to TorontoJS\’s').isVisible();
+    //expect(page.getByText('I agree to TorontoJS\’s')).toHaveCSS('font-size', '16.8697px');
+    // expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
+
+    await reviewConductPage.checkbox_I_agree.isVisible();
+    await reviewConductPage.continue_button.isDisabled();
+    expect(reviewConductPage.continue_button).toHaveCSS('background-color', 'rgb(237, 55, 49)');
+    
+    //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).isVisible();
+   //await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
+   // expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgb(237, 55, 49)');
     await page.waitForTimeout(150);
 
-    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
-    await page.getByRole('button', { name: 'Let me complete my profile' }).isEnabled();
-    expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
+
+    await reviewConductPage.checkbox_I_agree.click();
+    await reviewConductPage.continue_button.isEnabled();
+    expect( reviewConductPage.continue_button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
+
+    //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
+    //await page.getByRole('button', { name: 'Let me complete my profile' }).isEnabled();
+    //expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
     await page.waitForTimeout(150);
 
-    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
-    await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
+
+    await reviewConductPage.checkbox_I_agree.click();
+    await reviewConductPage.continue_button.isDisabled();
+    //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
+    // await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
     await page.waitForTimeout(3000);
     
     console.log("click -----");
 
-    await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
-    await page.getByRole('button', { name: 'Let me complete my profile' }).click();
+    await reviewConductPage.checkbox_I_agree.click();
+    await reviewConductPage.continue_button.click();
+
+    //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).click();
+    //await page.getByRole('button', { name: 'Let me complete my profile' }).click();
     await page.waitForTimeout(3000);
 
     await expect(page).toHaveURL("http://localhost:3000/pages/complete-profile/?");
