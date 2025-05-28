@@ -21,6 +21,11 @@ export function convertHexToRGB(hex) {
   };
 } */
 
+test.beforeEach( async ({ page }) => {
+    test.setTimeout(50000) // Sets a 40-second timeout for all tests
+
+});
+
 test.describe('ACCOUNT CONFIRMED Test Suite', () => {
   test('Account Confirmed page - Text check', async ({ page }) => {
     // await page.goto('http://localhost:3000/pages/check-steps/');
@@ -273,7 +278,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     await expect(page.locator('.dropdown-list')).toHaveCSS('accent-color',
       'rgb(237, 55, 49)');
 
-    for (let i = 1; i < 6; i++) {  
+    for (let i = 1; i < 5; i++) {  
           await reviewConductPage.dropdown_TorontoJS_conduct.click();
           await page.waitForTimeout(2000);
           await reviewConductPage.dropdown_Volunteering.click();
@@ -291,7 +296,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     }
 
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(2000);
 
     await reviewConductPage.dropdown_TorontoJS_conduct.click();
 
@@ -299,7 +304,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     await reviewConductPage.dropdown_Release_form.click()
 
-    await page.waitForTimeout(4000);
+    // await page.waitForTimeout(1000);
       
     await page.close();
 

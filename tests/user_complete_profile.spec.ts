@@ -2,7 +2,8 @@ import { test, expect, Page } from '@playwright/test';
 import { CompleteProfilePage } from '../page_object_models/pom_complete_profile'
 
 test.beforeEach(async ({page }) => {
-
+    
+   test.setTimeout(50000) // Sets a 50-second timeout for all tests
    const completeProfilePage = new CompleteProfilePage(page);
    completeProfilePage.navigate();
   

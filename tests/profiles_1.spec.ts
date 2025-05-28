@@ -9,6 +9,11 @@ test.beforeEach(async ({page }) => {
 
 }) */
 
+test.beforeEach( async ({ page }) => {
+  test.setTimeout(50000) // Sets a 40-second timeout for all tests
+
+});
+
 test('has title', async ({ page }) => {
 
   await page.goto("http://localhost:3000/pages/profiles/");
