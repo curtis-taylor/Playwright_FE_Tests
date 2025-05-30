@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { TeamsPage } from '../page_object_models/pom_teams';
 import { execPath } from 'process';
 
-test('Design Dragon links', async ({ browser }) => {
+test('CHECK Design Dragon links', async ({ browser }) => {
 
 
     const browser_context = await browser.newContext();
@@ -11,6 +11,7 @@ test('Design Dragon links', async ({ browser }) => {
     const teamsPage = new TeamsPage(page);
 
     teamsPage.navigate();
+
 
    // await page.goto("http://localhost:3000/pages/team/"); 
 
@@ -62,18 +63,17 @@ test('Design Dragon links', async ({ browser }) => {
   } 
   */
 
-
   await page.close();
 });
 
-test('DEVELOPMENT DRUIDS links', async ({ browser }) => {
+test('CHECK DEVELOPMENT DRUIDS Profile links', async ({ browser }) => {
 
-    const browser_context = await browser.newContext();
-    const page = await browser_context.newPage();
+  const browser_context = await browser.newContext();
+  const page = await browser_context.newPage();
 
-    const teamsPage = new TeamsPage(page);
+  const teamsPage = new TeamsPage(page);
 
-    teamsPage.navigate();
+  teamsPage.navigate();
 
     // await page.goto("http://localhost:3000/pages/team/"); 
 
@@ -84,23 +84,6 @@ test('DEVELOPMENT DRUIDS links', async ({ browser }) => {
 
   await page.waitForTimeout(2000);
 
-  for (const row of await page.getByText('Toronto JS\' tournament wizards!Team membersJohn DoelinkedinJane').getByRole("link").all()) {
-     let temp = await row.textContent();
-     console.log(temp);
-     
-     let [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            await row.click()    
-        ]);
-
-      console.log(newPage_1.url());
-      let pp = newPage_1.url();
-
-      expect(pp.includes("linkedin.com"));
-
-      await newPage_1.close();
-  } 
-
   await page.close();
 });
 
@@ -109,29 +92,15 @@ test('COMMUNITY CRAFTERS links', async ({ browser }) => {
   const browser_context = await browser.newContext();
   const page = await browser_context.newPage();
 
-  await page.goto("http://localhost:3000/pages/team/"); 
+  const teamsPage = new TeamsPage(page);
+
+  teamsPage.navigate();
 
   await page.waitForTimeout(2000);
 
+  await teamsPage.check_profile_links(teamsPage.crafters_link_base, browser_context, "linkedin.com");
 
-
-  for (const row of await page.getByText('Toronto JS\' tournament wizards!Team membersJohn DoelinkedinJane').getByRole("link").all()) {
-     let temp = await row.textContent();
-     console.log(temp);
-     
-     let [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            await row.click()    
-        ]);
-
-      console.log(newPage_1.url());
-      let pp = newPage_1.url();
-
-      expect(pp.includes("linkedin.com"));
-
-      await newPage_1.close();
-  } 
-
+  await page.waitForTimeout(2000);
 
 
   await page.close();
@@ -139,29 +108,16 @@ test('COMMUNITY CRAFTERS links', async ({ browser }) => {
 
 test('OMNIPOTENT ORGANISERS links', async ({ browser }) => {
 
-    const browser_context = await browser.newContext();
-    const page = await browser_context.newPage();
+  const browser_context = await browser.newContext();
+  const page = await browser_context.newPage();
 
-    await page.goto("http://localhost:3000/pages/team/"); 
+  const teamsPage = new TeamsPage(page);
+
+  teamsPage.navigate();
 
   await page.waitForTimeout(2000);
 
-  for (const row of await page.getByText('Toronto JS\' overseeing overlords!Team membersJohn DoelinkedinJane').getByRole("link").all()) {
-     let temp = await row.textContent();
-     console.log(temp);
-     
-     let [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
-            await row.click()    
-        ]);
-
-      console.log(newPage_1.url());
-      let pp = newPage_1.url();
-
-      expect(pp.includes("linkedin.com"));
-
-      await newPage_1.close();
-  } 
+  await teamsPage.check_profile_links(teamsPage.organisers_link_base, browser_context, "linkedin.com");
 
   await page.close();
 });

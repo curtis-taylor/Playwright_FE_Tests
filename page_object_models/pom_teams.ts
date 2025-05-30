@@ -23,11 +23,14 @@ export class TeamsPage {
 
     async navigate() {
         await this.page.goto(this.url); 
+        console.log(this.page.url())
+        expect(this.page.url()).toBe(this.url);
     }
 
     async check_profile_links(base_locator: Locator, browser_context: BrowserContext, url_expected: string) {
 
         for (const row of await base_locator.all()) {
+            expect(row).toBeVisible();
             let temp = await row.textContent();
             console.log(temp);
             
@@ -40,6 +43,8 @@ export class TeamsPage {
             let pp = newPage_1.url();
 
             expect(pp.includes(url_expected));
+
+            await this.page.waitForTimeout(2000);
 
             await newPage_1.close();
 

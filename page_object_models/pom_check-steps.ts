@@ -3,7 +3,7 @@ import { assert } from 'console';
 
 export class CheckStepsPage {
     readonly page: Page;
-    readonly url_1: string = 'http://localhost:3000/pages/check-steps/'; 
+    readonly url: string = 'http://localhost:3000/pages/check-steps/'; 
     // readonly url_2: string = 'http://localhost:3000/pages/review-conduct-code/';
     // 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
 
@@ -61,7 +61,9 @@ export class CheckStepsPage {
     }
 
     async navigate() {
-        await this.page.goto(this.url_1); 
+        await this.page.goto(this.url); 
+        console.log(this.page.url())
+        expect(this.page.url()).toBe(this.url);
     }
 
 
