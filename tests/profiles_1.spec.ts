@@ -38,7 +38,7 @@ test('Check Profile Record Fields', async ({ page }) => {
 
       // Expect a title "to contain" a substring.
       const fieldCount = await page.locator('.profile-header').count();
-      //console.log(fieldCount);
+      console.log(fieldCount);
 
       //console.log(await page.locator('.profile-header div p').allTextContents());
 
