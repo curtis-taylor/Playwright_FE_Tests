@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { ProfilesPages } from '../page_object_models/pom_profiles';
 import { execPath } from 'process';
 
 /*
@@ -16,7 +17,12 @@ test.beforeEach( async ({ page }) => {
 
 test('has title', async ({ page }) => {
 
-  await page.goto("http://localhost:3000/pages/profiles/");
+  // await page.goto("http://localhost:3000/pages/profiles/");
+
+  const profilePages = new ProfilesPages(page);
+
+  await profilePages.navigate();
+
 
   // Expect a title "to contain" a substring.
   // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
@@ -25,6 +31,7 @@ test('has title', async ({ page }) => {
     console.log(await row.textContent());
     expect(await row.textContent() == 'Volunteer Profile');
   }
+  profilePages.check_H3_tags(page, 'Volunteer Profile');
 
   await page.close();
 });

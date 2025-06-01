@@ -57,6 +57,22 @@ export class ProfilesPages {
 
     }
 
+    async check_H3_tags(page: Page, phrase: string) {
+        let t = await page.locator('h3').all();
+
+        if(t.length > 0) {
+            console.log(t.length);
+            
+        }
+
+       // await page.waitForTimeout(5000);
+
+        for (const row of await page.locator('h3').all()) {
+            console.log(await row.textContent());
+            expect(await row.textContent() == phrase);
+        }
+    }
+
 
 
 }
