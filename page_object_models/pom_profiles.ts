@@ -57,19 +57,38 @@ export class ProfilesPages {
 
     }
 
-    async check_H3_tags(page: Page, phrase: string) {
+    async check_H_tags(page: Page, phrase: string, h_tag: string) {
+
+
+
+        if(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(h_tag.toLowerCase())) { 
+            console.log("HHHHH");
+        } else {
+            console.log("check_H_tags h_tag variable should be a string with one of the following values: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']");
+            console.log(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(h_tag.toLowerCase()));
+            expect(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(h_tag.toLowerCase()));
+        }
+
         let t = await page.locator('h3').all();
 
         if(t.length > 0) {
             console.log(t.length);
+            console.log(t);
             
         }
 
        // await page.waitForTimeout(5000);
 
-        for (const row of await page.locator('h3').all()) {
-            console.log(await row.textContent());
-            expect(await row.textContent() == phrase);
+       if(t.length > 0) {
+
+            for (const row of await page.locator('h3').all()) {
+                console.log(await row.textContent());
+                expect(await row.textContent() == phrase);
+            }
+
+        } else {
+            console.log('tag had no results');
+            expect(t.length > 0);
         }
     }
 

@@ -31,7 +31,8 @@ test('has title', async ({ page }) => {
     console.log(await row.textContent());
     expect(await row.textContent() == 'Volunteer Profile');
   }
-  profilePages.check_H3_tags(page, 'Volunteer Profile');
+
+  await profilePages.check_H_tags(page, 'Volunteer Profile', 'h8');
 
   await page.close();
 });
