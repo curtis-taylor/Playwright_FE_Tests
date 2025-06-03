@@ -151,7 +151,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             await completeProfilePage.avatar_bar.click();
             await completeProfilePage.more_info_bar.click();
 
-            await page.waitForTimeout(1000);
+            await page.waitForTimeout(700);
 
         }
 
@@ -169,7 +169,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.complete_button.click();
 
-        await page.waitForTimeout(4000);
+        await page.waitForTimeout(1000);
 
 
         /*

@@ -27,19 +27,24 @@ test('has title', async ({ page }) => {
   // Expect a title "to contain" a substring.
   // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
+  /*
   for (const row of await page.locator('h3').all()) {
     console.log(await row.textContent());
     expect(await row.textContent() == 'Volunteer Profile');
-  }
+  } */
 
-  await profilePages.check_H_tags(page, 'Volunteer Profile', 'h8');
+  await profilePages.check_H_tag_text(page, 'Volunteer Profile', 'h3');
 
   await page.close();
 });
 
 test('Check Profile Record Fields', async ({ page }) => {
 
-      await page.goto("http://localhost:3000/pages/profiles/");
+      // await page.goto("http://localhost:3000/pages/profiles/");
+
+      const profilePages = new ProfilesPages(page);
+
+      await profilePages.navigate();
 
       await page.waitForSelector('.profile-header div p strong');
       const locator_list = await page.locator('.profile-header div p strong').all();
