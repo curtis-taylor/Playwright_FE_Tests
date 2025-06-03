@@ -278,4 +278,28 @@ test.describe('SIGN-IN Test Suite', () => {
             await page.close();
         });
 
+        test('USE SIGNUP LINK', async ({ page }) => {
+            
+            const signInPage = new SignInPage(page);
+
+            await signInPage.navigate();
+
+            // expect(signInPage.url).toBe(signInPage.page.url);
+
+            await signInPage.signup_link.isVisible();
+            await expect(signInPage.signup_link).toHaveCSS('color', 'rgb(237, 55, 49)');
+            await expect(signInPage.signup_link).toHaveCSS('text-align', 'center');
+
+            await expect(signInPage.signup_link).toBeEnabled();
+
+            await signInPage.page.waitForTimeout(3000);
+            await signInPage.signup_link.click();
+
+            console.log(signInPage.page.url);
+
+            await signInPage.page.waitForTimeout(3000);
+        
+            await signInPage.page.close();
+        });
+
 });
