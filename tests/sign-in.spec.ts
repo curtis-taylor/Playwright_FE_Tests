@@ -292,10 +292,40 @@ test.describe('SIGN-IN Test Suite', () => {
 
             await expect(signInPage.signup_link).toBeEnabled();
 
-            await signInPage.page.waitForTimeout(3000);
+            await signInPage.page.waitForTimeout(2000);
             await signInPage.signup_link.click();
 
-            console.log(signInPage.page.url);
+            console.log(signInPage.page.url());
+            console.log(signInPage.signup_url);
+
+            expect(page.url()).toBe(signInPage.signup_url);
+
+            await signInPage.page.waitForTimeout(3000);
+        
+            await signInPage.page.close();
+        });
+
+        test('USE DONT REMEMBER LINK', async ({ page }) => {
+            
+            const signInPage = new SignInPage(page);
+
+            await signInPage.navigate();
+
+            // expect(signInPage.url).toBe(signInPage.page.url);
+
+            await signInPage.signup_link.isVisible();
+            await expect(signInPage.forgot_link).toHaveCSS('color', 'rgb(237, 55, 49)');
+            await expect(signInPage.forgot_link).toHaveCSS('text-align', 'center');
+
+            await expect(signInPage.forgot_link).toBeEnabled();
+
+            await signInPage.page.waitForTimeout(2000);
+            await signInPage.forgot_link.click();
+
+            console.log(signInPage.page.url());
+            console.log(signInPage.forgot_page_url);
+
+            expect(page.url()).toBe(signInPage.forgot_page_url);
 
             await signInPage.page.waitForTimeout(3000);
         

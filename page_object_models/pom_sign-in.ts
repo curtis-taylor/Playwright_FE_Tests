@@ -5,6 +5,7 @@ export class SignInPage {
     readonly page: Page;
     readonly url: string = 'http://localhost:3000/pages/sign-in/'; 
     readonly signup_url = 'http://localhost:3000/pages/sign-up/';
+    readonly forgot_page_url = 'http://localhost:3000/pages/forgot-passsword';
 
     readonly page_title_1: Locator;
 
