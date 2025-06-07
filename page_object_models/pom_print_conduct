@@ -11,6 +11,13 @@ export class PrintConductPage {
     readonly send_button: Locator;
 
     
+    public constructor(page: Page) { 
+        this.page = page;
+        this.print_button = page.getByRole('button', { name: 'Print document' });
+        this.email_field = page.getByRole('textbox', { name: 'Email' });
+        this.text_box = page.getByRole('textbox', { name: 'Message' });
+        this.send_button = page.getByRole('button', { name: 'Send' });
 
+    }
 
 }

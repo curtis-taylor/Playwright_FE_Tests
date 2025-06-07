@@ -26,7 +26,7 @@ export class SignInPage {
 
     public constructor(page: Page) { 
         this.page = page;
-        this.url = this.url;
+        // this.url = this.url;
 
         this.page_title_1 = page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'});
 
