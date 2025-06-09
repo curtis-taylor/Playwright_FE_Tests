@@ -50,14 +50,20 @@ test.describe('SIGN-IN Test Suite', () => {
         for(const row of t) {
             console.log(await row.textContent());
             await page.waitForTimeout(500);
-            let expected_url = await row.getAttribute('href');
+            let ex_temp = await row.getAttribute('href');
+            let expected_url = 
 
             console.log(await row.getAttribute('href'));
 
             await row.click();
 
             // REGEX BASE URL ^((http[s]?|ftp):\/)?\/?([^:\/\s]+)
+            
+            let split_string = page.url().split(".");
+            console.log(split_string);
+
             let nextPage_url = page.url(); 
+            
             expect.soft(nextPage_url).toEqual(expected_url);
             
             
