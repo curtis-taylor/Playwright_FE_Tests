@@ -68,14 +68,14 @@ test.describe('SIGN-IN Test Suite', () => {
             //console.log(split_string);
 
             console.log("***");
-            console.log("^^^^ " + page.url() + "===" + expected_url?.[0])
+            console.log("+++ " + page.url() + "===" + expected_url?.[0])
             expect(page.url().includes(expected_url?.[0] as string));
             
             
             // console.log("999 " + nextPage_url);
-            console.log("888 " + expected_url);
+            console.log("888 " + expected_url?.[0]);
 
-            await page.waitForTimeout(2000);
+            // await page.waitForTimeout(2000);
             await page.goBack();
             expect.soft(page.url()).toEqual(uu);
             expect(page.url()).toEqual(uu);
