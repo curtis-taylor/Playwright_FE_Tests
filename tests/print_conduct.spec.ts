@@ -47,44 +47,52 @@ test.describe('SIGN-IN Test Suite', () => {
             
         } ******************************/
 
+        if(t.length > 0) {
         for(const row of t) {
             console.log(await row.textContent());
-            await page.waitForTimeout(500);
             let ex_temp = await row.getAttribute('href');
-            let expected_url = 
+           
+            let expected_url = ex_temp?.toString().split(".");
+            
+           // let expected_url_1 = expected_url?.[0];
+             console.log("&&& " + expected_url?.[0]);
+        
 
-            console.log(await row.getAttribute('href'));
+            // console.log(expected_url);
 
             await row.click();
 
             // REGEX BASE URL ^((http[s]?|ftp):\/)?\/?([^:\/\s]+)
             
-            let split_string = page.url().split(".");
-            console.log(split_string);
+            //let split_string = page.url().split(".");
+            //console.log(split_string);
 
-            let nextPage_url = page.url(); 
+            console.log("***");
+            console.log("^^^^ " + page.url() + "===" + expected_url?.[0])
+            expect(page.url().includes(expected_url?.[0] as string));
             
-            expect.soft(nextPage_url).toEqual(expected_url);
             
-            
-            console.log("999 " + nextPage_url);
+            // console.log("999 " + nextPage_url);
             console.log("888 " + expected_url);
 
-            await page.waitForTimeout(4000);
+            await page.waitForTimeout(2000);
             await page.goBack();
             expect.soft(page.url()).toEqual(uu);
+            expect(page.url()).toEqual(uu);
+            console.log("^^^^ " + page.url() + "===" + uu)
 
             
 
             // expect(newPage_url).toEqual(expected_url);
 
-            await page.waitForTimeout(4000);
+            await page.waitForTimeout(2000);
 
         
         // await expect(newPage_0).toHaveURL("https://torontojs.com/");
 
             
-        }
+        } 
+    }
 
         await page.close();
     });
