@@ -1,7 +1,11 @@
-import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
+import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
+import { test } from "./base.ts";
+
 import { execPath } from 'process';
 import { SignInPage } from '../page_object_models/pom_sign-in';
+// import { PrintConductPage } from '../page_object_models/pom_print_conduct';
 import { link } from 'fs/promises';
+import { PrintConductPage } from '../page_object_models/pom_print_conduct.ts';
 
 const url_1 = "http://localhost:3000/pages/sign-in/";
 
@@ -11,11 +15,12 @@ test.describe('SIGN-IN Test Suite', () => {
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
 
-        await page.goto('http://localhost:3000/pages/print-documents/?document=code-of-conduct');
+        const printConductPage = new PrintConductPage(page);
+        await printConductPage.navigate();
+        //await page.goto('http://localhost:3000/pages/print-documents/?document=code-of-conduct');
 
         const uu = 'http://localhost:3000/pages/print-documents/?document=code-of-conduct';
 
-        let lll = [];
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
@@ -47,7 +52,7 @@ test.describe('SIGN-IN Test Suite', () => {
             
         } ******************************/
 
-        if(t.length > 0) {
+        
         for(const row of t) {
             console.log(await row.textContent());
             let ex_temp = await row.getAttribute('href');
@@ -61,6 +66,7 @@ test.describe('SIGN-IN Test Suite', () => {
             // console.log(expected_url);
 
             await row.click();
+            await page.waitForTimeout(2000);
 
             // REGEX BASE URL ^((http[s]?|ftp):\/)?\/?([^:\/\s]+)
             
@@ -75,9 +81,12 @@ test.describe('SIGN-IN Test Suite', () => {
             // console.log("999 " + nextPage_url);
             console.log("888 " + expected_url?.[0]);
 
-            // await page.waitForTimeout(2000);
+            
+
+            
+
             await page.goBack();
-            expect.soft(page.url()).toEqual(uu);
+            // expect.soft(page.url()).toEqual(uu);
             expect(page.url()).toEqual(uu);
             console.log("^^^^ " + page.url() + "===" + uu)
 
@@ -85,16 +94,55 @@ test.describe('SIGN-IN Test Suite', () => {
 
             // expect(newPage_url).toEqual(expected_url);
 
-            await page.waitForTimeout(2000);
+            //await page.waitForTimeout(2000);
 
         
         // await expect(newPage_0).toHaveURL("https://torontojs.com/");
 
             
         } 
-    }
+    
 
         await page.close();
+    });
+
+    test('PRINT BUTTON TEST', async({ printConductPage}) => {
+       // const printConductPage = new PrintConductPage(page);
+
+       console.log("HERE TOOOOO");
+        await printConductPage.navigate();
+
+        await printConductPage.print_button.isVisible();
+        await printConductPage.print_button.isEnabled();
+
+        expect(printConductPage.print_button).toHaveCSS('background-color', printConductPage.print_button_color );
+
+        await printConductPage.page.evaluate('(() => {window.waitForPrintDialog = new Promise(f => window.print = f);})()');
+        await printConductPage.print_button.click();
+        await printConductPage.page.waitForFunction('window.waitForPrintDialog');
+
+        await printConductPage.page.waitForTimeout(10000);
+        // await page.waitForTimeout(10000);
+
+        await printConductPage.page.close();
+
+    });
+
+    test('SEND EMPTY MESSAGE', async({ printConductPage }) => {
+        
+        await printConductPage.navigate();
+
+        await printConductPage.email_field.isVisible();
+        await printConductPage.email_field.isEditable();
+        await printConductPage.email_field.isEnabled();
+
+        await printConductPage.send_button.isVisible();
+        await printConductPage.email_field.isEnabled();
+
+        await printConductPage.page.close();
+
+
+
     });
 
 });
