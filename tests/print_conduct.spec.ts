@@ -12,10 +12,12 @@ const url_1 = "http://localhost:3000/pages/sign-in/";
 test.describe('SIGN-IN Test Suite', () => {
     test('LICENSE LINK', async ({ browser }) => {
 
+        
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
-
         const printConductPage = new PrintConductPage(page);
+
+        // const printConductPage = new PrintConductPage(page);
         await printConductPage.navigate();
         //await page.goto('http://localhost:3000/pages/print-documents/?document=code-of-conduct');
 
@@ -137,7 +139,16 @@ test.describe('SIGN-IN Test Suite', () => {
         await printConductPage.email_field.isEnabled();
 
         await printConductPage.send_button.isVisible();
-        await printConductPage.email_field.isEnabled();
+        await printConductPage.send_button.isEnabled();
+
+        await printConductPage.text_box.isVisible();
+        await printConductPage.text_box.isEditable();
+
+        await printConductPage.send_button.click();
+
+        await printConductPage.page.waitForTimeout(5000);
+
+        expect(printConductPage.page.url().includes("formspree.io"));
 
         await printConductPage.page.close();
 
