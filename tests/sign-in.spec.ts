@@ -1,18 +1,19 @@
-import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
+import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
+import { test } from "./base.ts";
 import { SignInPage } from '../page_object_models/pom_sign-in';
 
 const url_1 = "http://localhost:3000/pages/sign-in/";
 
 test.describe('SIGN-IN Test Suite', () => {
-    test('Check page Elements and Text', async ({ page }) => {
+    test('Check page Elements and Text', async ({ signInPage }) => {
         // await page.goto('http://localhost:3000/pages/sign-in/');
 
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
-        const signInPage = new SignInPage(page);
+        // const signInPage = new SignInPage(page);
 
         await signInPage.navigate();
 
@@ -31,9 +32,9 @@ test.describe('SIGN-IN Test Suite', () => {
         await page.close();
     });
 
-    test('Enter invalid password', async ({ page }) => {
+    test('Enter invalid password', async ({ signInPage }) => {
 
-        const signInPage = new SignInPage(page);
+        // const signInPage = new SignInPage(page);
 
         await signInPage.navigate();
 
