@@ -130,7 +130,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
     });
 
-    test('SEND EMPTY MESSAGE', async({ printConductPage }) => {
+    test('SEND EMPTY MESSAGE WITH EMPTY EMAIL', async({ printConductPage }) => {
         
         await printConductPage.navigate();
 
@@ -150,9 +150,115 @@ test.describe('SIGN-IN Test Suite', () => {
 
         expect(printConductPage.page.url().includes("formspree.io"));
 
+        await printConductPage.page.getByRole('heading', { name: "Can't send an empty form" }).isVisible();
+        
         await printConductPage.page.close();
 
+    });
 
+    test('SEND VALID EMAIL WITH EMPTY MESSAGE', async({ printConductPage }) => {
+        
+        await printConductPage.navigate();
+
+        await printConductPage.email_field.isVisible();
+        await printConductPage.email_field.isEditable();
+        await printConductPage.email_field.isEnabled();
+        await printConductPage.email_field.fill("tester@gmail.com")
+
+        await printConductPage.send_button.isVisible();
+        await printConductPage.send_button.isEnabled();
+
+        await printConductPage.text_box.isVisible();
+        await printConductPage.text_box.isEditable();
+
+        await printConductPage.send_button.click();
+
+        await printConductPage.page.waitForTimeout(5000);
+
+        expect(printConductPage.page.url().includes("formspree.io"));
+
+        await printConductPage.page.getByRole('heading', { name: 'Thanks!' }).isVisible();
+
+        await printConductPage.goBack_link.isVisible();
+        await printConductPage.goBack_link.isEnabled();
+
+        await printConductPage.goBack_link.click();
+
+        expect(printConductPage.page.url().includes(printConductPage.url));
+        
+        await printConductPage.page.close();
+
+    });
+
+    test('SEND CORRECT MESSAGE AND VALID EMAIL', async({ printConductPage }) => {
+        
+        await printConductPage.navigate();
+
+        await printConductPage.email_field.isVisible();
+        await printConductPage.email_field.isEditable();
+        await printConductPage.email_field.isEnabled();
+        await printConductPage.email_field.fill("tester@gmail.com")
+
+        await printConductPage.send_button.isVisible();
+        await printConductPage.send_button.isEnabled();
+
+        await printConductPage.text_box.isVisible();
+        await printConductPage.text_box.isEditable();
+        await printConductPage.text_box.fill("I am sending a Message. Great website!");
+
+        await printConductPage.page.waitForTimeout(1000);
+
+        await printConductPage.send_button.click();
+
+        await printConductPage.page.waitForTimeout(5000);
+
+        expect(printConductPage.page.url().includes("formspree.io"));
+
+        await printConductPage.page.getByRole('heading', { name: 'Thanks!' }).isVisible();
+
+        await printConductPage.goBack_link.isVisible();
+        await printConductPage.goBack_link.isEnabled();
+
+        await printConductPage.goBack_link.click();
+
+        expect(printConductPage.page.url().includes(printConductPage.url));
+        
+        await printConductPage.page.close();
+
+    });
+
+    test('USE INVALID EMAIL', async({ printConductPage }) => {
+        
+        await printConductPage.navigate();
+
+        await printConductPage.email_field.isVisible();
+        await printConductPage.email_field.isEditable();
+        await printConductPage.email_field.isEnabled();
+        await printConductPage.email_field.fill("XXXXXXXX");
+
+        await printConductPage.send_button.isVisible();
+        await printConductPage.send_button.isEnabled();
+
+        await printConductPage.text_box.isVisible();
+        await printConductPage.text_box.isEditable();
+        await printConductPage.text_box.fill("I am sending a Message. Great website!");
+
+        await printConductPage.page.waitForTimeout(3000);
+
+        await printConductPage.send_button.click();
+
+        expect(printConductPage.page.url().includes("formspree.io"));
+
+        await printConductPage.page.getByRole('heading', { name: 'Thanks!' }).isVisible();
+
+        await printConductPage.goBack_link.isVisible();
+        await printConductPage.goBack_link.isEnabled();
+
+        await printConductPage.goBack_link.click();
+
+        expect(printConductPage.page.url().includes(printConductPage.url));
+        
+        await printConductPage.page.close();
 
     });
 

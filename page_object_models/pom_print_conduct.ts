@@ -13,6 +13,7 @@ export class PrintConductPage {
     readonly send_button: Locator;
 
     readonly base_link_location: Locator;
+    readonly goBack_link: Locator;
 
     
     public constructor(page: Page) { 
@@ -23,7 +24,7 @@ export class PrintConductPage {
         this.text_box = page.getByRole('textbox', { name: 'Message' });
         this.send_button = page.getByRole('button', { name: 'Send' });
         this.base_link_location = page.getByText('The Toronto JS Code of').getByRole('link');
-
+        this.goBack_link = page.getByText('Go back');
     }
 
     async navigate() {
