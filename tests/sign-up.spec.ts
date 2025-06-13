@@ -1,24 +1,25 @@
-import { test, expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
+import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
+import { test } from "./base.ts";
 import { SignUpPage } from '../page_object_models/pom_sign-up'
 
-/*
-test.beforeEach(async () => {
-   page = await browser.newPage();
+
+test.beforeEach(async ({signUpPage}) => {
+   /*page = await browser.newPage();
 
    const context = await browser.newContext();
-   const signUpPage = new SignUpPage(await page);
+   const signUpPage = new SignUpPage(await page); */
 
-   signUpPage.navigate();
+   await signUpPage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
 
    
-}); */
+}); 
 
-test.afterEach(async ({ page }) => {
-    await page.close();
+test.afterEach(async ({ signUpPage }) => {
+    await signUpPage.page.close();
 });
 
 const url_1 = "http://localhost:3000/pages/sign-up/";
@@ -32,45 +33,57 @@ test.beforeEach(async ({page }) => {
 
 
 test.describe('SIGN-UP Test Suite', () => {
-    test('Check page Elements and Text', async ({ page }) => {
+    test('Check page Elements and Text', async ({ signUpPage }) => {
 
 
-        const signUpPage = new SignUpPage(page);
+        //const signUpPage = new SignUpPage(page);
 
-        await signUpPage.navigate();
+        // await signUpPage.navigate();
 
-        const red_button = page.getByRole('button', { name: 'Create Account' });
+        //const red_button = page.getByRole('button', { name: 'Create Account' });
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
 
-        await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
+        // await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
 
-        await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
+        await signUpPage.page_title_1.isVisible();
+        await signUpPage.page_title_2.isVisible();
 
-        const login_form = page.locator('.login-form');
+        // await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
 
-        await expect(login_form).toHaveCSS('justify-content', 'center');
-        await expect(login_form).toHaveCSS('border-radius', '8px');
+        // const login_form = page.locator('.login-form');
 
-        await page.locator('#name-input').isVisible();
+        await expect(signUpPage.login_form).toHaveCSS('justify-content', 'center');
+        await expect(signUpPage.login_form).toHaveCSS('border-radius', '8px');
 
-        await page.locator('#email-input').isVisible();
-        await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+        //await expect(login_form).toHaveCSS('justify-content', 'center');
+        //await expect(login_form).toHaveCSS('border-radius', '8px');
 
-        await page.locator('#password-input').isVisible();
+        await signUpPage.email_field.isVisible();
+        await signUpPage.name_field.isVisible();
+        await signUpPage.password_field.isVisible();
+
+        await signUpPage.l
+        //await page.locator('#name-input').isVisible();
+
+        // await page.locator('#email-input').isVisible();
+        await signUpPage.page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+
+        //await page.locator('#password-input').isVisible();
 
 
-        await red_button.isVisible();
+        //await red_button.isVisible();
+        await signUpPage.red_Account_button.isVisible();
 
         console.log('Checking page Elements and Text');
     });
 
-    test('TEST Password Strength METER with weak passwords', async ({ page }) => {
+    test('TEST Password Strength METER with weak passwords', async ({ signInPage }) => {
 
-        const signUpPage = new SignUpPage(page);
+        //const signUpPage = new SignUpPage(page);
 
-        await signUpPage.navigate();
+        //await signUpPage.navigate();
 
         const weak_passwords = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
 
