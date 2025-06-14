@@ -2,13 +2,10 @@ import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test
 import { execPath } from 'process';
 import { test } from "./base.ts";
 import { SignUpPage } from '../page_object_models/pom_sign-up'
+import { sign } from 'crypto';
 
 
 test.beforeEach(async ({signUpPage}) => {
-   /*page = await browser.newPage();
-
-   const context = await browser.newContext();
-   const signUpPage = new SignUpPage(await page); */
 
    await signUpPage.navigate();
   
@@ -21,16 +18,6 @@ test.beforeEach(async ({signUpPage}) => {
 test.afterEach(async ({ signUpPage }) => {
     await signUpPage.page.close();
 });
-
-const url_1 = "http://localhost:3000/pages/sign-up/";
-
-/*
-test.beforeEach(async ({page }) => {
-
-    await page.goto('http://localhost:3000/pages/sign-up/'); 
-
-}) */
-
 
 test.describe('SIGN-UP Test Suite', () => {
     test('Check page Elements and Text', async ({ signUpPage }) => {
@@ -64,7 +51,6 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.name_field.isVisible();
         await signUpPage.password_field.isVisible();
 
-        await signUpPage.l
         //await page.locator('#name-input').isVisible();
 
         // await page.locator('#email-input').isVisible();
@@ -79,7 +65,7 @@ test.describe('SIGN-UP Test Suite', () => {
         console.log('Checking page Elements and Text');
     });
 
-    test('TEST Password Strength METER with weak passwords', async ({ signInPage }) => {
+    test('TEST Password Strength METER with weak passwords', async ({ signUpPage }) => {
 
         //const signUpPage = new SignUpPage(page);
 
@@ -88,13 +74,12 @@ test.describe('SIGN-UP Test Suite', () => {
         const weak_passwords = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
-
-        const red_button = page.getByRole('button', { name: 'Create Account' });
+       // const red_button = page.getByRole('button', { name: 'Create Account' });
 
         signUpPage.page_title_2.isVisible();
 
         for(let w = 0; w < weak_passwords.length; w++) { 
-            await page.waitForTimeout(500);
+            await signUpPage.page.waitForTimeout(500);
             console.log("WEAK PASSWORD " + (w + 1) + ": " + weak_passwords[w]);
 
             await signUpPage.fill_fields(username_1, "test@gm.com", weak_passwords[w]);
@@ -110,12 +95,12 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
-    test('TEST Password Strength METER with FAIR passwords', async ({ page }) => {
+    test('TEST Password Strength METER with FAIR passwords', async ({ signUpPage }) => {
 
         const fair_passwords = ["super_1", "password_1", "extra_2", "toronto@"];
 
-        const signUpPage = new SignUpPage(page);
-        await signUpPage.navigate();
+        // const signUpPage = new SignUpPage(page);
+        // await signUpPage.navigate();
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
@@ -130,7 +115,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
             await signUpPage.fill_fields(username_1, "test@gm.com", fair_passwords[f]);
 
-            await page.waitForTimeout(500);
+            await signUpPage.page.waitForTimeout(500);
 
             await expect(signUpPage.password_level_low).toHaveCSS('background-color', 'rgb(255, 255, 0)');
             await expect(signUpPage.password_level_middle).toHaveCSS('background-color', 'rgb(255, 255, 0)');
@@ -142,13 +127,13 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
-    test('TEST Password Strength METER with GOOD passwords', async ({ page }) => {
+    test('TEST Password Strength METER with GOOD passwords', async ({ signUpPage }) => {
 
-        await page.waitForTimeout(800);
+        await signUpPage.page.waitForTimeout(800);
         const good_passwords = ["tester_123", "welcome_123", "security_123", "good_password"];
 
-        const signUpPage = new SignUpPage(page);
-        await signUpPage.navigate();
+        // const signUpPage = new SignUpPage(page);
+        //await signUpPage.navigate();
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
@@ -158,14 +143,14 @@ test.describe('SIGN-UP Test Suite', () => {
 
         
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+       // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
         
         for(let g = 0; g < good_passwords.length; g++) { 
             console.log("GOOD PASSWORD " + (g + 1) + ": " + good_passwords[g]);
 
             await signUpPage.fill_fields(username_1, "test@gm.com", good_passwords[g]);
 
-            await page.waitForTimeout(800);
+            await signUpPage.page.waitForTimeout(800);
 
             await expect(signUpPage.password_level_low).toHaveCSS('background-color', 'rgb(255, 255, 0)');
             await expect(signUpPage.password_level_middle).toHaveCSS('background-color', 'rgb(255, 255, 0)');
@@ -176,12 +161,12 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.red_Account_button.isVisible();
     });
 
-    test('TEST Password Strength METER with STRONG passwords', async ({ page }) => {
+    test('TEST Password Strength METER with STRONG passwords', async ({ signUpPage }) => {
 
         const strong_passwords = ["super_password123", "super_long", "strong_password", "qatester_123"];
 
-        const signUpPage = new SignUpPage(page);
-        await signUpPage.navigate();
+       //  const signUpPage = new SignUpPage(page);
+       // await signUpPage.navigate();
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
@@ -193,7 +178,7 @@ test.describe('SIGN-UP Test Suite', () => {
         signUpPage.page_title_2.isVisible();
 
         for(let s = 0; s < strong_passwords.length; s++) { 
-            await page.waitForTimeout(800);
+            await signUpPage.page.waitForTimeout(800);
 
             await signUpPage.fill_fields(username_1, "test@gm.com", strong_passwords[s]);
 
@@ -210,14 +195,14 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
-    test('TEST Password Strength METER with VERY STRONG passwords', async ({ page }) => {
+    test('TEST Password Strength METER with VERY STRONG passwords', async ({ signUpPage }) => {
 
         const very_strong_passwords = ["tester_1234!@#$", "tester_2345@#$%", "QAtester_1234", "theTester_1234"];
 
-        await page.waitForTimeout(1800);
+        await signUpPage.page.waitForTimeout(1800);
 
-        const signUpPage = new SignUpPage(page);
-        await signUpPage.navigate();
+        //const signUpPage = new SignUpPage(page);
+        //await signUpPage.navigate();
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
@@ -227,8 +212,9 @@ test.describe('SIGN-UP Test Suite', () => {
         // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
         for(let vs = 0; vs < very_strong_passwords.length; vs++) { 
-            await page.waitForTimeout(1500);
-            await page.locator('#password-input').fill(very_strong_passwords[vs]);
+            await signUpPage.page.waitForTimeout(1500);
+            // await page.locator('#password-input').fill(very_strong_passwords[vs]);
+            await signUpPage.password_field.fill(very_strong_passwords[vs]);
 
             console.log("VERY STRONG PASSWORD " + (vs + 1) + ": " + very_strong_passwords[vs]);
 
@@ -246,13 +232,13 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
-    test('Enter Invalid Password Test', async ({ page }) => {
+    test('Enter Invalid Password Test', async ({ signUpPage }) => {
 
 
-        await page.waitForTimeout(1800);
+        await signUpPage.page.waitForTimeout(1800);
 
-        const signUpPage = new SignUpPage(page);
-        await signUpPage.navigate();
+        // const signUpPage = new SignUpPage(page);
+        // await signUpPage.navigate();
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
@@ -282,47 +268,60 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.red_Account_button.click();
 
         
-        await page.close();
     });
 
-    test('Enter invalid email', async ({ page }) => {
+    test('ENTER INVALID EMAIL', async ({ signUpPage }) => {
 
-         await page.goto(url_1); 
+         //await page.goto(url_1); 
 
         // Expect a title "to contain" a substring.
         // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
-        const red_button = page.getByRole('button', { name: 'Create Account' });
+        
+        
 
-        await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
-        let t = (Math.round(Date.now() / 100000000)).toString();
-        const username = "Curtis Tester" + t;
+        //const red_button = page.getByRole('button', { name: 'Create Account' });
+
+        await signUpPage.page_title_1.isVisible();
+        await signUpPage.page_title_2.isVisible();
+
+        //await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
+
+        const username = await signUpPage.unique_username("Curtis Tester");
+
+        //let t = (Math.round(Date.now() / 100000000)).toString();
+        //const username = "Curtis Tester" + t;
         console.log(username);
 
-        await page.locator('#name-input').fill(username);
+        await signUpPage.name_field.fill(username);
+        await signUpPage.email_field.fill("xxxxxxxxx");
+        await signUpPage.password_field.fill("password");
+
+        //await page.locator('#name-input').fill(username);
 
 
-        await page.locator('#email-input').fill("xxxxxx");
-        await page.locator('#password-input').fill("password");
+        //await page.locator('#email-input').fill("xxxxxx");
+        //await page.locator('#password-input').fill("password");
 
+        //await red_button.isVisible();
 
-        await red_button.isVisible();
+        //await expect(red_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
 
-        await expect(red_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
+        await signUpPage.red_Account_button.isVisible();
+        await signUpPage.red_Account_button.isEnabled();
+        expect(signUpPage.red_Account_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
+        await signUpPage.red_Account_button.click();
 
-        await red_button.click();
-
-        
-        await page.close();
     });
 
-    test('Social Media Footer Check', async ({ browser }) => {
+    test('Social Media Footer Check', async ({ signUpPage }) => {
 
+        /*
         const browser_context = await browser.newContext();
         const page = await browser_context.newPage();
         const signUpPage = new SignUpPage(page);
         await page.goto('http://localhost:3000/pages/sign-up/');
-
+        */
         // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible()
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
@@ -344,7 +343,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         */
         const [homePage] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            signUpPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
             signUpPage.home_icon.click()
         ]);
         
@@ -354,7 +353,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await homePage.close(); 
 
         const [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            signUpPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
             signUpPage.youtube_icon.click()
         ]);
         
@@ -364,7 +363,7 @@ test.describe('SIGN-UP Test Suite', () => {
         await newPage_1.close();
 
         const [newPage_2] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            signUpPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
             signUpPage.instagram_icon.click(),
         ]);
 
@@ -374,22 +373,21 @@ test.describe('SIGN-UP Test Suite', () => {
         await newPage_2.close();
 
         const [newPage_3] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            signUpPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
             signUpPage.twitter_x_icon.click()
         ]);
-
-        
 
         // await expect(newPage_3).toHaveURL("https://twitter.com/torontojs");
         pp = await newPage_3.evaluate(() => window.location.href)
         console.log(pp);
         expect(pp.includes("x.com"));
 
-        await newPage_3.getByTestId('app-bar-close').click();
+        // await newPage_3.getByTestId('app-bar-close').click();
+        signUpPage.page.on('dialog', dialog => dialog.accept());
         await newPage_3.close();
 
         const [newPage_4] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            signUpPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
             signUpPage.linkedin_icon.click()
         ]);
 
@@ -398,82 +396,57 @@ test.describe('SIGN-UP Test Suite', () => {
         console.log(pp);
         await newPage_4.close();
 
-        await page.close();
+    });
+
+    test('Javascript Injection Test', async ({ signUpPage }) => {
+
+            const input_text: string[][] = [["alert('Hello')", "test1@zoho.com", "password"],
+                                             ["Curtis tester", "alert('Hello')", "password"],
+                                             ["Curtis tester", "test2@zoho.com", "alert('Hello')"]];
+
+            for(let i = 0; i < input_text.length; i++) {
+                await signUpPage.fill_fields(input_text[i][0], input_text[i][1], input_text[i][2]);
+
+
+                await signUpPage.red_Account_button.isVisible();
+                await signUpPage.red_Account_button.isEnabled();
+                await signUpPage.red_Account_button.click();
+
+
+                await signUpPage.page.waitForTimeout(3000);
+
+                await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
+            }
+
+        console.log('Javascript Injection test');
 
     });
 
-    test('Javascript Injection Test', async ({ page }) => {
+    test('SQL Injection Test', async ({ signUpPage }) => {
 
-        await page.goto(url_1);
+         const input_text: string[][] = [["SHOW DATABASES;", "test1@zoho.com", "password"],
+                                             ["Curtis tester", "SHOW DATABASES;", "password"],
+                                             ["Curtis tester", "test2@zoho.com", "SHOW DATABASES;"]];
 
-        const red_button = page.getByRole('button', { name: 'Create Account' });
-
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
-
-        /*
-        await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
-
-        await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
-
-        const login_form = page.locator('.login-form');
-
-        await expect(login_form).toHaveCSS('justify-content', 'center');
-        await expect(login_form).toHaveCSS('border-radius', '8px'); */
-
-        await page.locator('#name-input').isVisible();
-        await page.locator('#name-input').fill("alert('Hello')");
-
-        await page.locator('#email-input').isVisible();
-        await page.locator('#email-input').fill("alert('Hello')");
-        await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
-
-        await page.locator('#password-input').isVisible();
-        await page.locator('#password-input').fill("alert('Hello')");
+        await signUpPage.page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
+                        
+        for(let i = 0; i < input_text.length; i++) {
+            await signUpPage.fill_fields(input_text[i][0], input_text[i][1], input_text[i][2]);
 
 
-        await red_button.isVisible();
-        await red_button.click();
+            await signUpPage.red_Account_button.isVisible();
+            await signUpPage.red_Account_button.isEnabled();
+            await signUpPage.red_Account_button.click();
+
+
+            await signUpPage.page.waitForTimeout(3000);
+
+            await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
+        }
+
 
         console.log('Javascript Injection test');
-        await page.close();
-    });
 
-    test('SQL Injection Test', async ({ page }) => {
-
-        await page.goto(url_1);
-
-        const red_button = page.getByRole('button', { name: 'Create Account' });
-
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
-
-        /*
-        await page.getByRole('heading', { name: 'Sign Up to TorontoJS' }).isVisible();
-
-        await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
-
-        const login_form = page.locator('.login-form');
-
-        await expect(login_form).toHaveCSS('justify-content', 'center');
-        await expect(login_form).toHaveCSS('border-radius', '8px'); */
-
-        await page.locator('#name-input').isVisible();
-        await page.locator('#name-input').fill("SHOW DATABASES;");
-
-        await page.locator('#email-input').isVisible();
-        await page.locator('#email-input').fill("SHOW DATABASES;");
-        await page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span').isVisible();
-
-        await page.locator('#password-input').isVisible();
-        await page.locator('#password-input').fill("SHOW DATABASES;");
-
-
-        await red_button.isVisible();
-        await red_button.click();
-
-        console.log('Javascript Injection test');
-        await page.close();
     });
 
 });

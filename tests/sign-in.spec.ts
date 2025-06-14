@@ -338,7 +338,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await signInPage.email_field.isVisible();
         await signInPage.password_field.isVisible();
 
-        await signInPage.navigate();
+        // await signInPage.navigate();
 
         await signInPage.page_title_1.isVisible();
 
