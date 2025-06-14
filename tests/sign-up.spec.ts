@@ -37,15 +37,8 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.page_title_1.isVisible();
         await signUpPage.page_title_2.isVisible();
 
-        // await page.getByRole('heading', { name: 'Welcome! Let\'s set up your' }).isVisible();
-
-        // const login_form = page.locator('.login-form');
-
         await expect(signUpPage.login_form).toHaveCSS('justify-content', 'center');
         await expect(signUpPage.login_form).toHaveCSS('border-radius', '8px');
-
-        //await expect(login_form).toHaveCSS('justify-content', 'center');
-        //await expect(login_form).toHaveCSS('border-radius', '8px');
 
         await signUpPage.email_field.isVisible();
         await signUpPage.name_field.isVisible();
@@ -67,14 +60,9 @@ test.describe('SIGN-UP Test Suite', () => {
 
     test('TEST Password Strength METER with weak passwords', async ({ signUpPage }) => {
 
-        //const signUpPage = new SignUpPage(page);
-
-        //await signUpPage.navigate();
-
         const weak_passwords = ["password", "123456", "abcde", "aba", "JJJJJJJ"];
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
-       // const red_button = page.getByRole('button', { name: 'Create Account' });
 
         signUpPage.page_title_2.isVisible();
 
@@ -98,9 +86,6 @@ test.describe('SIGN-UP Test Suite', () => {
     test('TEST Password Strength METER with FAIR passwords', async ({ signUpPage }) => {
 
         const fair_passwords = ["super_1", "password_1", "extra_2", "toronto@"];
-
-        // const signUpPage = new SignUpPage(page);
-        // await signUpPage.navigate();
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
@@ -132,19 +117,12 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.page.waitForTimeout(800);
         const good_passwords = ["tester_123", "welcome_123", "security_123", "good_password"];
 
-        // const signUpPage = new SignUpPage(page);
-        //await signUpPage.navigate();
-
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
         signUpPage.page_title_2.isVisible();
 
         signUpPage.page_title_1.isVisible();
 
-        
-
-       // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
-        
         for(let g = 0; g < good_passwords.length; g++) { 
             console.log("GOOD PASSWORD " + (g + 1) + ": " + good_passwords[g]);
 
@@ -164,9 +142,6 @@ test.describe('SIGN-UP Test Suite', () => {
     test('TEST Password Strength METER with STRONG passwords', async ({ signUpPage }) => {
 
         const strong_passwords = ["super_password123", "super_long", "strong_password", "qatester_123"];
-
-       //  const signUpPage = new SignUpPage(page);
-       // await signUpPage.navigate();
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
@@ -201,9 +176,6 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await signUpPage.page.waitForTimeout(1800);
 
-        //const signUpPage = new SignUpPage(page);
-        //await signUpPage.navigate();
-
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
         signUpPage.page_title_1.isVisible();
@@ -237,29 +209,10 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await signUpPage.page.waitForTimeout(1800);
 
-        // const signUpPage = new SignUpPage(page);
-        // await signUpPage.navigate();
-
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
         signUpPage.page_title_1.isVisible();
         signUpPage.page_title_2.isVisible(); 
-
-        /* await page.goto(url_1); 
-        
-        let t = (Math.round(Date.now() / 100000000)).toString();
-        const username = "Curtis Tester" + t;
-        console.log(username); */
-
-        // const red_button = page.getByRole('button', { name: 'Create Account' });
-
-        // await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
-
-        /*
-        await page.locator('#name-input').fill(username);
-        await page.locator('#email-input').fill("test@gmail.com");
-
-        await page.locator('#password-input').fill("xxxxxxxxx"); */
 
         await signUpPage.fill_fields(username_1, "test@gmail.com", "xxxxxxx");
 
@@ -272,20 +225,8 @@ test.describe('SIGN-UP Test Suite', () => {
 
     test('ENTER INVALID EMAIL', async ({ signUpPage }) => {
 
-         //await page.goto(url_1); 
-
-        // Expect a title "to contain" a substring.
-        // await expect(page.locator('h3')).toHaveText('Volunteer Profile');
-        
-        
-
-
-        //const red_button = page.getByRole('button', { name: 'Create Account' });
-
         await signUpPage.page_title_1.isVisible();
         await signUpPage.page_title_2.isVisible();
-
-        //await page.getByRole('heading', {name: 'Welcome to TorontoJS Community Hub'}).isVisible();
 
         const username = await signUpPage.unique_username("Curtis Tester");
 
@@ -293,19 +234,7 @@ test.describe('SIGN-UP Test Suite', () => {
         //const username = "Curtis Tester" + t;
         console.log(username);
 
-        await signUpPage.name_field.fill(username);
-        await signUpPage.email_field.fill("xxxxxxxxx");
-        await signUpPage.password_field.fill("password");
-
-        //await page.locator('#name-input').fill(username);
-
-
-        //await page.locator('#email-input').fill("xxxxxx");
-        //await page.locator('#password-input').fill("password");
-
-        //await red_button.isVisible();
-
-        //await expect(red_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
+        await signUpPage.fill_fields(username, "xxxxxxxxx", "password");
 
         await signUpPage.red_Account_button.isVisible();
         await signUpPage.red_Account_button.isEnabled();
@@ -377,12 +306,10 @@ test.describe('SIGN-UP Test Suite', () => {
             signUpPage.twitter_x_icon.click()
         ]);
 
-        // await expect(newPage_3).toHaveURL("https://twitter.com/torontojs");
         pp = await newPage_3.evaluate(() => window.location.href)
         console.log(pp);
         expect(pp.includes("x.com"));
 
-        // await newPage_3.getByTestId('app-bar-close').click();
         signUpPage.page.on('dialog', dialog => dialog.accept());
         await newPage_3.close();
 

@@ -7,8 +7,6 @@ import { SignInPage } from '../page_object_models/pom_sign-in';
 import { link } from 'fs/promises';
 import { PrintConductPage } from '../page_object_models/pom_print_conduct.ts';
 
-const url_1 = "http://localhost:3000/pages/sign-in/";
-
 test.describe('SIGN-IN Test Suite', () => {
     test('LICENSE LINK', async ({ browser }) => {
 
