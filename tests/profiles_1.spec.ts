@@ -1,6 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { ProfilesPages } from '../page_object_models/pom_profiles';
+import { expect } from '@playwright/test';
+// import { ProfilesPages } from '../page_object_models/pom_profiles';
 import { execPath } from 'process';
+import { test } from './base.ts';
 
 /*
 test.beforeEach(async ({page }) => {
@@ -10,18 +11,17 @@ test.beforeEach(async ({page }) => {
 
 }) */
 
-test.beforeEach( async ({ page }) => {
+test.beforeEach( async ({ profilesPage }) => {
   test.setTimeout(50000) // Sets a 40-second timeout for all tests
-
+  profilesPage.navigate();
 });
 
-test('has title', async ({ page }) => {
+test.afterEach( async ({ profilesPage }) => {
+  test.setTimeout(500) // Sets a 40-second timeout for all tests
+  profilesPage.page.close();
+});
 
-  // await page.goto("http://localhost:3000/pages/profiles/");
-
-  const profilePages = new ProfilesPages(page);
-
-  await profilePages.navigate();
+test('has title', async ({ profilesPage }) => {
 
 
   // Expect a title "to contain" a substring.
@@ -33,18 +33,17 @@ test('has title', async ({ page }) => {
     expect(await row.textContent() == 'Volunteer Profile');
   } */
 
-  await profilePages.check_H_tag_text(page, 'Volunteer Profile', 'h3');
+  await profilesPage.check_H_tag_text(profilesPage.page, 'Volunteer Profile', 'h3');
 
-  await page.close();
 });
 
 test('Check Profile Record Fields', async ({ page }) => {
 
       // await page.goto("http://localhost:3000/pages/profiles/");
 
-      const profilePages = new ProfilesPages(page);
+      //const profilePages = new ProfilesPages(page);
 
-      await profilePages.navigate();
+      //await profilePages.navigate();
 
       await page.waitForSelector('.profile-header div p strong');
       const locator_list = await page.locator('.profile-header div p strong').all();
