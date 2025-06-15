@@ -1,4 +1,4 @@
-import { test, expect, type Page, type Locator, Browser, BrowserContext } from '@playwright/test';
+import { expect, type Page, type Locator, BrowserContext } from '@playwright/test';
 
 export class ProfilesPages {
 
@@ -22,6 +22,12 @@ export class ProfilesPages {
         this.profile_field_base = page.getByRole('paragraph');
         this.profile_field_wrapper_base = page.locator('.profile-header');
         this.social_media_link_base = page.locator('.social-links a');
+    
+        this.facebook_link_base = page.getByRole('link', { name: 'Facebook' });
+        this.linkedin_link_base = page.getByRole('link', { name: 'Twitter' });
+        this.twitter_x_link_base = page.getByRole('link', { name: 'Twitter' });
+
+
     }
 
     async navigate() {

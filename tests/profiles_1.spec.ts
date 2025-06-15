@@ -13,12 +13,12 @@ test.beforeEach(async ({page }) => {
 
 test.beforeEach( async ({ profilesPage }) => {
   test.setTimeout(50000) // Sets a 40-second timeout for all tests
-  profilesPage.navigate();
+  await profilesPage.navigate();
 });
 
 test.afterEach( async ({ profilesPage }) => {
   test.setTimeout(500) // Sets a 40-second timeout for all tests
-  profilesPage.page.close();
+  await profilesPage.page.close();
 });
 
 test('has title', async ({ profilesPage }) => {
@@ -37,19 +37,15 @@ test('has title', async ({ profilesPage }) => {
 
 });
 
-test('Check Profile Record Fields', async ({ page }) => {
+test('Check Profile Record Fields', async ({ profilesPage }) => {
 
       // await page.goto("http://localhost:3000/pages/profiles/");
 
-      //const profilePages = new ProfilesPages(page);
-
-      //await profilePages.navigate();
-
-      await page.waitForSelector('.profile-header div p strong');
-      const locator_list = await page.locator('.profile-header div p strong').all();
+      await profilesPage.page.waitForSelector('.profile-header div p strong');
+      // const locator_list = await page.locator('.profile-header div p strong').all();
 
       // Expect a title "to contain" a substring.
-      const fieldCount = await page.locator('.profile-header').count();
+      const fieldCount = await profilesPage.profile_field_wrapper_base.count();
       console.log(fieldCount);
 
       //console.log(await page.locator('.profile-header div p').allTextContents());
@@ -68,7 +64,8 @@ test('Check Profile Record Fields', async ({ page }) => {
         'Inserted At:'
       ]
 
-    const p_list = page.getByRole('paragraph').allInnerTexts()
+    const p_list = profilesPage.profile_field_base.allInnerTexts();
+    // const p_list = page.getByRole('paragraph').allInnerTexts()
 
     let i = 0;
     let id_num;
@@ -134,7 +131,6 @@ test('Check Profile Record Fields', async ({ page }) => {
   // console.log(profileNames_Collection);
   // expect(await profileNames_Collection.allInnerTexts()).toEqual(profileFields);
 
-  await page.close();
 });
 
 
@@ -153,32 +149,37 @@ test("all Facebook links are valid", async ({page, request}) => {
   */
  
 
-test('Check Links', async ({ browser }) => {
+test('Check Links', async ({ profilesPage }) => {
 
-    const browser_context = await browser.newContext();
-    const page = await browser_context.newPage();
+    // const browser_context = await browser.newContext();
+    //const page = await browser_context.newPage();
 
-    await page.goto("http://localhost:3000/pages/profiles/"); 
+    //await page.goto("http://localhost:3000/pages/profiles/"); 
 
   // Click the get started link.
-  await page.getByRole('link', { name: 'Facebook' }).isVisible;
+  await profilesPage.facebook_link_base.isVisible;
 
   // console.log(await page.getByRole('link', { name: 'Facebook' }));
 
   // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('link', { name: 'Twitter' })).toBeVisible();
+  await expect(profilesPage.twitter_x_link_base).toBeVisible();
 
+
+  /*
   // CHECK H3 taga for correct text
   for (const row of await page.locator('h3').all()) {
     expect(await row.textContent() == 'Volunteer Profile');
-  }
+  } */
 
-  for (const row of await page.locator('.social-links a').all()) {
+  await profilesPage.check_H_tag_text(profilesPage.page, 'Volunteer Profile', 'h3');
+
+
+  for (const row of await profilesPage.social_media_link_base.all()) {
      let temp = await row.textContent();
      console.log(temp);
      
      let [newPage_1] = await Promise.all([
-            browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+            profilesPage.page.waitForEvent("popup"), // pending, fullfilled or rejected
             await row.click()
         ]);
         
@@ -197,5 +198,4 @@ test('Check Links', async ({ browser }) => {
     // expect(await row.textContent() == 'Volunteer Profile');
   }
 
-  await page.close();
 });
