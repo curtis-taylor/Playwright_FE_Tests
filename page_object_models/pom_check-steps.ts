@@ -3,8 +3,9 @@ import { assert } from 'console';
 
 export class CheckStepsPage {
     readonly page: Page;
-    readonly url: string = 'http://localhost:3000/pages/check-steps/'; 
-    // readonly url_2: string = 'http://localhost:3000/pages/review-conduct-code/';
+    readonly check_steps_url: string = 'http://localhost:3000/pages/check-steps/'; 
+    readonly review_conduct_url: string = 'http://localhost:3000/pages/review-conduct-code/';
+    readonly complete_profile_url: string = 'http://localhost:3000/pages/complete-profile/';
     // 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
 
     readonly welcome_title: Locator;
@@ -60,10 +61,22 @@ export class CheckStepsPage {
         };
     }
 
-    async navigate() {
-        await this.page.goto(this.url); 
+    async navigate(step: number) {
+        let step_array = [this.check_steps_url, this.review_conduct_url, this.complete_profile_url];
+        if(step in [1,2,3]) {
+            await this.page.goto(step_array[step]); 
+        } else {
+            await this.page.goto(step_array[1]);
+            console.log("navigate() takes integer values of 1, 2, 3 to represent steps for check_steps pages");
+        }
+
         console.log(this.page.url())
-        expect(this.page.url()).toBe(this.url);
+        expect(this.page.url()).toBe(step_array[step]);
+    }
+
+    async check_navbar() {
+
+
     }
 
 

@@ -6,7 +6,7 @@ import { test } from './base';
 import { execPath } from 'process';
 
 test.beforeEach( async ({ checkStepsPage }) => {
-    await checkStepsPage.navigate();
+    await checkStepsPage.navigate(1);
     test.setTimeout(50000) // Sets a 40-second timeout for all tests
 
 });
@@ -253,7 +253,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     //await page.getByRole('checkbox', { name: 'I agree to TorontoJS’s' }).isVisible();
    //await page.getByRole('button', { name: 'Let me complete my profile' }).isDisabled();
    // expect( page.getByRole('button', { name: 'Let me complete my profile' })).toHaveCSS('background-color', 'rgb(237, 55, 49)');
-    await page.waitForTimeout(150);
+    await reviewConductPage.page.waitForTimeout(150);
 
 
     await reviewConductPage.checkbox_I_agree.click();
@@ -298,6 +298,13 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
       }
       
     }
+
+  });
+
+  test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
+     test('USER SUCCESSFUL 3-STEP WORKFLOR', async ({ reviewConductPage, completeProfilePage }) => {
+
+     });
 
   });
 
