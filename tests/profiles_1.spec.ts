@@ -157,7 +157,7 @@ test('Check Links', async ({ profilesPage }) => {
     //await page.goto("http://localhost:3000/pages/profiles/"); 
 
   // Click the get started link.
-  await profilesPage.facebook_link_base.isVisible;
+  await profilesPage.facebook_link_base.isVisible();
 
   // console.log(await page.getByRole('link', { name: 'Facebook' }));
 
@@ -173,7 +173,9 @@ test('Check Links', async ({ profilesPage }) => {
 
   await profilesPage.check_H_tag_text(profilesPage.page, 'Volunteer Profile', 'h3');
 
+  await profilesPage.click_social_links(profilesPage.social_media_link_base, profilesPage.page);
 
+  /*
   for (const row of await profilesPage.social_media_link_base.all()) {
      let temp = await row.textContent();
      console.log(temp);
@@ -185,7 +187,6 @@ test('Check Links', async ({ profilesPage }) => {
         
       let pp = await newPage_1.evaluate(() => window.location.href);
       console.log(pp);
-      // console.log("----");
 
       if(temp != "Twitter") { 
         expect(pp).toContain(temp?.toLowerCase());
@@ -195,7 +196,6 @@ test('Check Links', async ({ profilesPage }) => {
       }
 
       await newPage_1.close();
-    // expect(await row.textContent() == 'Volunteer Profile');
-  }
+  } */
 
 });

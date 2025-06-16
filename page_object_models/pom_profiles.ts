@@ -36,19 +36,20 @@ export class ProfilesPages {
         expect(this.page.url()).toBe(this.url);
     }
 
-    async click_social_links(base_locator: Locator, browser_context: BrowserContext) {
+    async click_social_links(base_locator: Locator, page: Page) {
         for (const row of await base_locator.locator('.social-links a').all()) {
             let temp = await row.textContent();
             console.log(temp);
             
             let [newPage_1] = await Promise.all([
-                    browser_context.waitForEvent("page"), // pending, fullfilled or rejected
+                    page.waitForEvent("popup"), // pending, fullfilled or rejected
                     await row.click()
                 ]);
+
+            await page.waitForTimeout(1000);
                 
             let pp = await newPage_1.evaluate(() => window.location.href);
             console.log(pp);
-            // console.log("----");
 
             if(temp != "Twitter") { 
                 expect(pp).toContain(temp?.toLowerCase());
@@ -84,7 +85,7 @@ export class ProfilesPages {
             
         } */
 
-       // await page.waitForTimeout(5000);
+       await page.waitForTimeout(1000);
 
        if(t.length > 0) {
 
