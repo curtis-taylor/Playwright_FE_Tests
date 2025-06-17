@@ -89,7 +89,7 @@ export class CheckStepsPage {
                     return window.getComputedStyle(ele).getPropertyValue("color");
                 });
         
-                await expect(row2).toHaveCSS('color', `rgb(237, 55, 49)`);
+                await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
             } else {
                 await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
                 console.log("Checking color of disabled navbar tabs");

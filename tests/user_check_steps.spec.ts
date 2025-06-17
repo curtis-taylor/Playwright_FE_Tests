@@ -325,6 +325,8 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
         await completeProfilePage.check_navbar(completeProfilePage.page);
 
+        
+
 
       });
 

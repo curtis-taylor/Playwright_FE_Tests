@@ -1,5 +1,26 @@
 import { test, expect, type Page, type Locator } from '@playwright/test';
 
+type complete_profile_type = {
+    name: string;
+    email: string;
+    slack_handle: string;
+    pronouns: string;
+
+    site_portfolio: string;
+    github: string;
+    linkedin_profile: string;
+    linkedin_other: string;
+  
+    facebook: string;
+    twitter_x: string;
+    skills_field: string;
+    bluesky: string;
+    instagram: string;
+
+
+}
+
+
 export class CompleteProfilePage {
     readonly page: Page;
     readonly url: string = 'http://localhost:3000/pages/complete-profile/?'; 
@@ -137,8 +158,17 @@ export class CompleteProfilePage {
         }
     }
 
+    
+    async fill_fields(form1 : complete_profile_type) {
+        await this.name_field.fill(form1.name);
+        await this.email_field.fill(form1.email);
+        await this.slack_field.fill(form1.slack_handle);
+        await this.pronouns.fill(form1.pronouns);
+        await this.github_field.fill(form1.github);
+        await this.site_field.fill(form1.site_portfolio);
+        await this.skills_field.fill(form1.skills_field);
 
-
+    }
   
 
 
