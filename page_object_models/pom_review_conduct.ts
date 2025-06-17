@@ -91,4 +91,27 @@ export class ReviewConductPage {
         expect(this.page.url()).toBe(this.url);
     }
 
+    async check_navbar(page: Page) {
+
+        await expect(page).toHaveURL(this.url);
+        
+        for (const row2 of await page.locator('.step-text').all()) {
+            console.log(page.url());
+            // console.log(await row2.textContent());
+            
+            if(await row2.textContent() == "Check the conduct code") {
+
+                const color = await row2.evaluate((ele) => {
+                    return window.getComputedStyle(ele).getPropertyValue("color");
+                });
+        
+                await expect(row2).toHaveCSS('color', `rgb(237, 55, 49)`);
+            } else {
+                await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
+                console.log("Checking color of disabled navbar tabs");
+            }
+        
+        }
+    }
+
 }

@@ -2,7 +2,7 @@ import { test, expect, type Page, type Locator } from '@playwright/test';
 
 export class CompleteProfilePage {
     readonly page: Page;
-    readonly url: string = 'http://localhost:3000/pages/complete-profile/'; 
+    readonly url: string = 'http://localhost:3000/pages/complete-profile/?'; 
     // 'https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/';
 
     readonly page_title: Locator;
@@ -112,6 +112,29 @@ export class CompleteProfilePage {
         await this.remove_image_Button.isHidden();
         await this.upload_success_Label.isHidden();
         await this.page.waitForTimeout(2000);
+    }
+
+    async check_navbar(page: Page) {
+
+        await expect(page).toHaveURL(this.url);
+
+        for (const row2 of await page.locator('.step-text').all()) {
+            console.log("Current page is: " + page.url());
+            console.log(await row2.textContent());
+            
+            if(await row2.textContent() == "Complete your profile") {
+
+                const color = await row2.evaluate((ele) => {
+                    return window.getComputedStyle(ele).getPropertyValue("color");
+                });
+        
+                await expect(row2).toHaveCSS('color', `rgb(237, 55, 49)`);
+            } else {
+                await expect(row2).toHaveCSS('color', `rgb(153, 153, 153)`);
+                console.log("Checking color of disabled navbar tabs");
+            }
+        
+        }
     }
 
 

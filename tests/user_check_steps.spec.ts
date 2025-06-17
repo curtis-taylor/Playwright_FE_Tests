@@ -138,6 +138,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   test('Page 2 - CONDUCT CODE - CHECK TEXT for HEADERS', async ({ reviewConductPage }) => {
 
+    await reviewConductPage.navigate();
     await reviewConductPage.review_title.isVisible();
     await reviewConductPage.subtitle.isVisible();
 
@@ -145,7 +146,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     await expect(reviewConductPage.subtitle).toHaveCSS('text-align', 'center');
 
 
-    await reviewConductPage.page.waitForTimeout(3000);
+    await reviewConductPage.page.waitForTimeout(8000);
       
 
   });
@@ -153,6 +154,8 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
   test('Page 2 - CONDUCT CODE - CHECK NUTSHELL box PROPERTIES', async ({ reviewConductPage }) => {
 
     // await page.goto('http://localhost:3000/pages/review-conduct-code/');
+
+    await reviewConductPage.navigate();
 
     await reviewConductPage.nutshell_dialog_heading.isVisible();
     await reviewConductPage.nutshell_text_1.isVisible();
@@ -207,6 +210,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   test('PAGE 2 - CONDUCT CODE - SUMMARY DROP-DOWN LIST', async ({ reviewConductPage }) => {
 
+    await reviewConductPage.navigate();
 
     await reviewConductPage.review_title.isVisible();
     await reviewConductPage.subtitle.isVisible();
@@ -237,6 +241,8 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
   });
 
   test('PAGE 2 - CONDUCT CODE PAGE - CHECK COMPLETE PROFILE button and Checkbox Functionality', async ({ reviewConductPage, completeProfilePage }) => {
+
+    await reviewConductPage.navigate();
 
     await reviewConductPage.checkbox_text.isVisible();
     await expect(reviewConductPage.checkbox_text).toHaveCSS('font-size', '16.8697px');
@@ -273,6 +279,8 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
     
     console.log("click -----");
 
+    await reviewConductPage.check_navbar(reviewConductPage.page);
+
     await reviewConductPage.checkbox_I_agree.click();
     await reviewConductPage.continue_button.click();
 
@@ -282,6 +290,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
     await expect(reviewConductPage.page).toHaveURL(completeProfilePage.url);
 
+    /*
     for (const row2 of await reviewConductPage.page.locator('.step-text').all()) {
       console.log(await row2.textContent());
       
@@ -297,14 +306,27 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
           console.log("Checking color of disabled navbar tabs");
       }
       
-    }
+    } */
+
+    await completeProfilePage.check_navbar(completeProfilePage.page);
 
   });
 
   test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
-     test('USER SUCCESSFUL 3-STEP WORKFLOR', async ({ reviewConductPage, completeProfilePage }) => {
+     test('USER SUCCESSFUL 3-STEP WORKFLOR', async ({ checkStepsPage, reviewConductPage, completeProfilePage }) => {
 
-     });
+        await console.log(checkStepsPage.page.url());
+        await checkStepsPage.check_navbar(checkStepsPage.page);
+        await checkStepsPage.continue_button.click();
+
+        await reviewConductPage.check_navbar(reviewConductPage.page);
+        await reviewConductPage.checkbox_I_agree.click();
+        await reviewConductPage.continue_button.click();
+
+        await completeProfilePage.check_navbar(completeProfilePage.page);
+
+
+      });
 
   });
 
