@@ -316,24 +316,31 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
      test('USER SUCCESSFUL 3-STEP WORKFLOR', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
 
 
-        const name = completeProfilePage.unique_username("RONN");
+        const name1 = completeProfilePage.unique_username("RONN");
+        const email1 = name1 + "@zoho.com";
 
         const form1 = {
-        name: name,
-        email: name + "@zoho.com",
+        name: name1,
+        email: email1,
         slack_handle: "T06498HEJ/C0805K3R8VB",
         pronouns: "He",
+        birth_month: "December",
+        birth_day: "31",
+        toronto_based: true,
+        join_locally: true,
 
         site_portfolio: "",
         github: "",
         linkedin_profile: "",
+        skills_field: "-Python, Typescript",
         linkedin_other: "",
-      
+    
         facebook: "",
+        threads: "www.threads.com/tester",
         twitter_x: "",
-        skills_field: "",
         bluesky: "",
-        instagram: ""
+        instagram: "www.instagram.com/tester",
+        devto: "www.dev.to.com"
 }
 
         console.log(checkStepsPage.page.url());
@@ -346,11 +353,16 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
         await completeProfilePage.check_navbar(completeProfilePage.page);
 
+        //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
         await completeProfilePage.fill_fields(form1);
 
-        await completeProfilePage.page.waitForTimeout(10000);
+        await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg');
+         await completeProfilePage.page.waitForTimeout(4000);
 
+        await completeProfilePage.complete_button.click();
 
+       
+        
       });
 
   });

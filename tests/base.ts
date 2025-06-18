@@ -69,16 +69,23 @@ export type Complete_Profile_Type = {
     slack_handle: string,
     pronouns: string,
 
+    birth_month: string,
+    birth_day: string,
+    toronto_based: boolean,
+    join_locally: boolean,
+
     site_portfolio: string,
     github: string,
     linkedin_profile: string,
+    skills_field: string,
     linkedin_other: string,
   
     facebook: string,
+    threads: string,
     twitter_x: string,
-    skills_field: string,
     bluesky: string,
-    instagram: string
+    instagram: string,
+    devto: string
 }
 
 

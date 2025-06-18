@@ -29,6 +29,11 @@ export class CompleteProfilePage {
 
     readonly instagram_field: Locator;
     readonly linkedin_2nd_field: Locator;
+    readonly facebook_field: Locator;
+    readonly twitter_x_field: Locator;
+    readonly thread_field: Locator;
+    readonly bluesky_field: Locator;
+    readonly devto_field: Locator;
 
     readonly facebook_icon: Locator;
     readonly instagram_icon: Locator;
@@ -73,7 +78,13 @@ export class CompleteProfilePage {
         this.more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' });
 
         this.instagram_field = page.getByRole('textbox', {name: 'Instagram'});
+        this.facebook_field = page.getByRole('textbox', {name: 'Facebook'});
+        this.thread_field = page.getByRole('textbox', {name: 'Threads'});
+        this.bluesky_field = page.getByRole('textbox', {name: 'BlueSky'});
+        this.devto_field = page.getByRole('textbox', {name: 'Dev.to'});
+        this.twitter_x_field = page.getByRole('textbox', {name: 'X'}); 
         this.linkedin_2nd_field = page.getByRole('textbox', {name: 'LinkedIn'}).nth(1);
+        
         this.facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
         this.instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
         this.threads_icon = page.getByRole('button', { name: 'Add Threads account' });
@@ -140,15 +151,65 @@ export class CompleteProfilePage {
 
     
     async fill_fields(form1 : Complete_Profile_Type) {
+
+        await this.enable_disable_footer_social_fields(this.page);
+        await this.page.waitForTimeout(1000);
+        
         await this.name_field.fill(form1.name);
         await this.email_field.fill(form1.email);
         await this.slack_field.fill(form1.slack_handle);
         await this.pronouns.fill(form1.pronouns);
+        await this.dob_Month.selectOption(form1.birth_month);
+        await this.dob_Day.selectOption(form1.birth_day);
+
+        if(form1.toronto_based) {
+            await this.based_GTA_switch.click();
+        }
+
+        if(form1.join_locally) {
+            await this.can_join_Local_switch.click();
+        }
+
+
+        await this.site_field.fill(form1.site_portfolio);
+        await this.linkedin_profile_1.fill(form1.linkedin_profile);
+
         await this.github_field.fill(form1.github);
         await this.site_field.fill(form1.site_portfolio);
         await this.skills_field.fill(form1.skills_field);
 
+        await this.linkedin_2nd_field.fill(form1.linkedin_other);
+        await this.instagram_field.fill(form1.instagram);
+        await this.thread_field.fill(form1.threads);
+        await this.bluesky_field.fill(form1.bluesky);
+        await this.facebook_field.fill(form1.facebook);
+        await this.twitter_x_field.fill(form1.twitter_x);
+
+        await this.devto_field.fill(form1.devto);
+
     }
+
+    unique_username(username: string) {
+        let t = (Math.round(Date.now() / 100000000)).toString();
+
+        return username + t;
+    }
+
+    async enable_disable_footer_social_fields(page: Page) {
+        await this.instagram_icon.click();
+        await this.facebook_icon.click();
+        await this.threads_icon.click();
+        await this.linkedin_icon.click();
+        await this.bluesky_icon.click();
+        await this.twitter_x_icon.click();
+        await this.dev_icon.click();
+
+        page.waitForTimeout(1000);
+
+
+    }
+
+
 
     
   
