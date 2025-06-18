@@ -1,25 +1,5 @@
-import { test, expect, type Page, type Locator } from '@playwright/test';
-
-type complete_profile_type = {
-    name: string;
-    email: string;
-    slack_handle: string;
-    pronouns: string;
-
-    site_portfolio: string;
-    github: string;
-    linkedin_profile: string;
-    linkedin_other: string;
-  
-    facebook: string;
-    twitter_x: string;
-    skills_field: string;
-    bluesky: string;
-    instagram: string;
-
-
-}
-
+import { expect, type Page, type Locator } from '@playwright/test';
+import { Complete_Profile_Type} from '../tests/base';
 
 export class CompleteProfilePage {
     readonly page: Page;
@@ -159,7 +139,7 @@ export class CompleteProfilePage {
     }
 
     
-    async fill_fields(form1 : complete_profile_type) {
+    async fill_fields(form1 : Complete_Profile_Type) {
         await this.name_field.fill(form1.name);
         await this.email_field.fill(form1.email);
         await this.slack_field.fill(form1.slack_handle);
@@ -169,6 +149,8 @@ export class CompleteProfilePage {
         await this.skills_field.fill(form1.skills_field);
 
     }
+
+    
   
 
 

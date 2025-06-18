@@ -63,4 +63,23 @@ export const test = base.extend<TestOptions>({
     
 });
 
+export type Complete_Profile_Type = {
+    name: string,
+    email: string,
+    slack_handle: string,
+    pronouns: string,
+
+    site_portfolio: string,
+    github: string,
+    linkedin_profile: string,
+    linkedin_other: string,
+  
+    facebook: string,
+    twitter_x: string,
+    skills_field: string,
+    bluesky: string,
+    instagram: string
+}
+
+
 export { expect } from "@playwright/test";

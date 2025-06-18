@@ -2,7 +2,7 @@ import { expect, Page } from '@playwright/test';
 import { CheckStepsPage } from '../page_object_models/pom_check-steps'
 import { ReviewConductPage } from '../page_object_models/pom_review_conduct';
 import { CompleteProfilePage } from '../page_object_models/pom_complete_profile';
-import { test } from './base';
+import { test, Complete_Profile_Type } from './base';
 import { execPath } from 'process';
 
 test.beforeEach( async ({ checkStepsPage }) => {
@@ -240,7 +240,7 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
-  test('PAGE 2 - CONDUCT CODE PAGE - CHECK COMPLETE PROFILE button and Checkbox Functionality', async ({ reviewConductPage, completeProfilePage }) => {
+  test('PAGE 2 - CONDUCT CODE PAGE - CHECK COMPLETE PROFILE button and Checkbox Functionality', async ({ reviewConductPage, completeProfilePage}) => {
 
     await reviewConductPage.navigate();
 
@@ -313,9 +313,30 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
   });
 
   test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
-     test('USER SUCCESSFUL 3-STEP WORKFLOR', async ({ checkStepsPage, reviewConductPage, completeProfilePage }) => {
+     test('USER SUCCESSFUL 3-STEP WORKFLOR', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
 
-        await console.log(checkStepsPage.page.url());
+
+        const name = completeProfilePage.unique_username("RONN");
+
+        const form1 = {
+        name: name,
+        email: name + "@zoho.com",
+        slack_handle: "T06498HEJ/C0805K3R8VB",
+        pronouns: "He",
+
+        site_portfolio: "",
+        github: "",
+        linkedin_profile: "",
+        linkedin_other: "",
+      
+        facebook: "",
+        twitter_x: "",
+        skills_field: "",
+        bluesky: "",
+        instagram: ""
+}
+
+        console.log(checkStepsPage.page.url());
         await checkStepsPage.check_navbar(checkStepsPage.page);
         await checkStepsPage.continue_button.click();
 
@@ -325,7 +346,9 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
         await completeProfilePage.check_navbar(completeProfilePage.page);
 
-        
+        await completeProfilePage.fill_fields(form1);
+
+        await completeProfilePage.page.waitForTimeout(10000);
 
 
       });
