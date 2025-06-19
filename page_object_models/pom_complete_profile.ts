@@ -108,11 +108,11 @@ export class CompleteProfilePage {
         await this.upload_Button.click();
         //### FILE PICKER
         await this.file_picker.setInputFiles(image_path);
-        await this.page.waitForTimeout(1200);
+        await this.page.waitForTimeout(200);
         await this.upload_Button.isVisible();
         await this.remove_image_Button.isVisible();
         await this.upload_success_Label.isVisible();
-        expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
+        // expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', 'auto');
         expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
     }
 

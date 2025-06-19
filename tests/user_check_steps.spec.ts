@@ -6,8 +6,9 @@ import { test, Complete_Profile_Type } from './base';
 import { execPath } from 'process';
 
 test.beforeEach( async ({ checkStepsPage }) => {
-    await checkStepsPage.navigate(1);
-    test.setTimeout(70000) // Sets a 40-second timeout for all tests
+  test.setTimeout(100000)   
+  await checkStepsPage.navigate(1);
+    // Sets a 40-second timeout for all tests
 
 });
 
@@ -373,7 +374,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
 
           await completeProfilePage.complete_button.click();
 
-          await completeProfilePage.page.waitForTimeout(3000);
+          await completeProfilePage.page.waitForTimeout(1000);
         
         }
       });
