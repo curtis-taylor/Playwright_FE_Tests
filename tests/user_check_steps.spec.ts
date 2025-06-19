@@ -7,7 +7,7 @@ import { execPath } from 'process';
 
 test.beforeEach( async ({ checkStepsPage }) => {
     await checkStepsPage.navigate(1);
-    test.setTimeout(50000) // Sets a 40-second timeout for all tests
+    test.setTimeout(70000) // Sets a 40-second timeout for all tests
 
 });
 
@@ -312,36 +312,101 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
 
   });
 
-  test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
-     test('USER SUCCESSFUL 3-STEP WORKFLOR', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
+});
+
+test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
+     test('MULTIPLE USER SUCCESSFUL 3-PAGE WORKFLOW with alternating values', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
+
+
+    const switch_settings = [[true, true], [true, false], [false, false], [false, true]];     
+    const date_settings = [["December", "31"], ["February", "29"], ["July", "1"], ["October", "31"]];
+    const username_base =  [["RONN"], ["Luke"], ["Odo"], ["John"]]  
+    
+    for(let x = 0; x < switch_settings.length; x++) { 
+
+          console.log("ALL 3-STEPS WORKFLOW TESTS: test " + x)
+
+          let name1 = completeProfilePage.unique_username(username_base[x][0]);
+          let email1 = name1 + "@zoho.com";
+          
+          let form1 = {
+            name: name1,
+            email: email1,
+            slack_handle: "T06498HEJ/C0805K3R8VB",
+            pronouns: "He",
+            birth_month: date_settings[x][0],
+            birth_day: date_settings[x][1],
+            toronto_based: switch_settings[x][0],
+            join_locally: switch_settings[x][1],
+
+            site_portfolio: "www.google.com",
+            github: "github.com/torontojs/",
+            linkedin_profile: "https://www.linkedin.com",
+            skills_field: "-Python, Typescript",
+            linkedin_other: "https://www.linkedin.com/test",
+        
+            facebook: "www.facebook.com",
+            threads: "www.threads.com/tester",
+            twitter_x: "www.x.com",
+            bluesky: "https://bsky.app/",
+            instagram: "www.instagram.com/tester",
+            devto: "www.dev.to.com"
+          }
+
+          await checkStepsPage.navigate(1);
+
+          //console.log(checkStepsPage.page.url());
+          await checkStepsPage.check_navbar(checkStepsPage.page);
+          await checkStepsPage.continue_button.click();
+
+          await reviewConductPage.check_navbar(reviewConductPage.page);
+          await reviewConductPage.checkbox_I_agree.click();
+          await reviewConductPage.continue_button.click();
+
+          await completeProfilePage.check_navbar(completeProfilePage.page);
+
+          //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
+          await completeProfilePage.fill_fields(form1);
+
+          await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg');
+          await completeProfilePage.page.waitForTimeout(4000);
+
+          await completeProfilePage.complete_button.click();
+
+          await completeProfilePage.page.waitForTimeout(3000);
+        
+        }
+      });
+
+      test('USER SUCCESSFUL 3-STEP WORKFLOW - Not Toronto based and can not join locally', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
 
 
         const name1 = completeProfilePage.unique_username("RONN");
         const email1 = name1 + "@zoho.com";
 
         const form1 = {
-        name: name1,
-        email: email1,
-        slack_handle: "T06498HEJ/C0805K3R8VB",
-        pronouns: "He",
-        birth_month: "December",
-        birth_day: "31",
-        toronto_based: true,
-        join_locally: true,
+          name: name1,
+          email: email1,
+          slack_handle: "T06498HEJ/C0805K3R8VB",
+          pronouns: "He",
+          birth_month: "December",
+          birth_day: "31",
+          toronto_based: false,
+          join_locally: true,
 
-        site_portfolio: "",
-        github: "",
-        linkedin_profile: "",
-        skills_field: "-Python, Typescript",
-        linkedin_other: "",
-    
-        facebook: "",
-        threads: "www.threads.com/tester",
-        twitter_x: "",
-        bluesky: "",
-        instagram: "www.instagram.com/tester",
-        devto: "www.dev.to.com"
-}
+          site_portfolio: "www.google.com",
+          github: "github.com/torontojs/",
+          linkedin_profile: "https://www.linkedin.com",
+          skills_field: "-Python, Typescript",
+          linkedin_other: "https://www.linkedin.com/test",
+      
+          facebook: "www.facebook.com",
+          threads: "www.threads.com/tester",
+          twitter_x: "www.x.com",
+          bluesky: "https://bsky.app/",
+          instagram: "www.instagram.com/tester",
+          devto: "www.dev.to.com"
+        }
 
         console.log(checkStepsPage.page.url());
         await checkStepsPage.check_navbar(checkStepsPage.page);
@@ -366,6 +431,3 @@ test.describe('CHECK THE CONDUCT CODE Test Suite', () => {
       });
 
   });
-
-
-});

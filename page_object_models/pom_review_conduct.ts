@@ -87,7 +87,7 @@ export class ReviewConductPage {
 
     async navigate() {
         await this.page.goto(this.url); 
-        console.log(this.page.url())
+        // console.log(this.page.url())
         expect(this.page.url()).toBe(this.url);
     }
 
@@ -95,9 +95,10 @@ export class ReviewConductPage {
 
         await expect(page).toHaveURL(this.url);
         
+        // ********************<<<<<<<<<<<<<<<<
+        console.log("Current page is: " + page.url());
+
         for (const row2 of await page.locator('.step-text').all()) {
-            console.log(page.url());
-            // console.log(await row2.textContent());
             
             if(await row2.textContent() == "Check the conduct code") {
 

@@ -71,7 +71,7 @@ export class CheckStepsPage {
             console.log("navigate() takes integer values of 1, 2, 3 to represent steps for check_steps pages");
         }
 
-        console.log(this.page.url())
+        // console.log(this.page.url())
         
     }
 
