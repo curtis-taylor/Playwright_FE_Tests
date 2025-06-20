@@ -1,5 +1,6 @@
-import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
-import { test } from "./base.ts";
+import { expect, Page, BrowserContext, Locator } from '@playwright/test';
+import { test } from './base';
+import { PrintVolunteerPage } from '../page_object_models/pom_print_volunteer.ts';
 
 test.beforeEach( async ({ printVolunteerPage }) => {
   test.setTimeout(50000) // Sets a 40-second timeout for all tests
@@ -85,7 +86,7 @@ test.describe('PRINT VOLUNTEER AGREEMENT Test Suite', () => {
     });
 
 
-    test('PRINT BUTTON TEST', async({ printVolunteerPage}) => {
+    test('PRINT BUTTON TEST', async({ printVolunteerPage }) => {
        // const printConductPage = new PrintConductPage(page);
 
        console.log("HERE TOOOOO");

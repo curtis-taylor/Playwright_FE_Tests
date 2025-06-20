@@ -3,7 +3,7 @@ import { CheckEmailPage } from "../page_object_models/pom_check_email.ts";
 import { CheckStepsPage } from "../page_object_models/pom_check-steps.ts";
 import { CompleteProfilePage } from "../page_object_models/pom_complete_profile.ts";
 import { PrintConductPage } from "../page_object_models/pom_print_conduct.ts";
-import { PrintVolunteerPage } from '../page_object_models/pom_print_volunteer.ts';
+import { PrintVolunteerPage } from "../page_object_models/pom_print_volunteer.ts";
 import { ProfilesPages } from "../page_object_models/pom_profiles.ts";
 import { ReviewConductPage } from "../page_object_models/pom_review_conduct.ts";
 import { SignInPage } from "../page_object_models/pom_sign-in";
@@ -41,6 +41,10 @@ export const test = base.extend<TestOptions>({
     printConductPage: async ({page}, use) => {
         const printConductPage = new PrintConductPage(page);
         await use(printConductPage);
+    },
+    printVolunteerPage: async ({page}, use) => {
+        const printVolunteerPage = new PrintVolunteerPage(page);
+        await use(printVolunteerPage);
     },
     profilesPage: async ({page}, use) => {
         const profilesPage = new ProfilesPages(page);
