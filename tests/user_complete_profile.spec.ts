@@ -30,13 +30,13 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
             completeProfilePage.linkedin_icon, completeProfilePage.bluesky_icon, completeProfilePage.dev_icon];
 
-        completeProfilePage.instagram_icon.isEnabled();
-        completeProfilePage.facebook_icon.isEnabled();
-        completeProfilePage.threads_icon.isEnabled();
-        completeProfilePage.linkedin_icon.isEnabled();
-        completeProfilePage.bluesky_icon.isEnabled();
-        completeProfilePage.twitter_x_icon.isEnabled(); 
-        completeProfilePage.dev_icon.isEnabled();
+        await completeProfilePage.instagram_icon.isEnabled();
+        await completeProfilePage.facebook_icon.isEnabled();
+        await completeProfilePage.threads_icon.isEnabled();
+        await completeProfilePage.linkedin_icon.isEnabled();
+        await completeProfilePage.bluesky_icon.isEnabled();
+        await completeProfilePage.twitter_x_icon.isEnabled(); 
+        await completeProfilePage.dev_icon.isEnabled();
 
         for(const b of button_list) {
             console.log(await b.all());
@@ -182,9 +182,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         // await page.close();           
   });
 
-  test('PHOTO UPLOAD and REMOVING VALID IMAGE THEN UPLOAD AGAIN', async ({ page }) => {
-
-        const completeProfilePage = new CompleteProfilePage(page);
+  test('PHOTO UPLOAD and REMOVING VALID IMAGE THEN UPLOAD AGAIN', async ({ completeProfilePage }) => {
 
         await completeProfilePage.page_title.isVisible();
 
@@ -230,21 +228,17 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             expect(await b.count()).toEqual(0);
         }
 
-        let ddd = await page.locator("#details-social-inputs").getByRole("button").all();
+        let detail_social_inputs = await completeProfilePage.page.locator("#details-social-inputs").getByRole("button").all();
 
 
-        for(let i = (ddd.length - 1); i >= 0; i-- ) {
-            console.log(ddd[i]);
-            await ddd[i].click();
-            expect(await ddd[i].count()).toEqual(0) 
+        for(let i = (detail_social_inputs.length - 1); i >= 0; i-- ) {
+            await detail_social_inputs[i].click();
+            expect(await detail_social_inputs[i].count()).toEqual(0) 
         }
 
-        // await page.close();
     });
 
-    test('UPLOAD NON-IMAGE REMOVE THEN UPLOAD INVALID FILE AGAIN', async ({ page }) => {
-
-        const completeProfilePage = new CompleteProfilePage(page);
+    test('UPLOAD NON-IMAGE REMOVE THEN UPLOAD INVALID FILE AGAIN', async ({ completeProfilePage }) => {
 
         await completeProfilePage.page_title.isVisible();
 
@@ -288,22 +282,19 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             expect(await b.count()).toEqual(0);
         }
 
-        let ddd = await page.locator("#details-social-inputs").getByRole("button").all();
+        let detail_social_inputs = await completeProfilePage.page.locator("#details-social-inputs").getByRole("button").all();
 
 
-        for(let i = (ddd.length - 1); i >= 0; i-- ) {
-            console.log(ddd[i]);
-            await ddd[i].click();
-            expect(await ddd[i].count()).toEqual(0) 
+        for(let i = (detail_social_inputs.length - 1); i >= 0; i-- ) {
+            await detail_social_inputs[i].click();
+            expect(await detail_social_inputs[i].count()).toEqual(0) 
         }
 
         // await page.close();
     });
 
     
-    test("PHOTO UPLOAD USING 'UPLOAD NEW IMAGE' BUTTON", async ({ page }) => {
-
-        const completeProfilePage = new CompleteProfilePage(page);
+    test("PHOTO UPLOAD USING 'UPLOAD NEW IMAGE' BUTTON", async ({ completeProfilePage }) => {
 
         await completeProfilePage.page_title.isVisible();
 
@@ -345,9 +336,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
     });
 
-    test("NON-IMAGE UPLOAD USING 'UPLOAD NEW IMAGE' BUTTON", async ({ page }) => {
-
-        const completeProfilePage = new CompleteProfilePage(page);
+    test("NON-IMAGE UPLOAD USING 'UPLOAD NEW IMAGE' BUTTON", async ({ completeProfilePage }) => {
 
         await completeProfilePage.page_title.isVisible();
 

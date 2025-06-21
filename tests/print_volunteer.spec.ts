@@ -1,6 +1,5 @@
 import { expect, Page, BrowserContext, Locator } from '@playwright/test';
 import { test } from './base';
-import { PrintVolunteerPage } from '../page_object_models/pom_print_volunteer.ts';
 
 test.beforeEach( async ({ printVolunteerPage }) => {
   test.setTimeout(50000) // Sets a 40-second timeout for all tests

@@ -1,13 +1,16 @@
 import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
 import { test } from "./base.ts";
-import { SignInPage } from '../page_object_models/pom_sign-in';
 
 const url_1 = "http://localhost:3000/pages/sign-in/";
 
 test.beforeEach(async({signInPage}) => {
     await signInPage.navigate();
 })
+
+test.afterEach(async ({ signInPage }) => {
+    await signInPage.page.close();
+});
 
 test.describe('SIGN-IN Test Suite', () => {
     test('Check page Elements and Text', async ({ signInPage }) => {
@@ -33,7 +36,6 @@ test.describe('SIGN-IN Test Suite', () => {
        //  await page.getByRole('button', { name: 'Log in'}).isVisible();
         await signInPage.login_button.isVisible();
         
-        await signInPage.page.close();
     });
 
     test('Enter invalid password', async ({ signInPage }) => {
@@ -54,8 +56,6 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await signInPage.login_button.click();
 
-        
-        await signInPage.page.close();
     });
 
     test('Enter invalid email', async ({ signInPage }) => {
@@ -90,8 +90,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         await signInPage.login_button.click();
 
-        
-        await signInPage.page.close();
+
     });
 
     /* 
@@ -195,10 +194,6 @@ test.describe('SIGN-IN Test Suite', () => {
     */
 
     test('Javascript Injection Test', async ({ signInPage }) => {
-            
-            //const signInPage = new SignInPage(page);
-
-            //await signInPage.navigate();
 
             await signInPage.page_title_1.isVisible()
 
@@ -234,7 +229,7 @@ test.describe('SIGN-IN Test Suite', () => {
             await signInPage.login_button.click();
     
             console.log('Javascript Injection test');
-            await signInPage.page.close();
+
         });
     
         test('SQL Injection Test', async ({ signInPage }) => {
@@ -273,7 +268,7 @@ test.describe('SIGN-IN Test Suite', () => {
             await signInPage.login_button.click();
     
             console.log('Javascript Injection test');
-            await signInPage.page.close();
+
         });
 
         test('USE SIGNUP LINK', async ({ signInPage }) => {
@@ -300,7 +295,6 @@ test.describe('SIGN-IN Test Suite', () => {
 
             await signInPage.page.waitForTimeout(3000);
         
-            await signInPage.page.close();
         });
 
         test("USER DOESN't REMEMBER LINK", async ({ signInPage }) => {
@@ -326,8 +320,7 @@ test.describe('SIGN-IN Test Suite', () => {
             expect(signInPage.page.url()).toBe(signInPage.forgot_page_url);
 
             await signInPage.page.waitForTimeout(3000);
-        
-            await signInPage.page.close();
+
         });
 
 
@@ -406,7 +399,6 @@ test.describe('SIGN-IN Test Suite', () => {
         console.log(pp);
         newPage_4.close();
 
-        await signInPage.page.close();
     });
 
 });

@@ -89,9 +89,9 @@ test.describe('SIGN-UP Test Suite', () => {
 
         const username_1 = await signUpPage.unique_username("Curtis Tester");
 
-        signUpPage.page_title_2.isVisible();
+        await signUpPage.page_title_2.isVisible();
 
-        signUpPage.page_title_1.isVisible();
+        await signUpPage.page_title_1.isVisible();
 
 
 
@@ -108,7 +108,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         }
 
-        signUpPage.red_Account_button.isVisible();
+        await signUpPage.red_Account_button.isVisible();
 
     });
 

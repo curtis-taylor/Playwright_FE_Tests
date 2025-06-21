@@ -369,7 +369,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
           //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
           await completeProfilePage.fill_fields(form1);
 
-          await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg');
+          await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
           await completeProfilePage.page.waitForTimeout(4000);
 
           await completeProfilePage.complete_button.click();
@@ -379,7 +379,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         }
       });
 
-      test('USER SUCCESSFUL 3-STEP WORKFLOW - Not Toronto based and can not join locally', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
+      test('USER SUCCESSFUL 3-STEP WORKFLOW WITH BACK TRACKING', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
 
 
         const name1 = completeProfilePage.unique_username("RONN");
@@ -414,6 +414,11 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         await checkStepsPage.continue_button.click();
 
         await reviewConductPage.check_navbar(reviewConductPage.page);
+        
+        await reviewConductPage.continue_button.click();
+        await reviewConductPage.continue_button.isDisabled();
+        await expect(reviewConductPage.continue_button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
+
         await reviewConductPage.checkbox_I_agree.click();
         await reviewConductPage.continue_button.click();
 
@@ -422,7 +427,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
         await completeProfilePage.fill_fields(form1);
 
-        await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg');
+        await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
          await completeProfilePage.page.waitForTimeout(4000);
 
         await completeProfilePage.complete_button.click();

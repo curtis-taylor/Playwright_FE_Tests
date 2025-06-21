@@ -8,8 +8,6 @@ test.beforeEach(async ({teamsPage}) => {
    await teamsPage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
-
-
    
 }); 
 
