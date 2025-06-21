@@ -18,6 +18,7 @@ export class CompleteProfilePage {
     readonly based_GTA_switch: Locator;
     readonly can_join_Local_switch: Locator;
     readonly upload_Button: Locator;
+    readonly upload_New_Photo_Button: Locator;
     readonly file_picker: Locator;
     readonly remove_image_Button: Locator;
     readonly upload_success_Label: Locator;
@@ -64,6 +65,7 @@ export class CompleteProfilePage {
         this.can_join_Local_switch = page.getByText('I can join TorontoJS\'s local');
 
         this.upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
+        this.upload_New_Photo_Button = page.getByRole('button', { name: 'Upload New Photo' });
         this.file_picker = page.locator("#image-upload");
         this.remove_image_Button = page.getByRole('button', {name: 'Remove Photo'});
         this.upload_success_Label = page.getByText('Avatar uploaded successfully');
@@ -103,20 +105,40 @@ export class CompleteProfilePage {
         expect(this.page.url()).toBe(this.url);
     }
 
-    async upload_avatar_image(image_path: string) {
+    async upload_avatar_image(image_path: string, valid_image_bool: boolean) {
         await this.upload_Button.isVisible();
-        await this.upload_Button.click();
+        await this.upload_New_Photo_Button.isVisible();
+        await this.remove_image_Button.isHidden();
+
+        if(await this.upload_New_Photo_Button.isHidden()) {
+            await this.upload_Button.click();
+        } else {
+            await this.upload_New_Photo_Button.click();
+        }
+
         //### FILE PICKER
         await this.file_picker.setInputFiles(image_path);
         await this.page.waitForTimeout(200);
         await this.upload_Button.isVisible();
         await this.remove_image_Button.isVisible();
         await this.upload_success_Label.isVisible();
+        await this.upload_New_Photo_Button.isVisible();
+
+        if (valid_image_bool) {
+             expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+        } else {
+             // SHOULD BE BROKEN IMAGE IF FILE UPLOAD IS NOT IMAGE FILE
+             expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
+        }
+
+
         // expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', 'auto');
-        expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
     }
 
     async remove_avatar_image() {
+        await this.upload_Button.isHidden();
+        await this.upload_New_Photo_Button.isVisible();
+        await this.remove_image_Button.isVisible();
         await this.remove_image_Button.click();
         expect(await this.remove_image_Button.count()).toEqual(0);
         expect(await this.upload_success_Label.count()).toEqual(0);
