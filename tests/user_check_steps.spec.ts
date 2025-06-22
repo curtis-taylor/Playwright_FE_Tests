@@ -4,6 +4,7 @@ import { ReviewConductPage } from '../page_object_models/pom_review_conduct';
 import { CompleteProfilePage } from '../page_object_models/pom_complete_profile';
 import { test, Complete_Profile_Type } from './base';
 import { execPath } from 'process';
+import { log } from 'console';
 
 test.beforeEach( async ({ checkStepsPage }) => {
   test.setTimeout(100000)   
@@ -115,7 +116,6 @@ test.describe('ACCOUNT CONFIRMED Test Suite', () => {
     console.log(await row2.textContent());
     
     if(await row2.textContent() == "Check the conduct code") {
-        console.log(":::"); 
 
       await expect(row2).toHaveCSS('color',
         `rgb(${ (await rbgColors).red }, ${ (await rbgColors).green }, ${ (await rbgColors).blue })`);
@@ -379,15 +379,19 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         }
       });
 
-      test('USER SUCCESSFUL 3-STEP WORKFLOW WITH BACK TRACKING', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
+      test('USER SUCCESSFUL 3-STEP WORKFLOW WITH Incomplete Info', async ({ checkStepsPage, reviewConductPage, completeProfilePage}) => {
 
 
         const name1 = completeProfilePage.unique_username("RONN");
         const email1 = name1 + "@zoho.com";
 
-        const form1 = {
-          name: name1,
-          email: email1,
+        const email_list = ["", "", email1];
+        const name_list = ["", name1, name1];
+
+         for(let x = 0; x < name_list.length; x++) { 
+        let form1 = {
+          name: name_list[x],
+          email: email_list[x],
           slack_handle: "T06498HEJ/C0805K3R8VB",
           pronouns: "He",
           birth_month: "December",
@@ -409,13 +413,16 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
           devto: "www.dev.to.com"
         }
 
-        console.log(checkStepsPage.page.url());
+        await checkStepsPage.navigate(1);
+
+        console.log(checkStepsPage.page.url() + " 0000");
+        
         await checkStepsPage.check_navbar(checkStepsPage.page);
         await checkStepsPage.continue_button.click();
 
         await reviewConductPage.check_navbar(reviewConductPage.page);
         
-        await reviewConductPage.continue_button.click();
+        //await reviewConductPage.continue_button.click();
         await reviewConductPage.continue_button.isDisabled();
         await expect(reviewConductPage.continue_button).toHaveCSS('background-color', 'rgba(0, 0, 0, 0.15)');
 
@@ -432,8 +439,12 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
 
         await completeProfilePage.complete_button.click();
 
-       
+        console.log(completeProfilePage.page.url());
+
+        await completeProfilePage.page.waitForTimeout(6000);
+
+      }
         
-      });
+      }); 
 
   });
