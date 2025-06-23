@@ -59,45 +59,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
         // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
-        // await expect(page.locator('li').nth(1)).toHaveText('Account confirmed');
-
-        /*
-        const name_field = page.getByRole('textbox', { name: 'Name' });
-        const email_field = page.getByRole('textbox', { name: 'E-mail REQUIRED' });
-        const slack_field = page.getByRole('textbox', { name: 'Slack handle Required" / "' });
-        const pronouns = page.getByRole('combobox', { name: 'Pronouns' });
-        const dob_Month = page.getByLabel('Month');
-        const dob_Day = page.getByLabel('Day');
-
-        const based_GTA_switch = page.getByText('I\'m based in Toronto or');
-        const can_join_Local_switch = page.getByText('I can join TorontoJS\'s local');
-        const upload_Button = page.getByRole('button', { name: 'Upload Your Photo' });
-        const file_picker = page.locator("#image-upload");
-
-        const linkedin_profile_1 = page.getByRole('textbox', { name: 'LinkedIn profile' });
-        const github_field = page.getByRole('textbox', { name: 'GitHub profile' });
-        const site_field = page.getByRole('textbox', { name: 'Site/portfolio' });
-        const skills_field = page.getByRole('textbox', { name: 'Your skills' });
-
-        const facebook_icon = page.getByRole('button', { name: 'Add Facebook account' });
-        const threads_icon = page.getByRole('button', { name: 'Add Threads account' });
-        const instagram_icon = page.getByRole('button', { name: 'Add Instagram account' });
-        const twitter_x_icon = page.getByRole('button', { name: 'Add X account' });
-        const linkedin_icon = page.getByRole('button', { name: 'Add LinkedIn account' });
-        const bluesky_icon = page.getByRole('button', { name: 'Add BlueSky account' })
-        const dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
-
-        const complete_button = page.getByRole('button', {name: 'Complete My Profile'});
-
-        */
-
+       
         const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
             completeProfilePage.linkedin_icon, completeProfilePage.bluesky_icon, completeProfilePage.dev_icon];
-
-        /*    
-        const nutshell_bar = page.locator('summary').filter({ hasText: 'In a nutshell:' });
-        const avatar_bar = page.locator('summary').filter({ hasText: 'Avatar:' });
-        const more_info_bar = page.locator('summary').filter({ hasText: 'More Information:' }); */
 
         await completeProfilePage.page_title.isVisible();
 
@@ -122,13 +86,14 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.skills_field.fill("Python, Javascript, Git, Playwright, Flask, Azure");
 
+        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
         
-
+        /*
         for(const b of button_list) {
             console.log(await b.all());
             await b.click();
             expect(await b.count()).toEqual(0);
-        }
+        } */
 
         await completeProfilePage.instagram_field.fill("www.instagram.com");
         await completeProfilePage.linkedin_2nd_field.fill("www.linkedin.com");

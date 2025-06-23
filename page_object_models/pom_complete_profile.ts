@@ -220,6 +220,7 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page) {
+        
         await this.instagram_icon.click();
         await this.facebook_icon.click();
         await this.threads_icon.click();
