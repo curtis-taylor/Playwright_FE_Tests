@@ -94,5 +94,14 @@ export type Complete_Profile_Type = {
     devto: string
 }
 
+export type Enable_Profile_Footer_Type = {
+    linkedin_other: boolean,
+    facebook: boolean,
+    threads: boolean,
+    twitter_x: boolean,
+    bluesky: boolean,
+    instagram: boolean,
+    devto: boolean
+}
 
 export { expect } from "@playwright/test";

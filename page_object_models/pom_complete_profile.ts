@@ -1,5 +1,5 @@
 import { expect, type Page, type Locator } from '@playwright/test';
-import { Complete_Profile_Type} from '../tests/base';
+import { Complete_Profile_Type, Enable_Profile_Footer_Type} from '../tests/base';
 
 export class CompleteProfilePage {
     readonly page: Page;
@@ -43,6 +43,14 @@ export class CompleteProfilePage {
     readonly twitter_x_icon: Locator;
     readonly linkedin_icon: Locator;
     readonly dev_icon: Locator;
+
+    readonly close_linkedin_field_button: Locator;
+    readonly close_instagram_field_button: Locator;
+    readonly close_facebook_field_button: Locator;
+    readonly close_twitter_x_field_button: Locator;
+    readonly close_thread_field_button: Locator;
+    readonly close_bluesky_field_button: Locator;
+    readonly close_devto_field_button: Locator;
 
     readonly complete_button: Locator;
     readonly nutshell_bar: Locator;
@@ -94,6 +102,8 @@ export class CompleteProfilePage {
         this.bluesky_icon = page.getByRole('button', { name: 'Add BlueSky account' });
         this.linkedin_icon = page.getByRole('button', { name: 'Add LinkedIn account' });
         this.dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
+
+        this.close_linkedin_field_button = page.getByRole("button", { name: 'Close LinkedIn input'});
 
         this.complete_button = page.getByRole('button', {name: 'Complete My Profile'});
 
@@ -174,9 +184,9 @@ export class CompleteProfilePage {
     }
 
     
-    async fill_fields(form1 : Complete_Profile_Type) {
+    async fill_fields(form1 : Complete_Profile_Type, enable_footer: Enable_Profile_Footer_Type) {
 
-        await this.enable_disable_footer_social_fields(this.page);
+        await this.enable_disable_footer_social_fields(this.page, enable_footer);
         await this.page.waitForTimeout(1000);
         
         await this.name_field.fill(form1.name);
@@ -219,8 +229,11 @@ export class CompleteProfilePage {
         return username + t;
     }
 
-    async enable_disable_footer_social_fields(page: Page) {
+    async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
         
+
+
+
         await this.instagram_icon.click();
         await this.facebook_icon.click();
         await this.threads_icon.click();

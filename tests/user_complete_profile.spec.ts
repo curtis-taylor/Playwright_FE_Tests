@@ -39,15 +39,20 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         await completeProfilePage.dev_icon.isEnabled();
 
         for(const b of button_list) {
-            console.log(await b.all());
+            //console.log(await b.all());
             await b.click();
             expect(await b.count()).toEqual(0);
         }
 
         let detail_social_inputs = await completeProfilePage.page.locator("#details-social-inputs").getByRole("button").all();
 
+        let temp = completeProfilePage.page.getByRole("button", { name: 'Close LinkedIn input'});
+
+        console.log(temp);
+        console.log("KKK");
 
         for(let i = (detail_social_inputs.length - 1); i >= 0; i-- ) {
+            console.log(detail_social_inputs[i]);
             await detail_social_inputs[i].click();
             expect(await detail_social_inputs[i].count()).toEqual(0) 
         }
@@ -59,6 +64,15 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
         // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
+        let enable_footer = {
+            linkedin_other: true,
+            facebook: true,
+            threads: true,
+            twitter_x: true,
+            bluesky: true,
+            instagram: true,
+            devto: true
+        }
        
         const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
             completeProfilePage.linkedin_icon, completeProfilePage.bluesky_icon, completeProfilePage.dev_icon];
@@ -86,7 +100,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.skills_field.fill("Python, Javascript, Git, Playwright, Flask, Azure");
 
-        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
+        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
         
         /*
         for(const b of button_list) {
