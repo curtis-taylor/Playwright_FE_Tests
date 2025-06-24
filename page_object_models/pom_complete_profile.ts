@@ -48,7 +48,7 @@ export class CompleteProfilePage {
     readonly close_instagram_field_button: Locator;
     readonly close_facebook_field_button: Locator;
     readonly close_twitter_x_field_button: Locator;
-    readonly close_thread_field_button: Locator;
+    readonly close_threads_field_button: Locator;
     readonly close_bluesky_field_button: Locator;
     readonly close_devto_field_button: Locator;
 
@@ -104,6 +104,12 @@ export class CompleteProfilePage {
         this.dev_icon = page.getByRole('button', { name: 'Add Dev.to account' });
 
         this.close_linkedin_field_button = page.getByRole("button", { name: 'Close LinkedIn input'});
+        this.close_instagram_field_button = page.getByRole("button", { name: 'Close Instagram input'});
+        this.close_threads_field_button = page.getByRole("button", { name: 'Close Threads input'});
+        this.close_facebook_field_button = page.getByRole("button", { name: 'Close Facebook input'});
+        this.close_twitter_x_field_button = page.getByRole("button", { name: 'Close X input'});
+        this.close_bluesky_field_button = page.getByRole("button", { name: 'Close BlueSky input'});
+        this.close_devto_field_button = page.getByRole("button", { name: 'Close Dev.to input'});
 
         this.complete_button = page.getByRole('button', {name: 'Complete My Profile'});
 
@@ -230,19 +236,78 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
-        
 
+        if(enable_switch.linkedin_other) {
+            if(await this.linkedin_icon.isVisible()) {
+                await this.linkedin_icon.click();
+            }      
+        } else {
+            if(await this.linkedin_2nd_field.isVisible()) {
+                await this.close_linkedin_field_button.click();
+            } 
+        }
 
+        if(enable_switch.instagram) {
+            if(await this.instagram_icon.isVisible()) {
+                await this.instagram_icon.click();
+            }      
+        } else {
+            if(await this.instagram_field.isVisible()) {
+                await this.close_instagram_field_button.click();
+            } 
+        }
 
-        await this.instagram_icon.click();
-        await this.facebook_icon.click();
-        await this.threads_icon.click();
-        await this.linkedin_icon.click();
-        await this.bluesky_icon.click();
-        await this.twitter_x_icon.click();
-        await this.dev_icon.click();
+        if(enable_switch.facebook) {
+            if(await this.facebook_icon.isVisible()) {
+                await this.facebook_icon.click();
+            }      
+        } else {
+            if(await this.facebook_field.isVisible()) {
+                await this.close_facebook_field_button.click();
+            } 
+        }
 
-        page.waitForTimeout(1000);
+        if(enable_switch.threads) {
+            if(await this.threads_icon.isVisible()) {
+                await this.threads_icon.click();
+            }      
+        } else {
+            if(await this.thread_field.isVisible()) {
+                await this.close_threads_field_button.click();
+            } 
+        }
+
+        if(enable_switch.bluesky) {
+            if(await this.bluesky_icon.isVisible()) {
+                await this.bluesky_icon.click();
+            }      
+        } else {
+            if(await this.bluesky_field.isVisible()) {
+                await this.close_bluesky_field_button.click();
+            } 
+        }
+
+        if(enable_switch.twitter_x) {
+            if(await this.twitter_x_icon.isVisible()) {
+                await this.twitter_x_icon.click();
+            }      
+        } else {
+            if(await this.twitter_x_field.isVisible()) {
+                await this.close_twitter_x_field_button.click();
+            } 
+        }
+
+        if(enable_switch.devto) {
+            if(await this.dev_icon.isVisible()) {
+                await this.dev_icon.click();
+            }      
+        } else {
+            if(await this.devto_field.isVisible()) {
+                await this.close_devto_field_button.click();
+            } 
+        }
+
+        await page.waitForTimeout(1000);
 
 
     }

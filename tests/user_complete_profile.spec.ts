@@ -58,6 +58,34 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         }
 
         // await page.close();
+
+   
+        let enable_footer = {
+            linkedin_other: false,
+            facebook: true,
+            threads: true,
+            twitter_x: true,
+            bluesky: false,
+            instagram: true,
+            devto: false
+        }
+
+        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
+        await completeProfilePage.page.waitForTimeout(2000);
+
+        enable_footer = {
+            linkedin_other: true,
+            facebook: true,
+            threads: true,
+            twitter_x: true,
+            bluesky: true,
+            instagram: true,
+            devto: false
+        }
+
+        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
+        await completeProfilePage.page.waitForTimeout(4000);
+    
     });
 
     test('FIELD DATA PERSISTS after RED ACCORDIAN USE', async ({ completeProfilePage }) => {
