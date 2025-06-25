@@ -1,8 +1,5 @@
 import { expect, Page } from '@playwright/test';
-import { CheckStepsPage } from '../page_object_models/pom_check-steps'
-import { ReviewConductPage } from '../page_object_models/pom_review_conduct';
-import { CompleteProfilePage } from '../page_object_models/pom_complete_profile';
-import { test, Complete_Profile_Type } from './base';
+import { test } from './base';
 import { execPath } from 'process';
 import { log } from 'console';
 
@@ -354,6 +351,16 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
             devto: "www.dev.to.com"
           }
 
+          let enable_footer = {
+            linkedin_other: false,
+            facebook: true,
+            threads: true,
+            twitter_x: true,
+            bluesky: false,
+            instagram: true,
+            devto: false
+        }
+
           await checkStepsPage.navigate(1);
 
           //console.log(checkStepsPage.page.url());
@@ -367,7 +374,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
           await completeProfilePage.check_navbar(completeProfilePage.page);
 
           //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
-          await completeProfilePage.fill_fields(form1);
+          await completeProfilePage.fill_fields(form1, enable_footer);
 
           await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
           await completeProfilePage.page.waitForTimeout(4000);
@@ -413,6 +420,16 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
           devto: "www.dev.to.com"
         }
 
+        let enable_footer = {
+            linkedin_other: false,
+            facebook: true,
+            threads: true,
+            twitter_x: true,
+            bluesky: false,
+            instagram: true,
+            devto: false
+        }
+
         await checkStepsPage.navigate(1);
 
         console.log(checkStepsPage.page.url() + " 0000");
@@ -432,7 +449,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         await completeProfilePage.check_navbar(completeProfilePage.page);
 
         //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
-        await completeProfilePage.fill_fields(form1);
+        await completeProfilePage.fill_fields(form1, enable_footer);
 
         await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
          await completeProfilePage.page.waitForTimeout(4000);

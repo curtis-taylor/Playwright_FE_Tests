@@ -1,5 +1,4 @@
 import { expect, Page } from '@playwright/test';
-import { CompleteProfilePage } from '../page_object_models/pom_complete_profile';
 import { test } from "./base.ts";
 
 test.beforeEach(async ({ completeProfilePage }) => {
@@ -18,7 +17,7 @@ test.afterEach(async ({ completeProfilePage }) => {
 });
  
 test.describe('USER COMPLETE PROFILE Suite', () => {
-    test('Social Media Footer Check', async ({ completeProfilePage }) => {
+    test('Social Media Footer OPENING CLOSING FIELDS', async ({ completeProfilePage }) => {
 
         // const browser_context = await browser.newContext();
         // const page = await browser_context.newPage();
@@ -92,6 +91,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         // await page.goto('http://localhost:3000/pages/check-steps/');
         // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
+        
         let enable_footer = {
             linkedin_other: true,
             facebook: true,
@@ -102,9 +102,6 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             devto: true
         }
        
-        const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
-            completeProfilePage.linkedin_icon, completeProfilePage.bluesky_icon, completeProfilePage.dev_icon];
-
         await completeProfilePage.page_title.isVisible();
 
         await completeProfilePage.name_field.fill("Mr Tester");
@@ -129,13 +126,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         await completeProfilePage.skills_field.fill("Python, Javascript, Git, Playwright, Flask, Azure");
 
         await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
-        
-        /*
-        for(const b of button_list) {
-            console.log(await b.all());
-            await b.click();
-            expect(await b.count()).toEqual(0);
-        } */
+
 
         await completeProfilePage.instagram_field.fill("www.instagram.com");
         await completeProfilePage.linkedin_2nd_field.fill("www.linkedin.com");
@@ -164,29 +155,10 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         expect(await completeProfilePage.page.locator('#Instagram-input').inputValue()).toEqual("www.instagram.com");
         expect(await completeProfilePage.page.locator('#X-input').inputValue()).toEqual("www.x.com");
        
-       // expect(await completeProfilePage.remove_image_Button).toBeVisible;
-       // expect(await completeProfilePage.upload_success_Label).toBeVisible;
-       // expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('height', '128px');
-      //  expect(page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
-
         await completeProfilePage.complete_button.click();
 
         await completeProfilePage.page.waitForTimeout(1000);
-
-
-        /*
-        await page.getByRole('listitem', {name: 'Account confirmed'}).isVisible();
-        await page.getByRole('listitem', {name: 'Check the conduct code'}).isVisible();
-        await page.getByRole('listitem', {name: 'Complete your profile'}).isVisible();
-
-        await page.getByText('Check the TorontoJS\'s conduct').isVisible();
-        await page.getByRole('listitem').filter({ hasText: 'Check the TorontoJS\'s conduct' }).isVisible();
-
-        await page.getByRole('listitem').filter({ hasText: /^Complete your profile$/ }).isVisible();
-        await page.locator('#check-steps').getByText('Complete your profile').isVisible();
-        */
-
-        // await page.close();           
+       
   });
 
   test('PHOTO UPLOAD and REMOVING VALID IMAGE THEN UPLOAD AGAIN', async ({ completeProfilePage }) => {
