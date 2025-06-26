@@ -236,13 +236,16 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
-
+        console.log(await this.linkedin_icon.isVisible());
         if(enable_switch.linkedin_other) {
             if(await this.linkedin_icon.isVisible()) {
                 await this.linkedin_icon.click();
+                   
+                   console.log(enable_switch.linkedin_other);
             }      
         } else {
             if(await this.linkedin_2nd_field.isVisible()) {
+                console.log("dis dis");
                 await this.close_linkedin_field_button.click();
             } 
         }

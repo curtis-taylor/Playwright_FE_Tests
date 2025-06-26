@@ -330,5 +330,80 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
     });
 
+    test('FIELD SQL INJECTION INTO PRIMARY FIELDS', async ({ completeProfilePage }) => {
+        // await page.goto('http://localhost:3000/pages/check-steps/');
+        // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+
+        
+        let enable_footer = {
+            linkedin_other: true,
+            facebook: true,
+            threads: true,
+            twitter_x: true,
+            bluesky: true,
+            instagram: true,
+            devto: true
+        }
+
+        let name1 = completeProfilePage.unique_username("Mario");
+        let email1 = name1 + "@zoho.com";
+          
+        let form1 = {
+            name: "SHOW DATABASES",
+            email: "SHOW DATABASES",
+            slack_handle: "T06498HEJ/C0805K3R8VB",
+            pronouns: "He/Him",
+            birth_month: "May",
+            birth_day: "1",
+            toronto_based: true,
+            join_locally: false,
+
+            site_portfolio: "SHOW DATABASES",
+            github: "SHOW DATABASES",
+            linkedin_profile: "SHOW DATABASES",
+            skills_field: "SHOW DATABASES",
+            linkedin_other: "SHOW DATABASES",
+        
+            facebook: "SHOW DATABASES",
+            threads: "SHOW DATABASES",
+            twitter_x: "SHOW DATABASES",
+            bluesky: "SHOW DATABASES",
+            instagram: "SHOW DATABASES",
+            devto: "SHOW DATABASES"
+          }
+
+        await completeProfilePage.page_title.isVisible();
+
+        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
+
+        await completeProfilePage.fill_fields(form1, enable_footer);
+
+        completeProfilePage.page.waitForTimeout(8000);
+
+        // UPLOAD AVATAR
+        await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
+
+
+        console.log(await completeProfilePage.page.locator('#Instagram-input').textContent());
+
+        /*
+        // REPEATABLE SELECTS red ACCORDIAN CONTROLS
+        for(let x = 1; x <= 2; x++) {
+            await completeProfilePage.nutshell_bar.click();
+            await completeProfilePage.avatar_bar.click();
+            await completeProfilePage.more_info_bar.click();
+
+            await completeProfilePage.page.waitForTimeout(700);
+
+        } */
+
+        await completeProfilePage.complete_button.click();
+
+        await completeProfilePage.page.waitForTimeout(1000);
+       
+  });
+
+    
+
 
 });
