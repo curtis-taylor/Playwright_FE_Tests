@@ -79,11 +79,11 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             twitter_x: true,
             bluesky: true,
             instagram: true,
-            devto: false
+            devto: true
         }
 
         await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
-        await completeProfilePage.page.waitForTimeout(4000);
+        await completeProfilePage.page.waitForTimeout(7000);
     
     });
 
@@ -127,6 +127,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
 
+        await completeProfilePage.page.waitForTimeout(5000);
 
         await completeProfilePage.instagram_field.fill("www.instagram.com");
         await completeProfilePage.linkedin_2nd_field.fill("www.linkedin.com");
@@ -345,12 +346,14 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             devto: true
         }
 
+        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
+
         let name1 = completeProfilePage.unique_username("Mario");
         let email1 = name1 + "@zoho.com";
           
         let form1 = {
-            name: "SHOW DATABASES",
-            email: "SHOW DATABASES",
+            name: "SELECT * FROM USER WHERE USERNAME = “” AND PASSWORD = ””;",
+            email: "SELECT * FROM USER WHERE USERNAME = “” AND PASSWORD = ””",
             slack_handle: "T06498HEJ/C0805K3R8VB",
             pronouns: "He/Him",
             birth_month: "May",
@@ -359,26 +362,27 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             join_locally: false,
 
             site_portfolio: "SHOW DATABASES",
-            github: "SHOW DATABASES",
-            linkedin_profile: "SHOW DATABASES",
-            skills_field: "SHOW DATABASES",
-            linkedin_other: "SHOW DATABASES",
+            github: "SHOW DATABASES;",
+            linkedin_profile: "SHOW DATABASES;",
+            skills_field: "SHOW DATABASES;",
+            linkedin_other: "SHOW DATABASES;",
         
-            facebook: "SHOW DATABASES",
-            threads: "SHOW DATABASES",
-            twitter_x: "SHOW DATABASES",
-            bluesky: "SHOW DATABASES",
-            instagram: "SHOW DATABASES",
-            devto: "SHOW DATABASES"
+            facebook: "SHOW DATABASES;",
+            threads: "SHOW DATABASES;",
+            twitter_x: "SHOW DATABASES;",
+            bluesky: "SHOW DATABASES;",
+            instagram: "SHOW DATABASES;",
+            devto: "SHOW DATABASES;"
           }
 
         await completeProfilePage.page_title.isVisible();
+        await completeProfilePage.linkedin_icon.isVisible();
 
-        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
+        //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
 
         await completeProfilePage.fill_fields(form1, enable_footer);
 
-        completeProfilePage.page.waitForTimeout(8000);
+        await completeProfilePage.page.waitForTimeout(4000);
 
         // UPLOAD AVATAR
         await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
@@ -403,7 +407,82 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
   });
 
-    
+  test('FIELD JAVASCRIPT INJECTION INTO PRIMARY FIELDS', async ({ completeProfilePage }) => {
+        // await page.goto('http://localhost:3000/pages/check-steps/');
+        // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
+
+        
+        let enable_footer = {
+            linkedin_other: true,
+            facebook: true,
+            threads: true,
+            twitter_x: true,
+            bluesky: true,
+            instagram: true,
+            devto: true
+        }
+
+        await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
+
+        let name1 = completeProfilePage.unique_username("Mario");
+        let email1 = name1 + "@zoho.com";
+          
+        let form1 = {
+            name: "SHOW DATABASES;",
+            email: "SHOW DATABASES;",
+            slack_handle: "T06498HEJ/C0805K3R8VB",
+            pronouns: "He/Him",
+            birth_month: "May",
+            birth_day: "1",
+            toronto_based: true,
+            join_locally: false,
+
+            site_portfolio: "SHOW DATABASES;",
+            github: "SHOW DATABASES;",
+            linkedin_profile: "SHOW DATABASES;",
+            skills_field: "SHOW DATABASES;",
+            linkedin_other: "SHOW DATABASES;",
+        
+            facebook: "SHOW DATABASES;",
+            threads: "SHOW DATABASES;",
+            twitter_x: "SHOW DATABASES;",
+            bluesky: "SHOW DATABASES;",
+            instagram: "SHOW DATABASES;",
+            devto: "SHOW DATABASES;"
+          }
+
+        await completeProfilePage.page_title.isVisible();
+        await completeProfilePage.linkedin_icon.isVisible();
+
+        //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page, enable_footer);
+
+        await completeProfilePage.fill_fields(form1, enable_footer);
+
+        await completeProfilePage.page.waitForTimeout(4000);
+
+        // UPLOAD AVATAR
+        await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
+
+
+        console.log(await completeProfilePage.page.locator('#Instagram-input').textContent());
+
+        /*
+        // REPEATABLE SELECTS red ACCORDIAN CONTROLS
+        for(let x = 1; x <= 2; x++) {
+            await completeProfilePage.nutshell_bar.click();
+            await completeProfilePage.avatar_bar.click();
+            await completeProfilePage.more_info_bar.click();
+
+            await completeProfilePage.page.waitForTimeout(700);
+
+        } */
+
+        await completeProfilePage.complete_button.click();
+
+        await completeProfilePage.page.waitForTimeout(1000);
+       
+  });
+
 
 
 });

@@ -214,7 +214,7 @@ test.describe('SIGN-UP Test Suite', () => {
         signUpPage.page_title_1.isVisible();
         signUpPage.page_title_2.isVisible(); 
 
-        await signUpPage.fill_fields(username_1, "test@gmail.com", "xxxxxxx");
+        await signUpPage.fill_fields(username_1, "test@gmail.com", "#######");
 
         await signUpPage.red_Account_button.isVisible();
 

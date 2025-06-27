@@ -218,6 +218,8 @@ export class CompleteProfilePage {
         await this.site_field.fill(form1.site_portfolio);
         await this.skills_field.fill(form1.skills_field);
 
+        expect(this.linkedin_2nd_field).toBeVisible();
+
         await this.linkedin_2nd_field.fill(form1.linkedin_other);
         await this.instagram_field.fill(form1.instagram);
         await this.thread_field.fill(form1.threads);
@@ -236,16 +238,14 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
-        console.log(await this.linkedin_icon.isVisible());
         if(enable_switch.linkedin_other) {
             if(await this.linkedin_icon.isVisible()) {
                 await this.linkedin_icon.click();
                    
-                   console.log(enable_switch.linkedin_other);
+                   
             }      
         } else {
             if(await this.linkedin_2nd_field.isVisible()) {
-                console.log("dis dis");
                 await this.close_linkedin_field_button.click();
             } 
         }

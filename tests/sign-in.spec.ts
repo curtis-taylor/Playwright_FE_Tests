@@ -243,11 +243,13 @@ test.describe('SIGN-IN Test Suite', () => {
             await signInPage.email_field.isVisible();
             await signInPage.password_field.isVisible();
 
-            await signInPage.navigate();
+            // await signInPage.navigate();
 
             await signInPage.page_title_1.isVisible();
 
             await signInPage.login_button.isVisible();
+
+            await signInPage.fill_fields("SHOW DATABASES;", 'SHOW DATABASES;');
     
             // const red_button = page.getByRole('button', { name: 'Complete sign-up form button' });
     
@@ -267,7 +269,7 @@ test.describe('SIGN-IN Test Suite', () => {
             await signInPage.login_button.isVisible();
             await signInPage.login_button.click();
     
-            console.log('Javascript Injection test');
+            console.log('SQL Injection test');
 
         });
 
