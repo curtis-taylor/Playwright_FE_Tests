@@ -352,8 +352,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         let email1 = name1 + "@zoho.com";
           
         let form1 = {
-            name: "SELECT * FROM USER WHERE USERNAME = “” AND PASSWORD = ””;",
-            email: "SELECT * FROM USER WHERE USERNAME = “” AND PASSWORD = ””",
+            name: "SELECT",
+            email: "SELECT",
             slack_handle: "T06498HEJ/C0805K3R8VB",
             pronouns: "He/Him",
             birth_month: "May",
@@ -428,8 +428,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         let email1 = name1 + "@zoho.com";
           
         let form1 = {
-            name: "SHOW DATABASES;",
-            email: "SHOW DATABASES;",
+            name: "alert('HELLO');",
+            email: "alert('HELLO');",
             slack_handle: "T06498HEJ/C0805K3R8VB",
             pronouns: "He/Him",
             birth_month: "May",
@@ -437,18 +437,18 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             toronto_based: true,
             join_locally: false,
 
-            site_portfolio: "SHOW DATABASES;",
-            github: "SHOW DATABASES;",
-            linkedin_profile: "SHOW DATABASES;",
+            site_portfolio: "alert('HELLO');",
+            github: "alert('HELLO');",
+            linkedin_profile: "alert('BYE');",
             skills_field: "SHOW DATABASES;",
             linkedin_other: "SHOW DATABASES;",
         
-            facebook: "SHOW DATABASES;",
-            threads: "SHOW DATABASES;",
-            twitter_x: "SHOW DATABASES;",
-            bluesky: "SHOW DATABASES;",
-            instagram: "SHOW DATABASES;",
-            devto: "SHOW DATABASES;"
+            facebook: "",
+            threads: "",
+            twitter_x: "SHOW;",
+            bluesky: "SHOW",
+            instagram: "SHOW DATA",
+            devto: "SHOW DATA"
           }
 
         await completeProfilePage.page_title.isVisible();
@@ -465,17 +465,6 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
 
         console.log(await completeProfilePage.page.locator('#Instagram-input').textContent());
-
-        /*
-        // REPEATABLE SELECTS red ACCORDIAN CONTROLS
-        for(let x = 1; x <= 2; x++) {
-            await completeProfilePage.nutshell_bar.click();
-            await completeProfilePage.avatar_bar.click();
-            await completeProfilePage.more_info_bar.click();
-
-            await completeProfilePage.page.waitForTimeout(700);
-
-        } */
 
         await completeProfilePage.complete_button.click();
 

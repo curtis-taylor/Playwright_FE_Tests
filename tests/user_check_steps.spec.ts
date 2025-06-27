@@ -421,13 +421,13 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         }
 
         let enable_footer = {
-            linkedin_other: false,
+            linkedin_other: true,
             facebook: true,
             threads: true,
             twitter_x: true,
-            bluesky: false,
+            bluesky: true,
             instagram: true,
-            devto: false
+            devto: true
         }
 
         await checkStepsPage.navigate(1);

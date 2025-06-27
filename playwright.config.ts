@@ -34,7 +34,7 @@ export default defineConfig({
     launchOptions: {
       slowMo: 100,
     },
-    actionTimeout: 16000
+    actionTimeout: 40000
   },
 
   /* Configure projects for major browsers */

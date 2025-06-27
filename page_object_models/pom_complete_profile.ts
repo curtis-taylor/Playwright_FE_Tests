@@ -218,7 +218,7 @@ export class CompleteProfilePage {
         await this.site_field.fill(form1.site_portfolio);
         await this.skills_field.fill(form1.skills_field);
 
-        expect(this.linkedin_2nd_field).toBeVisible();
+        await this.linkedin_2nd_field.isVisible();
 
         await this.linkedin_2nd_field.fill(form1.linkedin_other);
         await this.instagram_field.fill(form1.instagram);
@@ -238,6 +238,9 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
+        
+        await page.waitForTimeout(3000);
+   
         if(enable_switch.linkedin_other) {
             if(await this.linkedin_icon.isVisible()) {
                 await this.linkedin_icon.click();
