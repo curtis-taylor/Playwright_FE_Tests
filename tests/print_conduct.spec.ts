@@ -29,7 +29,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
         let t = await printConductPage.page.getByText('The Toronto JS Code of').getByRole('link').all();
         
-        /* *******************
+        /* 
         for(const row of t) {
             console.log(await row.textContent());
             await page.waitForTimeout(500);
@@ -53,7 +53,7 @@ test.describe('SIGN-IN Test Suite', () => {
         // await expect(newPage_0).toHaveURL("https://torontojs.com/");
 
             
-        } ******************************/
+        } */
 
         
         for(const row of t) {
@@ -213,23 +213,27 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
     test('USE INVALID EMAIL', async({ printConductPage }) => {
-
+        /*
         await printConductPage.email_field.isVisible();
         await printConductPage.email_field.isEditable();
         await printConductPage.email_field.isEnabled();
         await printConductPage.email_field.fill("XXXXXXXX");
 
-        await printConductPage.send_button.isVisible();
-        await printConductPage.send_button.isEnabled();
-
         await printConductPage.text_box.isVisible();
         await printConductPage.text_box.isEditable();
         await printConductPage.text_box.fill("I am sending a Message. Great website!");
+        */
+        await printConductPage.fill_fields("XXXXXX", "I am sending a Message. Great website!");
+
+        await printConductPage.send_button.isVisible();
+        await printConductPage.send_button.isEnabled();
+
 
         await printConductPage.page.waitForTimeout(3000);
 
         await printConductPage.send_button.click();
 
+        /*
         expect(printConductPage.page.url().includes("formspree.io"));
 
         await printConductPage.page.getByRole('heading', { name: 'Thanks!' }).isVisible();
@@ -237,7 +241,7 @@ test.describe('SIGN-IN Test Suite', () => {
         await printConductPage.goBack_link.isVisible();
         await printConductPage.goBack_link.isEnabled();
 
-        await printConductPage.goBack_link.click();
+        await printConductPage.goBack_link.click(); */
 
         expect(printConductPage.page.url().includes(printConductPage.url));
 

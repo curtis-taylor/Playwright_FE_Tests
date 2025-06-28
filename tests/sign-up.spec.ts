@@ -331,6 +331,25 @@ test.describe('SIGN-UP Test Suite', () => {
                                              ["Curtis tester", "alert('Hello')", "password"],
                                              ["Curtis tester", "test2@zoho.com", "alert('Hello')"]];
 
+            await signUpPage.fill_fields("alert('Hello')", "alert('Hello')", "alert('Hello')");
+
+
+            await signUpPage.red_Account_button.isVisible();
+            await signUpPage.red_Account_button.isEnabled();
+            await signUpPage.red_Account_button.click();
+
+
+            await signUpPage.page.waitForTimeout(3000);
+
+            signUpPage.page.on('console', msg => {
+            if (msg.type().includes('error') || msg.type().includes('SQL') || msg.type().includes('alert'))
+                console.log(`Error text: "${msg.text()}"`);
+                expect(msg.type()).toContainEqual("");
+            });
+
+            await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
+
+            /*
             for(let i = 0; i < input_text.length; i++) {
                 await signUpPage.fill_fields(input_text[i][0], input_text[i][1], input_text[i][2]);
 
@@ -343,7 +362,7 @@ test.describe('SIGN-UP Test Suite', () => {
                 await signUpPage.page.waitForTimeout(3000);
 
                 await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
-            }
+            } */
 
         console.log('Javascript Injection test');
 

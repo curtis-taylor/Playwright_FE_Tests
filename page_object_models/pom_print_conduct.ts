@@ -31,4 +31,15 @@ export class PrintConductPage {
         expect(this.page.url()).toBe(this.url);
     }
 
+    async fill_fields(email1: string, message1: string) {
+        this.email_field.isVisible();
+        this.email_field.isEditable();
+        this.email_field.fill(email1);
+
+        this.text_box.isVisible();
+        this.text_box.isEditable();
+        this.text_box.fill(message1);
+    }
+
+
 }
