@@ -63,7 +63,7 @@ test.describe('SIGN-IN Test Suite', () => {
             let expected_url = ex_temp?.toString().split(".");
             
            // let expected_url_1 = expected_url?.[0];
-             console.log("&&& " + expected_url?.[0]);
+        //console.log("&&& " + expected_url?.[0]);
         
 
             // console.log(expected_url);
@@ -76,8 +76,8 @@ test.describe('SIGN-IN Test Suite', () => {
             //let split_string = page.url().split(".");
             //console.log(split_string);
 
-            console.log("***");
-            console.log("+++ " + printConductPage.page.url() + "===" + expected_url?.[0])
+            //console.log("***");
+            //console.log("+++ " + printConductPage.page.url() + "===" + expected_url?.[0])
             expect(printConductPage.page.url().includes(expected_url?.[0] as string));
             
             
@@ -91,7 +91,7 @@ test.describe('SIGN-IN Test Suite', () => {
             await printConductPage.page.goBack();
             // expect.soft(page.url()).toEqual(uu);
             expect(printConductPage.page.url()).toEqual(uu);
-            console.log("^^^^ " + printConductPage.page.url() + "===" + uu)
+            //console.log("^^^^ " + printConductPage.page.url() + "===" + uu)
 
             
 
@@ -246,5 +246,10 @@ test.describe('SIGN-IN Test Suite', () => {
         expect(printConductPage.page.url().includes(printConductPage.url));
 
     });
+
+    test('SCREENSHOT TEST', async({ printConductPage }) => {
+        expect(await printConductPage.page.screenshot()).toMatchSnapshot('print_conduct_screen.png');
+    });
+
 
 });
