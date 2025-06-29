@@ -103,6 +103,10 @@ test.describe('PRINT VOLUNTEER AGREEMENT Test Suite', () => {
 
     });
 
+     test('SCREENSHOT COMPARISON TEST', async({ printVolunteerPage}) => {
+        await expect(printVolunteerPage.page).toHaveScreenshot("print_volunteer_screen.png");
+      });
+
     
 
 

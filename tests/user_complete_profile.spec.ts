@@ -472,6 +472,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
   });
 
-
+  test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage}) => {
+        await completeProfilePage.page.waitForURL(completeProfilePage.url);
+        await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
+  });
 
 });

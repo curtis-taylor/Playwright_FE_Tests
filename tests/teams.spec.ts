@@ -114,4 +114,10 @@ test.describe('TEAMS Test Suite', () => {
 
     });
 
+    test('SCREENSHOT COMPARISON TEST', async({teamsPage}) => {
+        await teamsPage.page.waitForURL(teamsPage.url);
+        await expect(teamsPage.page).toHaveScreenshot("teams_page_screen.png");
+  });
+
+
 });

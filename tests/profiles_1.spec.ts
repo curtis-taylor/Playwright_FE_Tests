@@ -192,3 +192,8 @@ test('Check Links', async ({ profilesPage }) => {
   } */
 
 });
+
+test('SCREENSHOT COMPARISON TEST', async({ profilesPage}) => {
+        await profilesPage.page.waitForURL(profilesPage.url);
+        await expect(profilesPage.page).toHaveScreenshot("profiles_page_screen.png");
+  });
