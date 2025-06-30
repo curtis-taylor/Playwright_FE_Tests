@@ -403,4 +403,9 @@ test.describe('SIGN-IN Test Suite', () => {
 
     });
 
+    test('SIGN-IN SCREENSHOT COMPARISON TEST', async({ signInPage }) => {
+        await signInPage.page.waitForURL(signInPage.url);
+        await expect(signInPage.page).toHaveScreenshot("profiles_page_screen.png");
+    });
+
 });
