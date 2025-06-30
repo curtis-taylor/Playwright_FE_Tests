@@ -438,4 +438,9 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
+    test('SIGN-UP PAGE SCREENSHOT COMPARISON TEST', async({ signUpPage}) => {
+        await signUpPage.page.waitForURL(signUpPage.url);
+        await expect(signUpPage.page).toHaveScreenshot("signup_page_screen.png");
+    });
+
 });
