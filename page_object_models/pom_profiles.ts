@@ -32,7 +32,7 @@ export class ProfilesPages {
 
     async navigate() {
         await this.page.goto(this.url); 
-        console.log(this.page.url())
+        console.log("NAVIGATING to: " + this.url);
         expect(this.page.url()).toBe(this.url);
     }
 

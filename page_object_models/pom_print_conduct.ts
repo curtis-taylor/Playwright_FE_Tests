@@ -27,8 +27,9 @@ export class PrintConductPage {
 
     async navigate() {
         await this.page.goto(this.url); 
-        console.log(this.page.url())
+        console.log("NAVIGATING to: " + this.url);
         expect(this.page.url()).toBe(this.url);
+        await this.page.waitForURL(this.url);
     }
 
     async fill_fields(email1: string, message1: string) {

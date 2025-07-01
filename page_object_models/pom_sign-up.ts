@@ -60,7 +60,7 @@ export class SignUpPage {
 
     async navigate() {
         await this.page.goto(this.url); 
-        console.log("navigated to " + this.page.url());
+        console.log("NAVIGATING to: " + this.url);
         expect(this.page.url()).toBe(this.url);
     }
     

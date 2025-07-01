@@ -1,7 +1,6 @@
 import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { execPath } from 'process';
 import { test } from "./base.ts";
-import { SignUpPage } from '../page_object_models/pom_sign-up'
 import { sign } from 'crypto';
 
 
@@ -220,6 +219,8 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await signUpPage.red_Account_button.click();
 
+        expect(signUpPage.page.url()).toBe(signUpPage.url);
+
         
     });
 
@@ -240,6 +241,8 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.red_Account_button.isEnabled();
         expect(signUpPage.red_Account_button).toHaveCSS('background-color', `rgb(237, 52, 63)`);
         await signUpPage.red_Account_button.click();
+
+        expect(signUpPage.page.url()).toBe(signUpPage.url);
 
     });
 
@@ -327,6 +330,8 @@ test.describe('SIGN-UP Test Suite', () => {
 
     test('Javascript Injection Test', async ({ signUpPage, checkEmailPage }) => {
 
+            console.log('SIGN-UP Javascript Injection test');
+
             const input_text: string[][] = [["alert('Hello')", "test1@zoho.com", "password"],
                                              ["Curtis tester", "alert('Hello')", "password"],
                                              ["Curtis tester", "test2@zoho.com", "alert('Hello')"]];
@@ -364,7 +369,7 @@ test.describe('SIGN-UP Test Suite', () => {
                 await expect(signUpPage.page.getByRole('alert', {name:'Hello'})).toHaveCount(0);
             } */
 
-        console.log('Javascript Injection test');
+       
 
     });
 

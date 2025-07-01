@@ -248,6 +248,7 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
     test('SCREENSHOT COMPARISON TEST', async({ printConductPage }) => {
+        await printConductPage.page.evaluate(() => document.fonts.ready);
         await printConductPage.page.waitForURL(printConductPage.url);
         await expect(printConductPage.page).toHaveScreenshot("print_conduct_screen.png");
     });
