@@ -27,6 +27,7 @@ export class PrintConductPage {
 
     async navigate() {
         await this.page.goto(this.url); 
+        await this.page.waitForLoadState("networkidle");
         console.log("NAVIGATING to: " + this.url);
         expect(this.page.url()).toBe(this.url);
         await this.page.waitForURL(this.url);
