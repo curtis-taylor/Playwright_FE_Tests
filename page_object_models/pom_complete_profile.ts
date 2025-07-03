@@ -117,6 +117,7 @@ export class CompleteProfilePage {
     
     async navigate() {
         await this.page.goto(this.url); 
+        await this.page.waitForLoadState('networkidle');
         console.log("NAVIGATING to: " + this.url);
         expect(this.page.url()).toBe(this.url);
     }
@@ -132,6 +133,8 @@ export class CompleteProfilePage {
             await this.upload_New_Photo_Button.click();
         }
 
+        await this.page.waitForLoadState('networkidle');
+
         //### FILE PICKER
         await this.file_picker.setInputFiles(image_path);
         await this.page.waitForTimeout(200);
@@ -141,7 +144,8 @@ export class CompleteProfilePage {
         await this.upload_New_Photo_Button.isVisible();
 
         if (valid_image_bool) {
-             expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+            await this.page.waitForLoadState('networkidle');
+            expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
         } else {
              // SHOULD BE BROKEN IMAGE IF FILE UPLOAD IS NOT IMAGE FILE
              expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
@@ -152,6 +156,7 @@ export class CompleteProfilePage {
     }
 
     async remove_avatar_image() {
+        await this.page.waitForLoadState('networkidle');
         await this.upload_Button.isHidden();
         await this.upload_New_Photo_Button.isVisible();
         await this.remove_image_Button.isVisible();
@@ -161,7 +166,7 @@ export class CompleteProfilePage {
         expect(await this.remove_image_Button.count()).toEqual(0);
         await this.remove_image_Button.isHidden();
         await this.upload_success_Label.isHidden();
-        await this.page.waitForTimeout(2000);
+        // await this.page.waitForTimeout(2000);
     }
 
     async check_navbar(page: Page) {

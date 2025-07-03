@@ -32,11 +32,15 @@ export class ProfilesPages {
 
     async navigate() {
         await this.page.goto(this.url); 
+        await this.page.waitForLoadState('networkidle');
         console.log("NAVIGATING to: " + this.url);
         expect(this.page.url()).toBe(this.url);
     }
 
     async click_social_links(base_locator: Locator, page: Page) {
+
+        await page.waitForLoadState('networkidle');
+
         for (const row of await base_locator.locator('.social-links a').all()) {
             let temp = await row.textContent();
             console.log(temp);
@@ -45,8 +49,6 @@ export class ProfilesPages {
                     page.waitForEvent("popup"), // pending, fullfilled or rejected
                     await row.click()
                 ]);
-
-            await page.waitForTimeout(1000);
                 
             let pp = await newPage_1.evaluate(() => window.location.href);
             console.log(pp);
@@ -66,7 +68,7 @@ export class ProfilesPages {
 
     async check_H_tag_text(page: Page, phrase: string, h_tag: string) {
 
-
+        await page.waitForLoadState('networkidle');
 
         if(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(h_tag.toLowerCase())) { 
             console.log("HTML H-TAG selected is: " + h_tag);
