@@ -37,7 +37,7 @@ test.describe('PRINT IMAGE RELEASE Test Suite', () => {
         await printImageReleasePage.print_button.click();
         await printImageReleasePage.page.waitForFunction('window.waitForPrintDialog');
 
-        await printImageReleasePage.page.waitForTimeout(10000);
+        await printImageReleasePage.page.waitForTimeout(3000);
 
     });
 

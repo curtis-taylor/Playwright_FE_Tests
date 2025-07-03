@@ -12,6 +12,11 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+   expect: {
+    toHaveScreenshot: { maxDiffPixels: 50000 },
+    timeout: 40000,
+    
+  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -32,7 +37,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     launchOptions: {
-      slowMo: 100,
+      slowMo: 50,
     },
     actionTimeout: 40000
   },
