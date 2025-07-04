@@ -490,8 +490,10 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
   });
 
-  test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage}) => {
-        await completeProfilePage.page.waitForLoadState('networkidle');
+  test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
+        await completeProfilePage.page.waitForLoadState('domcontentloaded');
+        console.log(completeProfilePage.page.url());
+        // completeProfilePage.page.waitForTimeout(5000);
         await completeProfilePage.page.waitForURL(completeProfilePage.url);
         await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
   });
