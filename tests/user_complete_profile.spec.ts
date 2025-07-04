@@ -143,13 +143,15 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         console.log(await completeProfilePage.page.locator('#Instagram-input').textContent());
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         // REPEATABLE SELECTS red ACCORDIAN CONTROLS
         for(let x = 1; x <= 2; x++) {
             await completeProfilePage.nutshell_bar.click();
             await completeProfilePage.avatar_bar.click();
             await completeProfilePage.more_info_bar.click();
 
-            await completeProfilePage.page.waitForTimeout(700);
+            // await completeProfilePage.page.waitForTimeout(700);
 
         }
 
@@ -264,6 +266,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
         completeProfilePage.twitter_x_icon.isEnabled(); 
         completeProfilePage.dev_icon.isEnabled();
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         for(const b of button_list) {
             console.log(await b.all());
             await b.click();
@@ -284,14 +288,16 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
     
     test("PHOTO UPLOAD USING 'UPLOAD NEW IMAGE' BUTTON", async ({ completeProfilePage }) => {
 
+        await completeProfilePage.page.waitForLoadState('networkidle');
+
         await completeProfilePage.page_title.isVisible();
 
         for (let i = 1; i < 7; i++) {
             await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
-            await completeProfilePage.page.waitForTimeout(2000);
+            // await completeProfilePage.page.waitForTimeout(2000);
 
             await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
-            await completeProfilePage.page.waitForTimeout(2000);
+            // await completeProfilePage.page.waitForTimeout(2000);
         }
 
  
