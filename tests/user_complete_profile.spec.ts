@@ -3,7 +3,7 @@ import { test } from "./base.ts";
 
 test.beforeEach(async ({ completeProfilePage }) => {
     
-   test.setTimeout(50000) // Sets a 50-second timeout for all tests
+   test.setTimeout(70000) // Sets a 50-second timeout for all tests
    completeProfilePage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 

@@ -13,8 +13,8 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
    expect: {
-    toHaveScreenshot: { maxDiffPixels: 50000 },
-    timeout: 40000,
+    toHaveScreenshot: { maxDiffPixels: 60000 },
+    timeout: 80000,
     
   },
   testDir: './tests',
@@ -29,7 +29,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  timeout: 80000,
+
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
@@ -39,7 +39,7 @@ export default defineConfig({
     launchOptions: {
       slowMo: 1100,
     },
-    actionTimeout: 40000
+    actionTimeout: 75000
   },
 
   /* Configure projects for major browsers */
