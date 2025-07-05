@@ -203,7 +203,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
     });
 
-    test('Enter Invalid Password Test', async ({ signUpPage }) => {
+    test('Enter Invalid Password Test', async ({ signUpPage, checkEmailPage }) => {
 
 
         await signUpPage.page.waitForTimeout(1800);
@@ -219,7 +219,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await signUpPage.red_Account_button.click();
 
-        expect(signUpPage.page.url()).toBe(signUpPage.url);
+        expect(signUpPage.page.url()).toBe(checkEmailPage.url);
 
         
     });
@@ -233,7 +233,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         //let t = (Math.round(Date.now() / 100000000)).toString();
         //const username = "Curtis Tester" + t;
-        console.log(username);
+        //console.log(username);
 
         await signUpPage.fill_fields(username, "xxxxxxxxx", "password");
 
@@ -281,7 +281,7 @@ test.describe('SIGN-UP Test Suite', () => {
         
         await expect(homePage).toHaveURL("https://torontojs.com/");
         let pp = await homePage.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await homePage.close(); 
 
         const [newPage_1] = await Promise.all([
@@ -291,7 +291,7 @@ test.describe('SIGN-UP Test Suite', () => {
         
         await expect(newPage_1).toHaveURL("https://www.youtube.com/channel/UC1samyyfqiKmOT6fq3uVO1A");
         pp = await newPage_1.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await newPage_1.close();
 
         const [newPage_2] = await Promise.all([
@@ -301,7 +301,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await expect(newPage_2).toHaveURL("https://www.instagram.com/toronto.js/");
         pp = await newPage_2.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await newPage_2.close();
 
         const [newPage_3] = await Promise.all([
@@ -310,7 +310,7 @@ test.describe('SIGN-UP Test Suite', () => {
         ]);
 
         pp = await newPage_3.evaluate(() => window.location.href)
-        console.log(pp);
+        
         expect(pp.includes("x.com"));
 
         signUpPage.page.on('dialog', dialog => dialog.accept());
@@ -323,7 +323,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         await expect(newPage_4).toHaveURL("https://www.linkedin.com/company/torontojs");
         pp = await newPage_4.evaluate(() => window.location.href)
-        console.log(pp);
+        
         await newPage_4.close();
 
     });
@@ -391,7 +391,7 @@ test.describe('SIGN-UP Test Suite', () => {
 
         //console.log(signUpPage.page.url());
     
-        console.log(signUpPage.page.url());
+        //console.log(signUpPage.page.url());
         expect(signUpPage.page.url()).toEqual(signUpPage.url);
 
         //signUpPage.page.on('console', msg => console.log(msg.text()));

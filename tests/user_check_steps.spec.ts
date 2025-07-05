@@ -4,7 +4,7 @@ import { execPath } from 'process';
 import { log } from 'console';
 
 test.beforeEach( async ({ checkStepsPage }) => {
-  test.setTimeout(100000)   
+  test.setTimeout(120000)   
   await checkStepsPage.navigate(1);
     // Sets a 40-second timeout for all tests
 

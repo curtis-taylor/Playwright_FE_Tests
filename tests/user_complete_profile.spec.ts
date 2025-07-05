@@ -491,7 +491,7 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
   });
 
   test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
-        await completeProfilePage.page.waitForLoadState('domcontentloaded');
+    await completeProfilePage.page.waitForLoadState('domcontentloaded');
         console.log(completeProfilePage.page.url());
         // completeProfilePage.page.waitForTimeout(5000);
         await completeProfilePage.page.waitForURL(completeProfilePage.url);
