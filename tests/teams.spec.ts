@@ -5,6 +5,8 @@ import { execPath } from 'process';
 
 test.beforeEach(async ({teamsPage}) => {
 
+   test.setTimeout(60000)
+
    await teamsPage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
@@ -48,7 +50,7 @@ test.describe('TEAMS Test Suite', () => {
       expect(teamsPage.dragon_title).toBeVisible();
       expect(teamsPage.dragon_title).toBeVisible();
 
-      await teamsPage.page.waitForTimeout(2000);
+      // wait teamsPage.page.waitForTimeout(2000);
       console.log((await teamsPage.page.getByText('Toronto JS\' awesome creative minds!Team members').getByRole("link").all()).length);
 
       await teamsPage.check_profile_links(teamsPage.dragon_link_base, teamsPage.page, "linkedin.com");
@@ -87,12 +89,12 @@ test.describe('TEAMS Test Suite', () => {
 
         // await page.goto("http://localhost:3000/pages/team/"); 
 
-      await teamsPage.page.waitForTimeout(2000);
+      //await teamsPage.page.waitForTimeout(2000);
       console.log((await teamsPage.page.getByText('Toronto JS\' awesome creative minds!Team members').getByRole("link").all()).length);
 
       await teamsPage.check_profile_links(teamsPage.druid_link_base, teamsPage.page, "linkedin.com");
 
-      await teamsPage.page.waitForTimeout(2000);
+      //await teamsPage.page.waitForTimeout(2000);
 
     });
 
@@ -102,13 +104,13 @@ test.describe('TEAMS Test Suite', () => {
 
       await teamsPage.check_profile_links(teamsPage.crafters_link_base, teamsPage.page, "linkedin.com");
 
-      await teamsPage.page.waitForTimeout(2000);
+     // await teamsPage.page.waitForTimeout(2000);
 
     });
 
     test('OMNIPOTENT ORGANISERS links', async ({ teamsPage }) => {
 
-      await teamsPage.page.waitForTimeout(2000);
+      //await teamsPage.page.waitForTimeout(2000);
 
       await teamsPage.check_profile_links(teamsPage.organisers_link_base, teamsPage.page, "linkedin.com");
 

@@ -77,7 +77,7 @@ export class TeamsPage {
 
             expect(pp.includes(url_expected));
 
-            await this.page.waitForTimeout(2000);
+            // await this.page.waitForTimeout(2000);
 
             await newPage_1.close();
 
