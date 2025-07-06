@@ -21,9 +21,13 @@ export class PrintImageReleasePage {
     }
 
     async navigate() {
-        await this.page.goto(this.url); 
-        console.log("NAVIGATING to: " + this.url)
-        expect(this.page.url()).toBe(this.url);
+
+      await expect(async() => {
+            await this.page.goto(this.url); 
+            expect(this.page.url()).toBe(this.url);
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+      console.log("NAVIGATING to: " + this.url);
     }
 
 

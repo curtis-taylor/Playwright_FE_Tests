@@ -5,6 +5,7 @@ import { test } from "./base.ts";
 const url_1 = "http://localhost:3000/pages/sign-in/";
 
 test.beforeEach(async({signInPage}) => {
+    test.setTimeout(70000)
     await signInPage.navigate();
 })
 

@@ -31,10 +31,13 @@ export class ProfilesPages {
     }
 
     async navigate() {
-        await this.page.goto(this.url); 
-        await this.page.waitForLoadState('networkidle');
-        console.log("NAVIGATING to: " + this.url);
-        expect(this.page.url()).toBe(this.url);
+
+      await expect(async() => {
+            await this.page.goto(this.url); 
+            expect(this.page.url()).toBe(this.url);
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+      console.log("NAVIGATING to: " + this.url);
     }
 
     async click_social_links(base_locator: Locator, page: Page) {

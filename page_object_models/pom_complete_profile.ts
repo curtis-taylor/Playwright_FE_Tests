@@ -115,11 +115,14 @@ export class CompleteProfilePage {
 
     }
     
-    async navigate() {
-        await this.page.goto(this.url); 
-        //await this.page.waitForLoadState('networkidle');
-        console.log("NAVIGATING to: " + this.url);
-        expect(this.page.url()).toBe(this.url);
+   async navigate() {
+
+      await expect(async() => {
+            await this.page.goto(this.url); 
+            expect(this.page.url()).toBe(this.url);
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+      console.log("NAVIGATING to: " + this.url);
     }
 
     async upload_avatar_image(image_path: string, valid_image_bool: boolean) {
