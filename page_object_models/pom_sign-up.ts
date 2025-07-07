@@ -1,5 +1,6 @@
 import { test, expect, type Page, type Locator, Browser } from '@playwright/test';
 
+
 export class SignUpPage {
 
     readonly page: Page;

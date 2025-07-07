@@ -1,5 +1,6 @@
 import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test';
 import { test } from "./base.ts";
+import AxeBuilder from '@axe-core/playwright';
 
 import { execPath } from 'process';
 import { SignInPage } from '../page_object_models/pom_sign-in';
@@ -259,4 +260,13 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag21a", "wcag21aa", "wcag2aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

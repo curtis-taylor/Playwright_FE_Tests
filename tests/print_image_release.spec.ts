@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { test } from './base';
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach( async ({ printImageReleasePage }) => {
   test.setTimeout(50000) // Sets a 40-second timeout for all tests
@@ -46,4 +47,13 @@ test.describe('PRINT IMAGE RELEASE Test Suite', () => {
         await expect(printImageReleasePage.page).toHaveScreenshot("print_image_release_screen.png");
       });
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag21a", "wcag21aa", "wcag2aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

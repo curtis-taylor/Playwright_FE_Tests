@@ -1,5 +1,6 @@
 import { expect, Page } from '@playwright/test';
 import { test } from "./base.ts";
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({ completeProfilePage }) => {
     
@@ -506,4 +507,13 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
                     timeout: 20_000}); 
     });
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag21a", "wcag21aa", "wcag2aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

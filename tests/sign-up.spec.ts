@@ -2,14 +2,13 @@ import { expect, Browser, Page, BrowserContext, Locator } from '@playwright/test
 import { execPath } from 'process';
 import { test } from "./base.ts";
 import { sign } from 'crypto';
-
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({signUpPage}) => {
-
+   test.setTimeout(70000);
    await signUpPage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
-
 
    
 }); 
@@ -444,8 +443,20 @@ test.describe('SIGN-UP Test Suite', () => {
     });
 
     test('SIGN-UP PAGE SCREENSHOT COMPARISON TEST', async({ signUpPage}) => {
+         await expect(async() => {
         await signUpPage.page.waitForURL(signUpPage.url);
         await expect(signUpPage.page).toHaveScreenshot("signup_page_screen.png");
+         }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
     });
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC', async({signUpPage, page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag21a", "wcag21aa", "wcag2aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

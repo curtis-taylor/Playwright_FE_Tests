@@ -1,5 +1,6 @@
 import { expect, Page } from '@playwright/test';
 import { test } from './base';
+import AxeBuilder from '@axe-core/playwright';
 import { execPath } from 'process';
 import { log } from 'console';
 

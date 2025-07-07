@@ -1,5 +1,6 @@
 import { expect, Page, BrowserContext, Locator } from '@playwright/test';
 import { test } from './base';
+import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach( async ({ printVolunteerPage }) => {
   test.setTimeout(70000) // Sets a 40-second timeout for all tests
@@ -56,4 +57,13 @@ test.describe('PRINT VOLUNTEER AGREEMENT Test Suite', () => {
     
 
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag21a", "wcag21aa", "wcag2aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });
