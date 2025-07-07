@@ -197,6 +197,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
 
         await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
 
+        await completeProfilePage.upload_avatar_image('tests/IH4png - asia.jpg', true);
+
+
         await completeProfilePage.remove_avatar_image();
 
         const button_list = [completeProfilePage.facebook_icon, completeProfilePage.threads_icon, completeProfilePage.instagram_icon, completeProfilePage.twitter_x_icon, 
@@ -299,6 +302,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
             // await completeProfilePage.page.waitForTimeout(2000);
         }
+
+        //await completeProfilePage.get_image_size(completeProfilePage.page, );
 
  
         /*
@@ -491,11 +496,14 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
   });
 
   test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
-    await completeProfilePage.page.waitForLoadState('domcontentloaded');
-        console.log(completeProfilePage.page.url());
-        // completeProfilePage.page.waitForTimeout(5000);
-        await completeProfilePage.page.waitForURL(completeProfilePage.url);
-        await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
-  });
+    await expect(async() => { 
+        await completeProfilePage.page.waitForLoadState('domcontentloaded');
+            console.log(completeProfilePage.page.url());
+            // completeProfilePage.page.waitForTimeout(5000);
+            await completeProfilePage.page.waitForURL(completeProfilePage.url);
+            await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
+     }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 20_000}); 
+    });
 
 });

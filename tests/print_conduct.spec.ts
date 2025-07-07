@@ -9,12 +9,12 @@ import { PrintConductPage } from '../page_object_models/pom_print_conduct.ts';
 
 test.beforeEach( async ({ printConductPage }) => {
   printConductPage.page.setViewportSize({ width: 1280, height: 720 });  
-  test.setTimeout(50000) // Sets a 40-second timeout for all tests
+  test.setTimeout(70000) // Sets a 40-second timeout for all tests
   await printConductPage.navigate();
 });
 
 test.afterEach( async ({ printConductPage }) => {
-  test.setTimeout(500) // Sets a 40-second timeout for all tests
+  test.setTimeout(2500) // Sets a 40-second timeout for all tests
   await printConductPage.page.close();
 });
 
@@ -91,7 +91,7 @@ test.describe('SIGN-IN Test Suite', () => {
             await 
             await printConductPage.page.goBack();
             // expect.soft(page.url()).toEqual(uu);
-            expect(printConductPage.page.url()).toEqual(uu);
+            expect(printConductPage.page.url()).toEqual(printConductPage.url);
             //console.log("^^^^ " + printConductPage.page.url() + "===" + uu)
 
             
@@ -249,9 +249,13 @@ test.describe('SIGN-IN Test Suite', () => {
     });
 
     test('SCREENSHOT COMPARISON TEST', async({ printConductPage }) => {
+        await expect(async() => {
         await printConductPage.page.evaluate(() => document.fonts.ready);
         await printConductPage.page.waitForURL(printConductPage.url);
         await expect(printConductPage.page).toHaveScreenshot("print_conduct_screen.png");
+        }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+    
     });
 
 

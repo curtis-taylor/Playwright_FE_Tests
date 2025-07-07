@@ -13,7 +13,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
    expect: {
-    toHaveScreenshot: { maxDiffPixels: 60000 },
+    toHaveScreenshot: { maxDiffPixels: 100 },
     timeout: 80000,
     
   },

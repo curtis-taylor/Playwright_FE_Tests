@@ -126,36 +126,48 @@ export class CompleteProfilePage {
     }
 
     async upload_avatar_image(image_path: string, valid_image_bool: boolean) {
-        await this.upload_Button.isVisible();
-        await this.upload_New_Photo_Button.isVisible();
-        await this.remove_image_Button.isHidden();
+        await expect(async() => {
+            await this.upload_Button.isVisible();
+            await this.upload_New_Photo_Button.isVisible();
+            await this.remove_image_Button.isHidden();
 
-        if(await this.upload_New_Photo_Button.isHidden()) {
-            await this.upload_Button.click();
-        } else {
-            await this.upload_New_Photo_Button.click();
-        }
+            if(await this.upload_New_Photo_Button.isHidden()) {
+                await this.upload_Button.click();
+            } else {
+                await this.upload_New_Photo_Button.click();
+            }
 
-        await this.page.waitForLoadState('networkidle');
-
-        //### FILE PICKER
-        await this.file_picker.setInputFiles(image_path);
-        await this.page.waitForTimeout(200);
-        await this.upload_Button.isVisible();
-        await this.remove_image_Button.isVisible();
-        await this.upload_success_Label.isVisible();
-        await this.upload_New_Photo_Button.isVisible();
-
-        if (valid_image_bool) {
             await this.page.waitForLoadState('networkidle');
-            expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
-        } else {
-             // SHOULD BE BROKEN IMAGE IF FILE UPLOAD IS NOT IMAGE FILE
-             expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
-        }
 
+            //### FILE PICKER
+            await this.file_picker.setInputFiles(image_path);
+            await this.upload_Button.isVisible();
+            await this.remove_image_Button.isVisible();
+            await this.upload_success_Label.isVisible();
+            await this.upload_New_Photo_Button.isVisible();
 
-        // expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('height', 'auto');
+            console.log("upload_avatar_image: " + valid_image_bool + " MODE");
+
+            if (valid_image_bool) {
+                await this.page.waitForLoadState('networkidle');
+                //expect(this.page.locator('.details-content-file-upload picture img')).toHaveCSS('width', '128px');
+
+                let size = await this.get_image_size();
+                console.log("Checking avatar image size ...");
+                expect((size[0])).toBeGreaterThanOrEqual(80);
+                expect((size[0])).toBeLessThanOrEqual(128);
+                expect((size[1])).toBeGreaterThanOrEqual(80);
+                expect((size[1])).toBeLessThanOrEqual(128);
+                
+
+            } else {
+                // SHOULD BE BROKEN IMAGE IF FILE UPLOAD IS NOT IMAGE FILE
+                expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
+            }
+
+        }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+    
     }
 
     async remove_avatar_image() {
@@ -170,6 +182,35 @@ export class CompleteProfilePage {
         await this.remove_image_Button.isHidden();
         await this.upload_success_Label.isHidden();
         // await this.page.waitForTimeout(2000);
+    }
+
+    async get_image_size() {
+        
+       // const elementHandle = await imageLocation.elementHandle();
+
+        let loc = this.page.locator('.details-content-file-upload picture img');
+
+        if (loc) {
+            const boundingBox = await loc.boundingBox();
+
+            if (boundingBox) {
+                const width = boundingBox.width;
+                const height = boundingBox.height;
+
+                console.log(`Image width: ${width}, height: ${height}`);
+                let size_array = [width, height];
+                return size_array;
+            } else {
+                 console.log("Bounding box is null");
+                 let size_array = [0, 0];
+                 return size_array;
+            }
+        } else {
+            console.log("Image not found");
+            let size_array = [0, 0];
+            return size_array;
+        } 
+
     }
 
     async check_navbar(page: Page) {

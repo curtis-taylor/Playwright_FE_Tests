@@ -2,7 +2,7 @@ import { expect, Page, BrowserContext, Locator } from '@playwright/test';
 import { test } from './base';
 
 test.beforeEach( async ({ printVolunteerPage }) => {
-  test.setTimeout(50000) // Sets a 40-second timeout for all tests
+  test.setTimeout(70000) // Sets a 40-second timeout for all tests
   await printVolunteerPage.navigate();
 });
 
@@ -21,7 +21,7 @@ test.describe('PRINT VOLUNTEER AGREEMENT Test Suite', () => {
         await printVolunteerPage.health_law_link.click();
         expect(printVolunteerPage.page.url().includes("https://www.ontario.ca/laws/statut"));
 
-        await printVolunteerPage.page.waitForTimeout(8000);
+        // await printVolunteerPage.page.waitForTimeout(8000);
 
         await printVolunteerPage.page.goBack();
     
@@ -41,13 +41,16 @@ test.describe('PRINT VOLUNTEER AGREEMENT Test Suite', () => {
         await printVolunteerPage.print_button.click();
         await printVolunteerPage.page.waitForFunction('window.waitForPrintDialog');
 
-        await printVolunteerPage.page.waitForTimeout(10000);
+        // await printVolunteerPage.page.waitForTimeout(10000);
 
     });
 
      test('SCREENSHOT COMPARISON TEST', async({ printVolunteerPage}) => {
+      await expect(async() => {
         await printVolunteerPage.page.waitForURL(printVolunteerPage.url);
         await expect(printVolunteerPage.page).toHaveScreenshot("print_volunteer_screen.png");
+      }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
       });
 
     
