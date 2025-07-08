@@ -264,9 +264,9 @@ test.describe('SIGN-IN Test Suite', () => {
 
 test.describe('ASSESSIBILITY Suite', () => {
 
-    test('BASIC', async({page }) => {
+    test('BASIC WCAG22AA', async({page }) => {
         
-        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag21a", "wcag21aa", "wcag2aa"]).analyze();
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22a", "wcag22aa"]).analyze();
         expect( axeBuilder.violations).toEqual([]);
     });
 });

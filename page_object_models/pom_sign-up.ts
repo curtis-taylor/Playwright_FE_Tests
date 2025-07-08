@@ -29,6 +29,11 @@ export class SignUpPage {
     readonly password_strength_Label: Locator;
     readonly password_strength_suggestions_Label: Locator;
 
+    readonly sign_in_link: Locator;
+
+    readonly email_required_label: Locator;
+    readonly password_required_label: Locator;
+
     public constructor(page: Page) { 
         this.page = page;
         this.url = this.url;
@@ -56,7 +61,11 @@ export class SignUpPage {
 
         this.red_Account_button = page.getByRole('button', { name: 'Create Account' });
 
+        this.sign_in_link = page.getByRole('link', { name: 'Click here to log-in' });
 
+        this.email_required_label = page.locator('label').filter({ hasText: 'E-mailREQUIRED' }).locator('span');
+        this.password_required_label = page.locator('label').filter({ hasText: 'Password:REQUIRED' }).locator('span');
+    
     }
 
     async navigate() {

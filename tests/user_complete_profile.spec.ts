@@ -4,7 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.beforeEach(async ({ completeProfilePage }) => {
     
-   test.setTimeout(70000) // Sets a 50-second timeout for all tests
+   test.setTimeout(90000) // Sets a 50-second timeout for all tests
    completeProfilePage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
@@ -503,17 +503,17 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             // completeProfilePage.page.waitForTimeout(5000);
             await completeProfilePage.page.waitForURL(completeProfilePage.url);
             await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
-     }).toPass({ intervals: [1_000, 2_000, 10_000],
-                    timeout: 20_000}); 
+     }).toPass({ intervals: [1_000, 6_000, 20_000],
+                    timeout: 40_000}); 
     });
 
 });
 
 test.describe('ASSESSIBILITY Suite', () => {
 
-    test('BASIC', async({page }) => {
+    test('BASIC WCAG22AA', async({page }) => {
         
-        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag21a", "wcag21aa", "wcag2aa"]).analyze();
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22a", "wcag22aa"]).analyze();
         expect( axeBuilder.violations).toEqual([]);
     });
 });

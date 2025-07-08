@@ -2,6 +2,8 @@ import { expect } from '@playwright/test';
 // import { TeamsPage } from '../page_object_models/pom_teams';
 import { test } from './base.ts';
 import { execPath } from 'process';
+import AxeBuilder from '@axe-core/playwright';
+
 
 test.beforeEach(async ({teamsPage}) => {
 
@@ -122,4 +124,13 @@ test.describe('TEAMS Test Suite', () => {
   });
 
 
+});
+
+test.describe('ASSESSIBILITY Suite', () => {
+
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });

@@ -42,6 +42,9 @@ test.describe('SIGN-UP Test Suite', () => {
         await signUpPage.name_field.isVisible();
         await signUpPage.password_field.isVisible();
 
+        await signUpPage.email_required_label.isVisible();
+        await signUpPage.password_required_label.isVisible();
+
         //await page.locator('#name-input').isVisible();
 
         // await page.locator('#email-input').isVisible();
@@ -440,6 +443,24 @@ test.describe('SIGN-UP Test Suite', () => {
 
         console.log('SQL Injection test completed!');
 
+    });
+
+    test('CLICk HYPERLINK TO GO TO SIGN-IN PAGE', async({ signInPage, signUpPage}) => {
+        await signUpPage.sign_in_link.isVisible();
+        await signUpPage.sign_in_link.dblclick();
+        expect(signUpPage.page.url()).toEqual(signInPage.url);
+
+    });
+
+    test('CLICk HYPERLINKS TO TRAVEL BETWEEN SIGN-IN PAGE AND SIGN-UP PAGE', async({ signInPage, signUpPage}) => {
+        await signUpPage.sign_in_link.isVisible();
+        await signUpPage.sign_in_link.dblclick();
+        expect(signUpPage.page.url()).toEqual(signInPage.url);
+        await signInPage.signup_link.isVisible();
+        await signInPage.signup_link.isVisible();
+        await signInPage.signup_link.dblclick();
+        expect(signInPage.page.url()).toEqual(signUpPage.url);
+        await signUpPage.sign_in_link.isVisible();
     });
 
     test('SIGN-UP PAGE SCREENSHOT COMPARISON TEST', async({ signUpPage}) => {

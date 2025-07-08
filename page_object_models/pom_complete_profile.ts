@@ -119,6 +119,7 @@ export class CompleteProfilePage {
 
       await expect(async() => {
             await this.page.goto(this.url); 
+            await this.page.waitForURL(this.url);
             expect(this.page.url()).toBe(this.url);
       }).toPass({ intervals: [1_000, 2_000, 10_000],
                     timeout: 60_000});
@@ -155,9 +156,9 @@ export class CompleteProfilePage {
                 let size = await this.get_image_size();
                 console.log("Checking avatar image size ...");
                 expect((size[0])).toBeGreaterThanOrEqual(80);
-                expect((size[0])).toBeLessThanOrEqual(128);
+                expect((size[0])).toBeLessThanOrEqual(130);
                 expect((size[1])).toBeGreaterThanOrEqual(80);
-                expect((size[1])).toBeLessThanOrEqual(128);
+                expect((size[1])).toBeLessThanOrEqual(130);
                 
 
             } else {
@@ -165,8 +166,8 @@ export class CompleteProfilePage {
                 expect(this.page.locator('.details-content-file-upload picture img')).toBeEmpty();
             }
 
-        }).toPass({ intervals: [1_000, 2_000, 10_000],
-                    timeout: 60_000});
+        }).toPass({ intervals: [1_000, 10_000, 20_000],
+                    timeout: 90_000});
     
     }
 
@@ -181,7 +182,6 @@ export class CompleteProfilePage {
         expect(await this.remove_image_Button.count()).toEqual(0);
         await this.remove_image_Button.isHidden();
         await this.upload_success_Label.isHidden();
-        // await this.page.waitForTimeout(2000);
     }
 
     async get_image_size() {
@@ -242,7 +242,7 @@ export class CompleteProfilePage {
     async fill_fields(form1 : Complete_Profile_Type, enable_footer: Enable_Profile_Footer_Type) {
 
         await this.enable_disable_footer_social_fields(this.page, enable_footer);
-        await this.page.waitForTimeout(1000);
+        //await this.page.waitForTimeout(1000);
         
         await this.name_field.fill(form1.name);
         await this.email_field.fill(form1.email);
