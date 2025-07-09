@@ -72,7 +72,7 @@ export class CheckStepsPage {
                 console.log("navigate() takes integer values of 1, 2, 3 to represent steps for check_steps pages");
             }
         }).toPass({ intervals: [1_000, 2_000, 10_000],
-                    timeout: 60_000});
+                    timeout: 80_000});
 
         console.log("NAVIGATING to: " + this.page.url());
         

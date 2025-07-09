@@ -8,7 +8,7 @@ const url_1 = "http://localhost:3000/pages/sign-in/";
 test.beforeEach(async({signInPage}) => {
     test.setTimeout(70000)
     await signInPage.navigate();
-})
+});
 
 test.afterEach(async ({ signInPage }) => {
     await signInPage.page.close();
@@ -411,6 +411,7 @@ test.describe('SIGN-IN Test Suite', () => {
     test('CLICk HYPERLINK TO GO TO SIGN-UP PAGE', async({ signInPage, signUpPage}) => {
         await signInPage.signup_link.isVisible();
         await signInPage.signup_link.dblclick();
+        await signInPage.page.waitForURL(signUpPage.url);
         expect(signInPage.page.url()).toEqual(signUpPage.url);
 
     });
@@ -418,9 +419,12 @@ test.describe('SIGN-IN Test Suite', () => {
     test('CLICk HYPERLINKS TO TRAVEL BETWEEN SIGN-IN PAGE AND SIGN-UP PAGE', async({ signInPage, signUpPage}) => {
         await signInPage.signup_link.isVisible();
         await signInPage.signup_link.dblclick();
+         await signInPage.page.waitForURL(signUpPage.url);
         expect(signInPage.page.url()).toEqual(signUpPage.url);
+
         await signUpPage.sign_in_link.isVisible();
         await signUpPage.sign_in_link.dblclick();
+        await signUpPage.page.waitForURL(signInPage.url);
         expect(signUpPage.page.url()).toEqual(signInPage.url);
         await signInPage.signup_link.isVisible();
     });
@@ -436,6 +440,8 @@ test.describe('SIGN-IN Test Suite', () => {
 
 }); */
 
+});
+
 test.describe('ASSESSIBILITY Suite', () => {
 
     test('BASIC WCAG22AA', async({page }) => {
@@ -444,3 +450,4 @@ test.describe('ASSESSIBILITY Suite', () => {
         expect( axeBuilder.violations).toEqual([]);
     });
 });
+

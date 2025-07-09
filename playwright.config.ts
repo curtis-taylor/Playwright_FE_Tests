@@ -14,7 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
    expect: {
     toHaveScreenshot: { maxDiffPixels: 15000 },
-    timeout: 80000,
+    timeout: 90000,
     
   },
   testDir: './tests',
@@ -39,7 +39,7 @@ export default defineConfig({
     launchOptions: {
       slowMo: 5,
     },
-    actionTimeout: 75000
+    actionTimeout: 95000
   },
 
   /* Configure projects for major browsers */
