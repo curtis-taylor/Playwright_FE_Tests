@@ -132,7 +132,8 @@ test.describe('ASSESSIBILITY Suite for CHECK STEPS - ACCOUNT CONFIRMED Page', ()
 
     test('BASIC WCAG22AA', async({page, checkStepsPage }) => {
 
-      await checkStepsPage.navigate(0);
+      await checkStepsPage.navigate(1);
+      console.log("sdssdsdsdsd");
         
       const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22aa"]).analyze();
       expect( axeBuilder.violations).toEqual([]);
@@ -384,6 +385,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
           await completeProfilePage.check_navbar(completeProfilePage.page);
 
           //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
+          await checkStepsPage.page.waitForURL(completeProfilePage.url);
           await completeProfilePage.fill_fields(form1, enable_footer);
 
           await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
@@ -402,7 +404,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         const email_list = ["", "", email1];
         const name_list = ["", name1, name1];
 
-         for(let x = 0; x < name_list.length; x++) { 
+      for(let x = 0; x < name_list.length; x++) { 
         let form1 = {
           name: name_list[x],
           email: email_list[x],
@@ -439,7 +441,7 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
 
         await checkStepsPage.navigate(1);
 
-        console.log(checkStepsPage.page.url() + " 0000");
+        // console.log(checkStepsPage.page.url() + " 0000");
         
         await checkStepsPage.check_navbar(checkStepsPage.page);
         await checkStepsPage.continue_button.click();
@@ -456,6 +458,9 @@ test.describe('ALL 3-STEPS WORKFLOW TESTS', () => {
         await completeProfilePage.check_navbar(completeProfilePage.page);
 
         //await completeProfilePage.enable_disable_footer_social_fields(completeProfilePage.page);
+        
+        await checkStepsPage.page.waitForURL(completeProfilePage.url);
+
         await completeProfilePage.fill_fields(form1, enable_footer);
 
         await completeProfilePage.upload_avatar_image('tests/img_1926.jpeg', true);
