@@ -241,6 +241,7 @@ export class CompleteProfilePage {
     
     async fill_fields(form1 : Complete_Profile_Type, enable_footer: Enable_Profile_Footer_Type) {
 
+
         await this.enable_disable_footer_social_fields(this.page, enable_footer);
         //await this.page.waitForTimeout(1000);
         
@@ -287,6 +288,8 @@ export class CompleteProfilePage {
     }
 
     async enable_disable_footer_social_fields(page: Page, enable_switch: Enable_Profile_Footer_Type) {
+
+        await page.waitForLoadState('load');
 
         if(enable_switch.linkedin_other) {
             if(await this.linkedin_icon.isVisible()) {
