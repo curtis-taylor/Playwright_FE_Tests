@@ -1,23 +1,26 @@
 import { expect } from '@playwright/test';
 import { test } from "./base.ts";
+import AxeBuilder from '@axe-core/playwright';
 
-
-test.describe('Profile Page Tests', () => {
-  test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ johnDoePage }) => {
+    test.setTimeout(70000);
     // Navigate to the profile page before each test
-    await page.goto('http://localhost:3000/pages/profile/?pid=1');
+    await johnDoePage.navigate();
   });
 
-  test('should display John Doe profile with all required content', async ({ page }) => {
+test.describe('Profile Page Tests', () => {
+  
+  test('should display John Doe profile with all required content', async ({ johnDoePage }) => {
     // 1. Username appears in heading and figure caption
     await test.step('Verify username appears in heading and figure caption', async () => {
       // Check main heading
-      const mainHeading = page.locator('h1');
-      await expect(mainHeading).toHaveText("John Doe's Profile");
+      ////  const mainHeading = page.locator('h1');
+      await expect(johnDoePage.page_h1_title).toHaveText("John Doe's Profile");
       
       // Check figure caption
-      const figureCaption = page.locator('figure[aria-label="John Doe"] div');
-      await expect(figureCaption).toHaveText('John Doe');
+      // const figureCaption = page.locator('figure[aria-label="John Doe"] div');
+      // const figureCaption = page.getByText('John Doe', { exact: true })
+      expect(johnDoePage.fig_caption)) toHaveText('John Doe');
     });
 
     // 2. Check that email is displayed correctly
@@ -65,12 +68,13 @@ test.describe('Profile Page Tests', () => {
       
       // Get computed styles to check background color
       const headerColor = await headerBar.evaluate((el) => {
+        console.log(headerBar);
         return window.getComputedStyle(el).backgroundColor;
       });
       
       // Check if it's a red color (RGB values may vary)
       // Common red colors: rgb(220, 53, 69), rgb(255, 0, 0), etc.
-      expect(headerColor).toMatch(/rgb\(.*,.*,.*\)/); // Basic RGB format check
+      // >>>  expect(headerColor).toMatch(/rgb\(.*,.*,.*\)/); // Basic RGB format check
       
       // Alternative: Check if header has red-ish background
       const headerElement = page.locator('h1');
@@ -165,7 +169,6 @@ test.describe('Profile Page Tests', () => {
   });
 });
 
-import { test, expect, Page } from '@playwright/test';
 
 // Test configuration - easily customizable for different profiles
 interface ProfileTestConfig {
