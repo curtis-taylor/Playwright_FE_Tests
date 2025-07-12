@@ -5,9 +5,15 @@ export class JohnDoePage {
     readonly page: Page;
     readonly url: string = 'http://localhost:3000/pages/profile/?pid=1'; 
 
+    readonly profile_name: string = "John Doe";
+
     readonly page_h1_title: Locator;
 
     readonly fig_caption: Locator;
+
+    readonly member_since_label: Locator;
+
+    readonly avatar_image: Locator;
 
     readonly home_icon: Locator;
     readonly linkedin_icon: Locator;
@@ -21,9 +27,13 @@ export class JohnDoePage {
         this.page = page;
         // this.url = this.url;
 
-        this.page_h1_title = page.getByRole('heading');
+        this.page_h1_title = page.getByRole('heading').nth(0);
 
-        this.fig_caption = page.locator('figcaption');
+        this.fig_caption = page.locator('.user-profile-column figcaption');
+
+        this.member_since_label = page.getByText("Member Since: ");
+
+        this.avatar_image = page.locator("img");
 
         this.facebook_icon = page.getByRole("link", {name: /facebook for/});
         //this.home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
@@ -44,10 +54,15 @@ export class JohnDoePage {
       console.log("NAVIGATING to: " + this.url);
     }
 
-    async fill_fields(email: string, password: string) {
+    async click_social_links(base_locator: Locator, page: Page) {
+      await page.waitForLoadState('networkidle');
 
+       for (const row of await base_locator.locator('.social-links a').all()) {
+        
+       }
 
 
     }
+
 
 }

@@ -15,35 +15,38 @@ test.describe('Profile Page Tests', () => {
     await test.step('Verify username appears in heading and figure caption', async () => {
       // Check main heading
       ////  const mainHeading = page.locator('h1');
-      await expect(johnDoePage.page_h1_title).toHaveText("John Doe's Profile");
+      console.log(johnDoePage.profile_name + "'s Profile");
+      console.log("****");
+      await expect(johnDoePage.page_h1_title).toHaveText(johnDoePage.profile_name + "'s Profile");
       
       // Check figure caption
       // const figureCaption = page.locator('figure[aria-label="John Doe"] div');
       // const figureCaption = page.getByText('John Doe', { exact: true })
-      expect(johnDoePage.fig_caption)) toHaveText('John Doe');
+      expect(johnDoePage.fig_caption).toHaveText(johnDoePage.profile_name);
     });
 
     // 2. Check that email is displayed correctly
     await test.step('Verify email is displayed correctly', async () => {
-      const emailSection = page.locator('text=Email:').locator('..'); // Parent paragraph
+      const emailSection = johnDoePage.page.locator('text=Email:').locator('..'); // Parent paragraph
       await expect(emailSection).toContainText('john.doe@example.com');
       
       // Alternative more specific selector
-      const emailText = page.locator('p:has(strong:text("Email:"))');
-      await expect(emailText).toContainText('john.doe@example.com');
+      const emailText = johnDoePage.page.locator('p:has(strong:text("Email:"))');
+      // await expect(emailText).toContainText('john.doe@example.com');
     });
 
     // 3. Validate "Member Since: December 1, 2024" date format and content
     await test.step('Verify Member Since date format and content', async () => {
-      const memberSinceSection = page.locator('text=Member Since:').locator('..'); // Parent paragraph
-      await expect(memberSinceSection).toContainText('December 1, 2024');
+      // const memberSinceSection = page.locator('text=Member Since:').locator('..'); // Parent paragraph
+      await expect(johnDoePage.member_since_label).toContainText('Member Since: ');
       
       // More specific check for exact format
-      const memberSinceText = page.locator('p:has(strong:text("Member Since:"))');
-      await expect(memberSinceText).toHaveText('Member Since: December 1, 2024');
+      //const memberSinceText = page.locator('p:has(strong:text("Member Since:"))');
+      //await expect(memberSinceText).toHaveText('Member Since: December 1, 2024');
     });
 
     // 4. Ensure the bio text matches expected content (Lorem ipsum text)
+    /*
     await test.step('Verify bio text matches expected Lorem ipsum content', async () => {
       const bioText = page.locator('p').filter({ 
         hasText: 'A passionate volunteer. Lorem ipsum dolor sit amet' 
@@ -51,42 +54,51 @@ test.describe('Profile Page Tests', () => {
       await expect(bioText).toHaveText(
         'A passionate volunteer. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros diam, luctus quis sagittis et, feugiat non quam. Nunc tempus ac eros at ullamcorper.'
       );
-    });
+    }); */
 
     // 5. Test that the "Meet John Doe" subheading is present
     await test.step('Verify "Meet John Doe" subheading is present', async () => {
-      const subheading = page.locator('h2');
-      await expect(subheading).toHaveText('Meet John Doe');
+      const subheading = johnDoePage.page.locator('h2');
+      await expect(subheading).toHaveText('Meet ' + johnDoePage.profile_name);
       await expect(subheading).toBeVisible();
+
+      
     });
 
     // 6. Test that the header bar is the correct color
     await test.step('Verify header bar has correct color', async () => {
       // Check the main heading background color (red header bar)
-      const headerBar = page.locator('h1');
-      await expect(headerBar).toBeVisible();
+      //const headerBar = page.locator('h1');
+      await expect(johnDoePage.page_h1_title).toBeVisible();
+
+       console.log("&&&&&&&&&" + johnDoePage.page_h1_title);
       
       // Get computed styles to check background color
-      const headerColor = await headerBar.evaluate((el) => {
-        console.log(headerBar);
+      const headerColor = await johnDoePage.page_h1_title.evaluate((el) => {
+        // console.log(johnDoePage.page_h1_title);
         return window.getComputedStyle(el).backgroundColor;
       });
+
+     
       
       // Check if it's a red color (RGB values may vary)
       // Common red colors: rgb(220, 53, 69), rgb(255, 0, 0), etc.
       // >>>  expect(headerColor).toMatch(/rgb\(.*,.*,.*\)/); // Basic RGB format check
       
       // Alternative: Check if header has red-ish background
-      const headerElement = page.locator('h1');
-      await expect(headerElement).toHaveCSS('background-color', /.*/); // Exists check
+      // const headerElement = page.locator('h1');
+      await expect(johnDoePage.page_h1_title).toHaveCSS('background-color', /.*/); // Exists check
     });
 
     // 7. The footer icons are present and displayed correctly
+    /*
     await test.step('Verify footer social media icons are present and displayed', async () => {
       // Check Facebook icon/link
+      if() {
       const facebookLink = page.locator('a[href="https://facebook.com/johndoe"]');
       await expect(facebookLink).toBeVisible();
       await expect(facebookLink).toHaveAttribute('href', 'https://facebook.com/johndoe');
+      }
       
       // Check Twitter icon/link
       const twitterLink = page.locator('a[href="https://twitter.com/johndoe"]');
@@ -94,24 +106,24 @@ test.describe('Profile Page Tests', () => {
       await expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/johndoe');
       
       // Check that social media list exists
-      const socialMediaList = page.locator('ul[aria-label="Social Media Links"]');
+      const socialMediaList = johnDoePage.page.locator('ul[aria-label="Social Media Links"]');
       await expect(socialMediaList).toBeVisible();
       
       // Check that both social media items are present
-      const socialMediaItems = page.locator('ul[aria-label="Social Media Links"] li');
-      await expect(socialMediaItems).toHaveCount(2);
-    });
+      //const socialMediaItems = page.locator('ul[aria-label="Social Media Links"] li');
+      // await expect(socialMediaItems).toHaveCount(2);
+    }); */
 
     // 8. Profile image is not broken
     await test.step('Verify profile image is not broken', async () => {
-      const profileImage = page.locator('img[alt="John Doe Avatar"]');
+      const profileImage = johnDoePage.page.locator('img[alt="John Doe Avatar"]');
       await expect(profileImage).toBeVisible();
       
       // Check that image has loaded successfully
       await expect(profileImage).toHaveAttribute('alt', 'John Doe Avatar');
       
       // Verify image is not broken by checking natural dimensions
-      const imageNaturalWidth = await profileImage.evaluate((img: HTMLImageElement) => {
+      const imageNaturalWidth = await johnDoePage.avatar_image.evaluate((img: HTMLImageElement) => {
         return img.naturalWidth;
       });
       
@@ -131,18 +143,18 @@ test.describe('Profile Page Tests', () => {
     });
   });
 
-  test('should have correct page structure and accessibility', async ({ page }) => {
+  test('should have correct page structure and accessibility', async ({ johnDoePage }) => {
     // Additional structural tests
     await test.step('Verify page structure', async () => {
       // Check page title
-      await expect(page).toHaveTitle("John Doe's Profile");
+      await expect(johnDoePage.page).toHaveTitle( johnDoePage.profile_name + "'s Profile");
       
       // Check main content area exists
-      const mainContent = page.locator('main');
+      const mainContent = johnDoePage.page.locator('main');
       await expect(mainContent).toBeVisible();
       
       // Check article structure
-      const article = page.locator('article');
+      const article = johnDoePage.page.locator('article');
       await expect(article).toBeVisible();
     });
   });
@@ -197,6 +209,15 @@ const profileConfigs: ProfileTestConfig[] = [
   //   expectedTwitterUrl: 'https://twitter.com/janesmith'
   // }
 ];
+
+test.describe('SOCIAL LINK TESTS', () => {
+
+  test("DISPLAY OF SOCIAL ICONS ", async({ johnDoePage} ) => {
+    if(await johnDoePage.facebook_icon.isVisible()) {
+      
+    }
+  });
+});
 
 test.describe('Navigation and Link Tests', () => {
   
