@@ -54,12 +54,56 @@ export class JohnDoePage {
       console.log("NAVIGATING to: " + this.url);
     }
 
-    async click_social_links(base_locator: Locator, page: Page) {
-      await page.waitForLoadState('networkidle');
+    async check_social_links(page: Page, should_click: Boolean) {
+        await page.waitForLoadState('networkidle');
 
-       for (const row of await base_locator.locator('.social-links a').all()) {
-        
-       }
+        console.log(await this.facebook_icon.count() );
+
+        if(await this.facebook_icon.count() > 0) {
+          await expect(this.facebook_icon).toBeVisible();
+          await this.facebook_icon.isEnabled();
+          if(should_click) {
+            const [facebook] = await Promise.all([
+            await this.page.waitForEvent("popup"), // pending, fullfilled or rejected
+            await this.facebook_icon.click()
+            ]);
+
+            await facebook.close();
+          
+          }
+
+      
+        }
+
+        if(await this.twitter_x_icon.count() > 0) {
+          await expect(this.twitter_x_icon).toBeVisible();
+          await this.twitter_x_icon.isEnabled();
+
+          if(should_click) {
+            const [twitter] = await Promise.all([
+            await this.page.waitForEvent("popup"), // pending, fullfilled or rejected
+            await this.twitter_x_icon.click()
+            ]);
+
+            await twitter.close();
+          
+          }
+        }
+
+        if(await this.linkedin_icon.count() > 0) {
+          await expect(this.linkedin_icon).toBeVisible();
+
+          if(should_click) {
+            const [linkedin] = await Promise.all([
+            await this.page.waitForEvent("popup"), // pending, fullfilled or rejected
+            await this.linkedin_icon.click()
+            ]);
+
+            await linkedin.close();
+          
+          }
+
+        }
 
 
     }

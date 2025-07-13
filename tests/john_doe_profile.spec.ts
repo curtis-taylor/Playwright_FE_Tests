@@ -8,6 +8,12 @@ test.beforeEach(async ({ johnDoePage }) => {
     await johnDoePage.navigate();
   });
 
+test.afterAll(async ({ johnDoePage }) =>  {
+  await johnDoePage.page.close();
+});
+
+
+
 test.describe('Profile Page Tests', () => {
   
   test('should display John Doe profile with all required content', async ({ johnDoePage }) => {
@@ -213,9 +219,7 @@ const profileConfigs: ProfileTestConfig[] = [
 test.describe('SOCIAL LINK TESTS', () => {
 
   test("DISPLAY OF SOCIAL ICONS ", async({ johnDoePage} ) => {
-    if(await johnDoePage.facebook_icon.isVisible()) {
-      
-    }
+    johnDoePage.check_social_links(johnDoePage.page, false);
   });
 });
 
