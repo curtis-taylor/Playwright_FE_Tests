@@ -59,8 +59,47 @@ export class JohnDoePage {
 
         let johndoe_url = this.page.url();
 
-        console.log(johndoe_url );
-        await page.waitForSelector('ul');
+        let t2 = this.page.locator('li').all();
+
+        for(const row of await t2) {
+
+          await expect(row).toBeVisible();
+          await row.isEnabled();
+
+          if(should_click) {
+            let href_temp = await row.getAttribute('href');
+            let expected_url = href_temp?.toString().split(".");
+            let link_target = await row.getAttribute('target')
+
+            await row.click();
+
+            if(link_target === 'blank') {
+              console.log("@@@@");
+              const [newPage] = await Promise.all([
+              this.page.waitForEvent('popup'),
+              row.click()
+            ]);
+
+             await newPage.waitForLoadState();
+            // expect(newPage.url()).toBe();
+            await newPage.close();
+
+            } else {
+              expect(this.page.url().includes(expected_url?.[0] as string));
+
+              await this.page.goBack();
+              expect(this.page.url()).toEqual(johndoe_url);
+              await this.page.waitForURL(johndoe_url);
+
+            }
+            
+          } 
+       }
+
+        /*
+        // await page.waitForSelector('ul');
+        await page.getByRole('list', { name: 'Social Media Links' }).waitFor({state: 'visible', timeout: 5000});
+        // console.log(await this.twitter_x_icon.count());
 
         if(await this.facebook_icon.count() > 0) {
 
@@ -82,10 +121,11 @@ export class JohnDoePage {
         }
 
 
-        await this.page.waitForSelector('ul');
+        // await this.page.waitForSelector('ul');
+        await page.getByRole('list', { name: 'Social Media Links' }).waitFor({state: 'visible', timeout: 5000});
         console.log(await this.twitter_x_icon.count());
 
-        if(await this.twitter_x_icon.count() > 0) {
+        if(await this.twitter_x_icon.isVisible()) {
           await expect(this.twitter_x_icon).toBeVisible();
           await this.twitter_x_icon.isEnabled();
 
@@ -102,7 +142,8 @@ export class JohnDoePage {
           }
         }
 
-        await page.waitForSelector('ul');
+        // await page.waitForSelector('ul');
+        await page.getByRole('list', { name: 'Social Media Links' }).waitFor({state: 'visible', timeout: 5000});
 
         if(await this.linkedin_icon.count() > 0) {
           await expect(this.linkedin_icon).toBeVisible();
@@ -119,7 +160,7 @@ export class JohnDoePage {
           
           }
 
-        }
+        } */
 
 
     }

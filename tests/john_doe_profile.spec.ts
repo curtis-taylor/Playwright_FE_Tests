@@ -218,7 +218,7 @@ const profileConfigs: ProfileTestConfig[] = [
 
 test.describe('SOCIAL LINK TESTS', () => {
 
-  test("DISPLAY OF SOCIAL ICONS", async({ johnDoePage} ) => {
+  test("DISPLAY AND SELECTION OF SOCIAL ICONS", async({ johnDoePage} ) => {
     await johnDoePage.johndoe_check_social_links(johnDoePage.page, true);
   });
 });
