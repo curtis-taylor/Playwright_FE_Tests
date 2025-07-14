@@ -39,8 +39,8 @@ export class JohnDoePage {
         //this.home_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').first();
         //this.youtube_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(1);
         //this.instagram_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(2);
-        this.twitter_x_icon = page.getByRole('link', { name: '/twitter for/' });
-        this.linkedin_icon = page.getByRole('link', { name: '/linkedin for/' });
+        this.twitter_x_icon = page.getByRole('link', { name: '/twitter for/'});
+        this.linkedin_icon = page.getByRole('link', { name: '/linkedin for/'});
     
     }
 
@@ -54,52 +54,68 @@ export class JohnDoePage {
       console.log("NAVIGATING to: " + this.url);
     }
 
-    async check_social_links(page: Page, should_click: Boolean) {
-        await page.waitForLoadState('networkidle');
+    async johndoe_check_social_links(page: Page, should_click: Boolean) {
+        //await page.waitForLoadState('domcontentloaded');
 
-        console.log(await this.facebook_icon.count() );
+        let johndoe_url = this.page.url();
+
+        console.log(johndoe_url );
+        await page.waitForSelector('ul');
 
         if(await this.facebook_icon.count() > 0) {
+
           await expect(this.facebook_icon).toBeVisible();
           await this.facebook_icon.isEnabled();
           if(should_click) {
-            const [facebook] = await Promise.all([
-            await this.page.waitForEvent("popup"), // pending, fullfilled or rejected
-            await this.facebook_icon.click()
-            ]);
+            let href_temp = await this.facebook_icon.getAttribute('href');
+            let expected_url = href_temp?.toString().split(".");
 
-            await facebook.close();
+            await this.facebook_icon.click();
+            expect(this.page.url().includes(expected_url?.[0] as string));
+
+            await this.page.goBack();
+            expect(this.page.url()).toEqual(johndoe_url);
+            await this.page.waitForURL(johndoe_url);
           
           }
-
       
         }
+
+
+        await this.page.waitForSelector('ul');
+        console.log(await this.twitter_x_icon.count());
 
         if(await this.twitter_x_icon.count() > 0) {
           await expect(this.twitter_x_icon).toBeVisible();
           await this.twitter_x_icon.isEnabled();
 
           if(should_click) {
-            const [twitter] = await Promise.all([
-            await this.page.waitForEvent("popup"), // pending, fullfilled or rejected
-            await this.twitter_x_icon.click()
-            ]);
+            let href_temp = await this.twitter_x_icon.getAttribute('href');
+            let expected_url = href_temp?.toString().split(".");
 
-            await twitter.close();
+            await this.twitter_x_icon.click();
+            expect(this.page.url().includes(expected_url?.[0] as string));
+
+            await this.page.goBack();
+            expect(this.page.url()).toEqual(johndoe_url);
           
           }
         }
+
+        await page.waitForSelector('ul');
 
         if(await this.linkedin_icon.count() > 0) {
           await expect(this.linkedin_icon).toBeVisible();
 
           if(should_click) {
-            const [linkedin] = await Promise.all([
-            await this.page.waitForEvent("popup"), // pending, fullfilled or rejected
-            await this.linkedin_icon.click()
-            ]);
+            let href_temp = await this.linkedin_icon.getAttribute('href');
+            let expected_url = href_temp?.toString().split(".");
 
-            await linkedin.close();
+            await this.linkedin_icon.click();
+            expect(this.page.url().includes(expected_url?.[0] as string));
+
+            await this.page.goBack();
+            expect(this.page.url()).toEqual(johndoe_url);
           
           }
 

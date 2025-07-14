@@ -65,7 +65,7 @@ test.describe('SIGN-IN Test Suite', () => {
             let expected_url = ex_temp?.toString().split(".");
             
            // let expected_url_1 = expected_url?.[0];
-        //console.log("&&& " + expected_url?.[0]);
+           //console.log("&&& " + expected_url?.[0]);
         
 
             console.log(ex_temp);
@@ -88,8 +88,6 @@ test.describe('SIGN-IN Test Suite', () => {
 
             
 
-            
-            await 
             await printConductPage.page.goBack();
             // expect.soft(page.url()).toEqual(uu);
             expect(printConductPage.page.url()).toEqual(printConductPage.url);

@@ -8,7 +8,7 @@ test.beforeEach(async ({ johnDoePage }) => {
     await johnDoePage.navigate();
   });
 
-test.afterAll(async ({ johnDoePage }) =>  {
+test.afterEach(async ({ johnDoePage }) =>  {
   await johnDoePage.page.close();
 });
 
@@ -218,8 +218,8 @@ const profileConfigs: ProfileTestConfig[] = [
 
 test.describe('SOCIAL LINK TESTS', () => {
 
-  test("DISPLAY OF SOCIAL ICONS ", async({ johnDoePage} ) => {
-    johnDoePage.check_social_links(johnDoePage.page, false);
+  test("DISPLAY OF SOCIAL ICONS", async({ johnDoePage} ) => {
+    await johnDoePage.johndoe_check_social_links(johnDoePage.page, true);
   });
 });
 
