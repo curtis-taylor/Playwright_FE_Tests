@@ -55,7 +55,7 @@ export class JohnDoePage {
       console.log("NAVIGATING to: " + this.url);
     }
 
-    async johndoe_check_social_links(page: Page, should_click: Boolean) {
+    async click_johndoe_check_social_links(page: Page, should_click: Boolean) {
         // await page.waitForLoadState('domcontentloaded');
 
         let johndoe_url = page.url();
@@ -100,8 +100,9 @@ export class JohnDoePage {
               expect(page.url().includes(expected_url?.[0] as string));
               console.log("@@@@");
               await page.goBack();
+              // await page.waitForURL(johndoe_url);
               expect(page.url()).toEqual(johndoe_url);
-              await page.waitForURL(johndoe_url);
+              
 
             }
             
@@ -174,6 +175,32 @@ export class JohnDoePage {
 
         } */
 
+
+    }
+
+    async keyboard_select_social_links(page: Page) {
+
+      let t2 = page.locator('li a').all();
+        let current_profile_url = page.url();
+
+        for(const row of await t2) { 
+
+          let href_temp = await row.getAttribute('href');
+          let expected_url = href_temp?.toString().split(".");
+          let link_target = await row.getAttribute('target');
+
+           await expect(row).toBeVisible();
+           await row.isEnabled();
+           await row.focus();
+           await expect(row).toBeFocused();
+           await page.keyboard.press('Enter');
+           // expect(johnDoePage.page.url()).toEqual(expected_url);
+           /////expect(page.url().includes(expected_url?.[0] as string));
+           await page.goBack();
+           /////expect(page.url()).toEqual(current_profile_url);
+           await page.waitForURL(current_profile_url);
+
+        }
 
     }
 

@@ -218,10 +218,39 @@ const profileConfigs: ProfileTestConfig[] = [
 
 test.describe('SOCIAL LINK TESTS', () => {
 
-  test("DISPLAY AND SELECTION OF SOCIAL ICONS", async({ johnDoePage} ) => {
+    test("DISPLAY AND SELECTION OF SOCIAL ICONS", async({ johnDoePage} ) => {
 
-    await johnDoePage.johndoe_check_social_links(johnDoePage.page, true);
-  });
+      await johnDoePage.click_johndoe_check_social_links(johnDoePage.page, true);
+    });
+
+    test("KEYBOARD NAVIGATION FOR SOCIAL LINKS", async({johnDoePage}) => {
+
+      await johnDoePage.keyboard_select_social_links(johnDoePage.page);
+        /*
+        let t2 = johnDoePage.page.locator('li a').all();
+        let current_profile_url = johnDoePage.page.url();
+
+        for(const row of await t2) { 
+
+          let href_temp = await row.getAttribute('href');
+          let expected_url = href_temp?.toString().split(".");
+          let link_target = await row.getAttribute('target');
+
+           await expect(row).toBeVisible();
+           await row.isEnabled();
+           await row.focus();
+           await expect(row).toBeFocused();
+           await johnDoePage.page.keyboard.press('Enter');
+           // expect(johnDoePage.page.url()).toEqual(expected_url);
+           expect(johnDoePage.page.url().includes(expected_url?.[0] as string));
+
+           await johnDoePage.page.goBack();
+           expect(johnDoePage.page.url()).toEqual(current_profile_url);
+           await johnDoePage.page.waitForURL(current_profile_url);
+
+        } */
+
+    });
 });
 
 test.describe('Navigation and Link Tests', () => {
