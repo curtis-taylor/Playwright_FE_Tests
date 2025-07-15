@@ -3,7 +3,7 @@ import { test, expect, type Page, type Locator, Browser } from '@playwright/test
 export class JohnDoePage {
 
     readonly page: Page;
-    readonly url: string = 'http://localhost:3000/pages/profile/?pid=1'; 
+    readonly url: string = 'http://localhost:3000/pages/profile/?pid=2'; 
 
     readonly profile_name: string = "John Doe";
 
@@ -41,7 +41,8 @@ export class JohnDoePage {
         //this.instagram_icon = page.getByRole('navigation', { name: 'Secondary Navigation' }).getByRole('link').nth(2);
         this.twitter_x_icon = page.getByRole('link', { name: '/twitter for/'});
         this.linkedin_icon = page.getByRole('link', { name: '/linkedin for/'});
-    
+        this.youtube_icon = page.getByRole('link', { name: '/youtube for/'});
+        this.facebook_icon = page.getByRole('link', { name: '/facebook for/'});
     }
 
     async navigate() {
@@ -55,41 +56,52 @@ export class JohnDoePage {
     }
 
     async johndoe_check_social_links(page: Page, should_click: Boolean) {
-        //await page.waitForLoadState('domcontentloaded');
+        // await page.waitForLoadState('domcontentloaded');
 
-        let johndoe_url = this.page.url();
+        let johndoe_url = page.url();
 
-        let t2 = this.page.locator('li').all();
+        let t2 = page.locator('li a').all();
 
         for(const row of await t2) {
 
           await expect(row).toBeVisible();
           await row.isEnabled();
+          let href_temp = await row.getAttribute('href');
+          let expected_url = href_temp?.toString().split(".");
+          let link_target = await row.getAttribute('target');
 
           if(should_click) {
-            let href_temp = await row.getAttribute('href');
-            let expected_url = href_temp?.toString().split(".");
-            let link_target = await row.getAttribute('target')
 
             await row.click();
 
-            if(link_target === 'blank') {
-              console.log("@@@@");
+            if(link_target === '_blank') {
               const [newPage] = await Promise.all([
-              this.page.waitForEvent('popup'),
+              page.waitForEvent('popup'),
               row.click()
             ]);
 
              await newPage.waitForLoadState();
+             
             // expect(newPage.url()).toBe();
             await newPage.close();
 
             } else {
-              expect(this.page.url().includes(expected_url?.[0] as string));
 
-              await this.page.goBack();
-              expect(this.page.url()).toEqual(johndoe_url);
-              await this.page.waitForURL(johndoe_url);
+              /*
+              // Test hover state
+            await row.hover();
+            
+            // Check if cursor changes to pointer on hover
+            let cursor = await row.evaluate((el) => {
+              return window.getComputedStyle(el).cursor;
+            });
+            expect(cursor).toBe('pointer'); */
+
+              expect(page.url().includes(expected_url?.[0] as string));
+              console.log("@@@@");
+              await page.goBack();
+              expect(page.url()).toEqual(johndoe_url);
+              await page.waitForURL(johndoe_url);
 
             }
             
