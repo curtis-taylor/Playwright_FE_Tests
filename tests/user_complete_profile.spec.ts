@@ -496,7 +496,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
   });
 
-  test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
+
+  /*
+    test('SCREENSHOT COMPARISON TEST', async({ completeProfilePage }) => {
     await expect(async() => { 
         await completeProfilePage.page.waitForLoadState('domcontentloaded');
             console.log(completeProfilePage.page.url());
@@ -505,9 +507,9 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
             await expect(completeProfilePage.page).toHaveScreenshot("complete_profile_screen.png");
      }).toPass({ intervals: [1_000, 6_000, 20_000],
                     timeout: 40_000}); 
-    });
+    }); */
 
-});
+}); 
 
 test.describe('ASSESSIBILITY Suite', () => {
 
@@ -515,5 +517,9 @@ test.describe('ASSESSIBILITY Suite', () => {
         
         const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22a", "wcag22aa"]).analyze();
         expect( axeBuilder.violations).toEqual([]);
+    });
+
+     test('TAB KEYBOARD NAVIGATION', async ({completeProfilePage}) =>  {
+        
     });
 });

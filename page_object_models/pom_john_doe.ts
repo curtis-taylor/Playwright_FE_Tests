@@ -3,7 +3,7 @@ import { test, expect, type Page, type Locator, Browser } from '@playwright/test
 export class JohnDoePage {
 
     readonly page: Page;
-    readonly url: string = 'http://localhost:3000/pages/profile/?pid=2'; 
+    readonly url: string = 'http://localhost:3000/pages/profile/?pid=1'; 
 
     readonly profile_name: string = "John Doe";
 
@@ -180,7 +180,7 @@ export class JohnDoePage {
 
     async keyboard_select_social_links(page: Page) {
 
-      let t2 = page.locator('li a').all();
+        let t2 = page.locator('li a').all();
         let current_profile_url = page.url();
 
         for(const row of await t2) { 
@@ -208,26 +208,34 @@ export class JohnDoePage {
 
     }
 
-    async tabkey_navigator(page: Page, elem: string) {
+    async tabkey_navigator(page: Page, row: Locator) {
       await page.keyboard.press('Home');
 
-      let currentElement = await page.locator(':focus').first();
+      let currentElement = page.locator(':focus').first();
       let tabCount = 0;
-      const maxTabs = 10; // Prevent infinite loop
+      const maxTabs = 30; // Prevent infinite loop
+      let href_temp = await row.getAttribute('href');
+      let expected_url = href_temp?.toString().split(".");
+      // let link_target = await row.getAttribute('target');
 
       while(tabCount < maxTabs) {
         await page.keyboard.press('Tab');
-        currentElement = await page.locator(':focus').first();
+        currentElement = page.locator(':focus').first();
 
         const href = await currentElement.getAttribute('href');
-            if (href?.includes(elem)) {
+           console.log("tabcount = " + tabCount); 
+           console.log(expected_url?.[0]); 
+           if (href?.includes(expected_url?.[0] as string)) {
               await expect(currentElement).toBeFocused();
+              console.log("bbb");
               break;
             }
+            console.log("KHK");
             tabCount++;
+           
       }
 
-
+      
     }
 
 

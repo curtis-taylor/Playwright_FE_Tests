@@ -226,40 +226,30 @@ test.describe('SOCIAL LINK TESTS', () => {
     test("KEYBOARD FOCUS NAVIGATION FOR SOCIAL LINKS", async({johnDoePage}) => {
 
       await johnDoePage.keyboard_select_social_links(johnDoePage.page);
-        /*
-        let t2 = johnDoePage.page.locator('li a').all();
-        let current_profile_url = johnDoePage.page.url();
-
-        for(const row of await t2) { 
-
-          let href_temp = await row.getAttribute('href');
-          let expected_url = href_temp?.toString().split(".");
-          let link_target = await row.getAttribute('target');
-
-           await expect(row).toBeVisible();
-           await row.isEnabled();
-           await row.focus();
-           await expect(row).toBeFocused();
-           await johnDoePage.page.keyboard.press('Enter');
-           // expect(johnDoePage.page.url()).toEqual(expected_url);
-           expect(johnDoePage.page.url().includes(expected_url?.[0] as string));
-
-           await johnDoePage.page.goBack();
-           expect(johnDoePage.page.url()).toEqual(current_profile_url);
-           await johnDoePage.page.waitForURL(current_profile_url);
-
-        } */
+       
 
     });
 
     test("TAB FOCUS NAVIGATION FOR SOCIAL LINKS", async({johnDoePage}) => {
-      await johnDoePage.tabkey_navigator(johnDoePage.page, "");
+      
+      let t2 = johnDoePage.page.locator('li a').all();
+      let current_profile_url = johnDoePage.page.url();
 
+      for(const row of await t2) {
+       
+        await johnDoePage.tabkey_navigator(johnDoePage.page, row);
+      }
     });
 
+});
 
+test.describe('ASSESSIBILITY Suite', () => {
 
-
+    test('BASIC WCAG22AA', async({page }) => {
+        
+        const axeBuilder = await new AxeBuilder({page}).withTags(["wcag22a", "wcag22aa"]).analyze();
+        expect( axeBuilder.violations).toEqual([]);
+    });
 });
 
 test.describe('Navigation and Link Tests', () => {
