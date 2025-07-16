@@ -223,7 +223,7 @@ test.describe('SOCIAL LINK TESTS', () => {
       await johnDoePage.click_johndoe_check_social_links(johnDoePage.page, true);
     });
 
-    test("KEYBOARD NAVIGATION FOR SOCIAL LINKS", async({johnDoePage}) => {
+    test("KEYBOARD FOCUS NAVIGATION FOR SOCIAL LINKS", async({johnDoePage}) => {
 
       await johnDoePage.keyboard_select_social_links(johnDoePage.page);
         /*
@@ -251,6 +251,15 @@ test.describe('SOCIAL LINK TESTS', () => {
         } */
 
     });
+
+    test("TAB FOCUS NAVIGATION FOR SOCIAL LINKS", async({johnDoePage}) => {
+      await johnDoePage.tabkey_navigator(johnDoePage.page, "");
+
+    });
+
+
+
+
 });
 
 test.describe('Navigation and Link Tests', () => {

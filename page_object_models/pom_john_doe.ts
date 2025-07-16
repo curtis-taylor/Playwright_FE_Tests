@@ -196,11 +196,37 @@ export class JohnDoePage {
            await page.keyboard.press('Enter');
            // expect(johnDoePage.page.url()).toEqual(expected_url);
            /////expect(page.url().includes(expected_url?.[0] as string));
+           await page.waitForLoadState('networkidle');
+           expect(page.url().includes(expected_url?.[0] as string));
+           await page.waitForLoadState('networkidle');
            await page.goBack();
+           await page.waitForLoadState('networkidle');
            /////expect(page.url()).toEqual(current_profile_url);
            await page.waitForURL(current_profile_url);
 
         }
+
+    }
+
+    async tabkey_navigator(page: Page, elem: string) {
+      await page.keyboard.press('Home');
+
+      let currentElement = await page.locator(':focus').first();
+      let tabCount = 0;
+      const maxTabs = 10; // Prevent infinite loop
+
+      while(tabCount < maxTabs) {
+        await page.keyboard.press('Tab');
+        currentElement = await page.locator(':focus').first();
+
+        const href = await currentElement.getAttribute('href');
+            if (href?.includes(elem)) {
+              await expect(currentElement).toBeFocused();
+              break;
+            }
+            tabCount++;
+      }
+
 
     }
 
