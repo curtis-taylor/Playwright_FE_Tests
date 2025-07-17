@@ -95,7 +95,8 @@ export class SignInPage {
 
         let currentElement = this.page.locator(':focus').first();
         let tabCount = 0;
-        const maxTabs = 30; // Prevent infinite loop
+        const maxTabs = 2; // Prevent infinite loop
+    
         //let href_temp = await row.getAttribute('href');
         //let expected_url = href_temp?.toString().split(".");
 
@@ -104,14 +105,19 @@ export class SignInPage {
             await this.page.keyboard.press('Tab');
             currentElement = this.page.locator(':focus').first();
 
-            if(currentElement === this.email_field) {
+            if(await currentElement.getAttribute('id') == "email-input") {
                  await this.email_field.isVisible();
                  await this.email_field.fill(email);
+                tabCount++;
+                console.log(tabCount);
             }
 
-            if(currentElement === this.password_field) {
+            if(await currentElement.getAttribute('id') == "password-input") {
                 await this.password_field.isVisible();
                 await this.password_field.fill(password);
+                tabCount++;
+                console.log(tabCount + " ....");
+                
             }
 
             

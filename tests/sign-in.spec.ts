@@ -151,7 +151,7 @@ test.describe('SIGN-IN Test Suite', () => {
         let password = signInPage.test_user_login_data[0]["password"];
 
         await signInPage.fill_fields(email, password);
-        await signInPage.login_button.click();
+        await signInPage.login_button.dblclick();
 
         await signInPage.page.waitForURL(signInPage.homepage_url);
         await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
@@ -167,7 +167,7 @@ test.describe('SIGN-IN Test Suite', () => {
         expect(signInPage.linkedin_icon).toBeVisible();
         expect(signInPage.twitter_x_icon).toBeVisible();
 
-        await signInPage.logout_button.click();
+        await signInPage.logout_button.dblclick();
         await signInPage.page.waitForURL(signInPage.url);
         await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
         expect(signInPage.page.url()).toEqual(signInPage.url);
@@ -179,7 +179,7 @@ test.describe('SIGN-IN Test Suite', () => {
 
      });
 
-     test('KEYBOARD ORGANIZER USER SIGN-IN SUCCESSFULLY', async ({ signInPage }) => {
+     test('TAB KEY NAVIGATION - ORGANIZER USER SIGN-IN SUCCESSFULLY', async ({ signInPage }) => {
         await signInPage.page_title_1.isVisible()
 
         await signInPage.email_field.isVisible();
@@ -201,13 +201,14 @@ test.describe('SIGN-IN Test Suite', () => {
         expect(signInPage.logout_button).toBeVisible();
         expect(signInPage.homepage_title).toBeVisible();
 
+        
         expect(signInPage.home_icon).toBeVisible();
         expect(signInPage.youtube_icon).toBeVisible();
         expect(signInPage.instagram_icon).toBeVisible();
         expect(signInPage.linkedin_icon).toBeVisible();
-        expect(signInPage.twitter_x_icon).toBeVisible();
+        expect(signInPage.twitter_x_icon).toBeVisible(); 
 
-        await signInPage.logout_button.click();
+        await signInPage.logout_button.dblclick();
         await signInPage.page.waitForURL(signInPage.url);
         await signInPage.page.waitForSelector('#footer-nav', { state: 'visible' });
         expect(signInPage.page.url()).toEqual(signInPage.url);
