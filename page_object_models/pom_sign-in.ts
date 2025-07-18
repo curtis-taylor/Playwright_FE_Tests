@@ -76,6 +76,27 @@ export class SignInPage {
       console.log("NAVIGATING to: " + this.url);
     }
 
+    async sign_in(email : string, password : string) {
+
+        await expect(async() => {
+        await this.navigate();
+
+        await this.page.waitForTimeout(4000);
+
+        await this.page.waitForSelector('#email-input');
+
+        await this.email_field.isVisible();
+        await this.password_field.isVisible();
+        await this.email_field.fill(email);
+        await this.password_field.fill(password);
+
+        await this.login_button.dblclick();
+          }).toPass({ intervals: [1_000, 2_000, 10_000],
+                    timeout: 60_000});
+         console.log("SIGNING IN .... " + this.url);
+
+    }
+
     async fill_fields(email: string, password: string) {
 
         await this.email_field.isVisible();
@@ -130,6 +151,8 @@ export class SignInPage {
         expect(this.twitter_x_icon).toBeVisible();
 
     }
+
+    
 
     
 

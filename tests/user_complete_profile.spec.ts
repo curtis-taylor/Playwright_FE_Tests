@@ -2,10 +2,17 @@ import { expect, Page } from '@playwright/test';
 import { test } from "./base.ts";
 import AxeBuilder from '@axe-core/playwright';
 
-test.beforeEach(async ({ completeProfilePage }) => {
+test.beforeEach(async ({ completeProfilePage, signInPage }) => {
     
    test.setTimeout(90000) // Sets a 50-second timeout for all tests
-   completeProfilePage.navigate();
+   signInPage.navigate();
+   
+   //await signInPage.page.waitForSelector('#email-input');
+    let email = signInPage.test_user_login_data[2]["email"];
+    let password = signInPage.test_user_login_data[2]["password"];
+    await signInPage.sign_in(email, password);
+
+    await completeProfilePage.navigate();
   
    // await page.goto('https://26-profile-page-css.volunteer-ekr.pages.dev/pages/complete-profile/'); 
 
@@ -519,7 +526,8 @@ test.describe('ASSESSIBILITY Suite', () => {
         expect( axeBuilder.violations).toEqual([]);
     });
 
-     test('TAB KEYBOARD NAVIGATION', async ({completeProfilePage}) =>  {
-        
+     test('TAB KEYBOARD NAVIGATION', async ({completeProfilePage, signInPage}) =>  {
+          
+          await completeProfilePage.tab_navigation();  
     });
 });

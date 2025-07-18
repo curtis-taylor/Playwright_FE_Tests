@@ -116,13 +116,19 @@ export class CompleteProfilePage {
     }
     
    async navigate() {
-
+      
       await expect(async() => {
             await this.page.goto(this.url); 
             await this.page.waitForURL(this.url);
             expect(this.page.url()).toBe(this.url);
       }).toPass({ intervals: [1_000, 2_000, 10_000],
-                    timeout: 60_000});
+                    timeout: 60_000}); 
+
+        /*
+        await this.page.goto(this.url); 
+        await this.page.waitForURL(this.url);
+        expect(this.page.url()).toBe(this.url); */
+      
       console.log("NAVIGATING to: " + this.url);
     }
 
@@ -367,11 +373,83 @@ export class CompleteProfilePage {
 
     }
 
+    async tab_navigation() {
 
-
+        let currentElement = this.page.locator(':focus').first();
+        let tabCount = 0;
+        const maxTabs = 20; // Prevent infinite loop
     
-  
+        //let href_temp = await row.getAttribute('href');
+        //let expected_url = href_temp?.toString().split(".");
 
+        while(tabCount < maxTabs) {
+
+            await this.page.keyboard.press('Tab');
+            currentElement = this.page.locator(':focus').first();
+
+
+            //console.log(await this.upload_Button.innerText());
+            //console.log(":::::::::::::::::");
+            //console.log(this.email_field.innerText() === currentElement.innerText());
+            //console.log(await this.email_field.innerText());
+            
+
+            let ariatext = await currentElement.ariaSnapshot();
+            console.log(ariatext.toString());
+
+            if(await currentElement.getAttribute('id') == "email") {
+                 await this.email_field.isVisible();
+                 await this.email_field.fill("vvvvvvvvv");
+                console.log(tabCount);
+                console.log('AAAAA' + ariatext);
+            } else if (ariatext.toString() == "- button Upload Your Photo") {
+                console.log('AAAAA');
+            }
+
+            /*
+            if(await currentElement.getAttribute('id') == "email-input") {
+                 await this.email_field.isVisible();
+                 await this.email_field.fill(email);
+                tabCount++;
+                console.log(tabCount);
+            }
+
+            if(await currentElement.getAttribute('id') == "password-input") {
+                await this.password_field.isVisible();
+                await this.password_field.fill(password);
+                tabCount++;
+                console.log(tabCount + " ....");
+                
+            }*/
+            tabCount++;
+            console.log(tabCount);
+
+
+            
+        }
+
+        
+
+    }
+
+    async get_element_attributes(loc : Locator, element_type : string) {
+
+        const attributes = await loc.evaluate(element => {
+        const attrs = {};
+        if(element) { 
+        for (let i = 0; i < element.attributes.length; i++) {
+            const attr = element.attributes[i];
+            attrs[attr.name] = attr.value;
+        } }
+        return attrs;
+        }, await this.page.$(element_type));
+
+        return attributes;
+
+
+    }
+  
+    
 
 
 
