@@ -116,8 +116,8 @@ test.describe('USER COMPLETE PROFILE Suite', () => {
        
         await completeProfilePage.page_title.isVisible();
 
-        await completeProfilePage.name_field.fill("Mr Tester");
-        await completeProfilePage.email_field.fill("ct@gmail.com");
+        //await completeProfilePage.name_field.fill("Mr Tester");
+        //await completeProfilePage.email_field.fill("ct@gmail.com");
         await completeProfilePage.slack_field.fill("Toronto JS");
 
         await completeProfilePage.pronouns.fill("He/him");

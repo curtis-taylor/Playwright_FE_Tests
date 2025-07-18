@@ -251,8 +251,8 @@ export class CompleteProfilePage {
         await this.enable_disable_footer_social_fields(this.page, enable_footer);
         //await this.page.waitForTimeout(1000);
         
-        await this.name_field.fill(form1.name);
-        await this.email_field.fill(form1.email);
+       // await this.name_field.fill(form1.name);
+       // await this.email_field.fill(form1.email);
         await this.slack_field.fill(form1.slack_handle);
         await this.pronouns.fill(form1.pronouns);
         await this.dob_Month.selectOption(form1.birth_month);
@@ -387,6 +387,7 @@ export class CompleteProfilePage {
             await this.page.keyboard.press('Tab');
             currentElement = this.page.locator(':focus').first();
 
+            // this.page.waitForTimeout(1000);
 
             //console.log(await this.upload_Button.innerText());
             //console.log(":::::::::::::::::");
@@ -397,6 +398,8 @@ export class CompleteProfilePage {
             let ariatext = await currentElement.ariaSnapshot();
             console.log(ariatext.toString());
 
+
+            /*
             if(await currentElement.getAttribute('id') == "email") {
                  await this.email_field.isVisible();
                  await this.email_field.fill("vvvvvvvvv");
@@ -404,23 +407,9 @@ export class CompleteProfilePage {
                 console.log('AAAAA' + ariatext);
             } else if (ariatext.toString() == "- button Upload Your Photo") {
                 console.log('AAAAA');
-            }
+            } */
 
-            /*
-            if(await currentElement.getAttribute('id') == "email-input") {
-                 await this.email_field.isVisible();
-                 await this.email_field.fill(email);
-                tabCount++;
-                console.log(tabCount);
-            }
-
-            if(await currentElement.getAttribute('id') == "password-input") {
-                await this.password_field.isVisible();
-                await this.password_field.fill(password);
-                tabCount++;
-                console.log(tabCount + " ....");
-                
-            }*/
+           
             tabCount++;
             console.log(tabCount);
 

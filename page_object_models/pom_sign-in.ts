@@ -81,7 +81,7 @@ export class SignInPage {
         await expect(async() => {
         await this.navigate();
 
-        await this.page.waitForTimeout(4000);
+        await this.page.waitForTimeout(1000);
 
         await this.page.waitForSelector('#email-input');
 
@@ -89,7 +89,7 @@ export class SignInPage {
         await this.password_field.isVisible();
         await this.email_field.fill(email);
         await this.password_field.fill(password);
-
+        await this.page.waitForTimeout(6000);
         await this.login_button.dblclick();
           }).toPass({ intervals: [1_000, 2_000, 10_000],
                     timeout: 60_000});
